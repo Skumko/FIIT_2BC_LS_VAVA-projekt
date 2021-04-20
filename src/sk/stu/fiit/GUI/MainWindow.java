@@ -119,7 +119,6 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielveza.png"))); // NOI18N
-        jLabel1.setPreferredSize(new java.awt.Dimension(100, 100));
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 700, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielpesiak.png"))); // NOI18N
@@ -216,7 +215,6 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 100, 100));
 
         lblBoard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/chess_board.png"))); // NOI18N
-        lblBoard.setPreferredSize(new java.awt.Dimension(800, 800));
         jPanel2.add(lblBoard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
@@ -227,7 +225,6 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel50.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/20x20/ciernpesiak.png"))); // NOI18N
-        jLabel50.setPreferredSize(new java.awt.Dimension(20, 20));
         jPanel3.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, -1));
 
         jLabel51.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/20x20/ciernpesiak.png"))); // NOI18N
@@ -283,7 +280,6 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/20x20/bieljazdec.png"))); // NOI18N
-        jLabel34.setPreferredSize(new java.awt.Dimension(20, 20));
         jPanel4.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jLabel35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/20x20/bieljazdec.png"))); // NOI18N
