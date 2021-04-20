@@ -16,6 +16,7 @@ public class Tips_And_Rules extends javax.swing.JFrame {
      */
     public Tips_And_Rules() {
         initComponents();
+        txtRules.select(0, 0);
     }
 
     /**
@@ -27,28 +28,60 @@ public class Tips_And_Rules extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        panelRules = new javax.swing.JPanel();
+        scrollRules = new javax.swing.JScrollPane();
+        txtRules = new javax.swing.JTextPane();
+        lblRules = new javax.swing.JLabel();
+        lblOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(816, 839));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 800));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panelRules.setBackground(new java.awt.Color(0, 40, 60));
+        panelRules.setPreferredSize(new java.awt.Dimension(800, 800));
+        panelRules.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextPane1.setText("Krok 1. Ako postaviť figúry na šachovnici\nNa začiatku hry je šachovnica položená tak, že každý hráč má biely (alebo svetlý) štvorec v pravom dolnom rohu.\n\nRozostavenie šachovnice\n\nFigúrky sú potom tak isto poukladané každý raz. Druhý rad je zaplnený pešiakmi. Veže idú do rohov, potom jazdci vedľa nich, nasledujú strelci a nakoniec dáma, ktorá vždy ide na svoju farbu (biela dáma na bielu, čierna dáma na čiernu) a kráľ na zvyšný štvorec.\n\nŠachovnica\n\nPostaviť figúry na začiatku partie je naozaj jednoduché.\n\nexplorer Odporúčaný nástroj -> Trénuj prehľad na šachovnici\n\nKrok 2. Ako sa hýbu šachové figúry\nKaždá zo 6 rôznych figúr sa hýbe rôzne. Nemôžu sa hýbať cez iné figúry (hoci jazdec môže skákať cez iné figúry) a nikdy sa nemôžu hýbať na polia s vlastnými figúrami. Avšak, môžu sa posunúť na miesto súperových figúr, ktoré sa potom berú. Figúry sa vo všeobecnosti hýbu na pozície, kde môžu brať iné figúry (tým, že prídu na ich pole a potom ich nahradia), brániť vlastné figúry, aby ich súper nebral alebo kontrolovať dôležité polia.\n\nAko ťahať kráľom\nKráľ je najdôležitejšia figúrka, ale je jedna z najslabších. Kráľ môže ísť len na 1 vedľajší štvorec ľubovoľným smerom - hore, dole, na strany a diagonálne. Kráľ sa nikdy nemôže posunúť do šachu (kde by mohol byť vyhodený). Keď je kráľ napadnutý inou figúrou, nazýva sa to „šach“.\n\nHýbanie kráľom v šachu\n\nAko ťahať dámou\nDáma je najsilnejšia figúrka. Môže sa posúvať v ľubovoľnom smere - dopredu, dozadu, do strán alebo diagonálne - tak ďaleko, pokiaľ jej nestojí v ceste iná svoja figúrka. A takisto, ako aj s ostatnými figúrkami, ak dáma berie súperovu figúrku, jej ťah tým skončil. Všimni si, ako biela dáma berie čiernu dámu a potom čierny kráľ je donútený sa hýbať.\n\nHýbanie dámou v šachu\n\nAko ťahať vežou\nVeža sa môže pohybovať tak ďaleko, ako chce, ale len dopredu, dozadu a do strán. Veže sú značne silné figúrky, keď sa kryjú navzájom alebo keď spolupracujú!\n\nHýbanie vežou v šachu\n\nAko ťahať strelcom\nStrelec sa môže hýbať tak ďaleko, ako chce, ale len diagonálne. Každý strelec štartuje na 1 farbe (svetlej alebo tmavej) a musí na tej farbe vždy ostať. Strelci dobre spolupracujú, pretože každý kryje slabiny toho druhého.\n\nHýbanie strelcom v šachu\n\nAko ťahať jazdcom\nJazdci sa pohybujú úplne iným spôsobom ako ostatné figúry - idú 2 políčka jedným smerom a potom 1 ďalšie políčko pod 90° uhlom - do písmena \"L\". Jazdci sú taktiež jedinými figúrami, ktoré môžu prechádzať ponad inými figúrami.\n\nHýbanie jazdcom v šachu\n\nAko ťahať pešiakom\nPešiaci sú nezvyčajní, pretože sa hýbu a berú rozdielnymi smermi: hýbu sa dopredu, ale berú diagonálne. Pešiaci sa môžu hýbať len 1 políčko dopredu, okrem prvého ťahu, kedy sa môžu posunúť o 2 polia. Pešiaci môžu brať len na 1 diagonálnom políčku pred nimi. Nikdy sa nemôžu hýbať alebo brať iné figúry dozadu. Ak je priamo pred pešiakom iná figúra, nemôže sa ďalej posúvať ani tú figúru zobrať.\n\n");
-        jScrollPane1.setViewportView(jTextPane1);
+        scrollRules.setBackground(new java.awt.Color(200, 200, 200));
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, 480, 520));
+        txtRules.setEditable(false);
+        txtRules.setBackground(new java.awt.Color(175, 175, 175));
+        txtRules.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtRules.setText("Krok 1. Ako postaviť figúry na šachovnici\nNa začiatku hry je šachovnica položená tak, že každý hráč má biely (alebo svetlý) štvorec v pravom dolnom rohu.\n\nRozostavenie šachovnice\n\nFigúrky sú potom tak isto poukladané každý raz. Druhý rad je zaplnený pešiakmi. Veže idú do rohov, potom jazdci vedľa nich, nasledujú strelci a nakoniec dáma, ktorá vždy ide na svoju farbu (biela dáma na bielu, čierna dáma na čiernu) a kráľ na zvyšný štvorec.\n\nŠachovnica\n\nPostaviť figúry na začiatku partie je naozaj jednoduché.\n\nexplorer Odporúčaný nástroj -> Trénuj prehľad na šachovnici\n\nKrok 2. Ako sa hýbu šachové figúry\nKaždá zo 6 rôznych figúr sa hýbe rôzne. Nemôžu sa hýbať cez iné figúry (hoci jazdec môže skákať cez iné figúry) a nikdy sa nemôžu hýbať na polia s vlastnými figúrami. Avšak, môžu sa posunúť na miesto súperových figúr, ktoré sa potom berú. Figúry sa vo všeobecnosti hýbu na pozície, kde môžu brať iné figúry (tým, že prídu na ich pole a potom ich nahradia), brániť vlastné figúry, aby ich súper nebral alebo kontrolovať dôležité polia.\n\nAko ťahať kráľom\nKráľ je najdôležitejšia figúrka, ale je jedna z najslabších. Kráľ môže ísť len na 1 vedľajší štvorec ľubovoľným smerom - hore, dole, na strany a diagonálne. Kráľ sa nikdy nemôže posunúť do šachu (kde by mohol byť vyhodený). Keď je kráľ napadnutý inou figúrou, nazýva sa to „šach“.\n\nHýbanie kráľom v šachu\n\nAko ťahať dámou\nDáma je najsilnejšia figúrka. Môže sa posúvať v ľubovoľnom smere - dopredu, dozadu, do strán alebo diagonálne - tak ďaleko, pokiaľ jej nestojí v ceste iná svoja figúrka. A takisto, ako aj s ostatnými figúrkami, ak dáma berie súperovu figúrku, jej ťah tým skončil. Všimni si, ako biela dáma berie čiernu dámu a potom čierny kráľ je donútený sa hýbať.\n\nHýbanie dámou v šachu\n\nAko ťahať vežou\nVeža sa môže pohybovať tak ďaleko, ako chce, ale len dopredu, dozadu a do strán. Veže sú značne silné figúrky, keď sa kryjú navzájom alebo keď spolupracujú!\n\nHýbanie vežou v šachu\n\nAko ťahať strelcom\nStrelec sa môže hýbať tak ďaleko, ako chce, ale len diagonálne. Každý strelec štartuje na 1 farbe (svetlej alebo tmavej) a musí na tej farbe vždy ostať. Strelci dobre spolupracujú, pretože každý kryje slabiny toho druhého.\n\nHýbanie strelcom v šachu\n\nAko ťahať jazdcom\nJazdci sa pohybujú úplne iným spôsobom ako ostatné figúry - idú 2 políčka jedným smerom a potom 1 ďalšie políčko pod 90° uhlom - do písmena \"L\". Jazdci sú taktiež jedinými figúrami, ktoré môžu prechádzať ponad inými figúrami.\n\nHýbanie jazdcom v šachu\n\nAko ťahať pešiakom\nPešiaci sú nezvyčajní, pretože sa hýbu a berú rozdielnymi smermi: hýbu sa dopredu, ale berú diagonálne. Pešiaci sa môžu hýbať len 1 políčko dopredu, okrem prvého ťahu, kedy sa môžu posunúť o 2 polia. Pešiaci môžu brať len na 1 diagonálnom políčku pred nimi. Nikdy sa nemôžu hýbať alebo brať iné figúry dozadu. Ak je priamo pred pešiakom iná figúra, nemôže sa ďalej posúvať ani tú figúru zobrať.\n\n");
+        scrollRules.setViewportView(txtRules);
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 800));
+        panelRules.add(scrollRules, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 760, 610));
+
+        lblRules.setFont(new java.awt.Font("Tahoma", 1, 70)); // NOI18N
+        lblRules.setForeground(new java.awt.Color(102, 102, 0));
+        lblRules.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblRules.setText("RULES");
+        lblRules.setPreferredSize(new java.awt.Dimension(500, 100));
+        panelRules.add(lblRules, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, -1, -1));
+
+        lblOK.setBackground(new java.awt.Color(175, 175, 175));
+        lblOK.setFont(new java.awt.Font("Tahoma", 1, 32)); // NOI18N
+        lblOK.setForeground(new java.awt.Color(102, 102, 0));
+        lblOK.setText("OK");
+        lblOK.setPreferredSize(new java.awt.Dimension(180, 40));
+        lblOK.setRolloverEnabled(false);
+        lblOK.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lblOKMouseReleased(evt);
+            }
+        });
+        panelRules.add(lblOK, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 740, -1, -1));
+
+        getContentPane().add(panelRules, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 800));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void lblOKMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOKMouseReleased
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_lblOKMouseReleased
 
     /**
      * @param args the command line arguments
@@ -86,8 +119,10 @@ public class Tips_And_Rules extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JButton lblOK;
+    private javax.swing.JLabel lblRules;
+    private javax.swing.JPanel panelRules;
+    private javax.swing.JScrollPane scrollRules;
+    private javax.swing.JTextPane txtRules;
     // End of variables declaration//GEN-END:variables
 }

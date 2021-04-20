@@ -28,10 +28,10 @@
     <Property name="useNullLayout" type="boolean" value="false"/>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="panelRules">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+          <Color blue="3c" green="28" red="0" type="rgb"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[800, 800]"/>
@@ -47,25 +47,83 @@
         <Property name="useNullLayout" type="boolean" value="false"/>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+        <Container class="javax.swing.JScrollPane" name="scrollRules">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="c8" green="c8" red="c8" type="rgb"/>
+            </Property>
+          </Properties>
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="110" y="160" width="480" height="520"/>
+              <AbsoluteConstraints x="20" y="120" width="760" height="610"/>
             </Constraint>
           </Constraints>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextPane" name="jTextPane1">
+            <Component class="javax.swing.JTextPane" name="txtRules">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="af" green="af" red="af" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="18" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Krok 1. Ako postavi&#x165; fig&#xfa;ry na &#x161;achovnici&#xa;Na za&#x10d;iatku hry je &#x161;achovnica polo&#x17e;en&#xe1; tak, &#x17e;e ka&#x17e;d&#xfd; hr&#xe1;&#x10d; m&#xe1; biely (alebo svetl&#xfd;) &#x161;tvorec v pravom dolnom rohu.&#xa;&#xa;Rozostavenie &#x161;achovnice&#xa;&#xa;Fig&#xfa;rky s&#xfa; potom tak isto poukladan&#xe9; ka&#x17e;d&#xfd; raz. Druh&#xfd; rad je zaplnen&#xfd; pe&#x161;iakmi. Ve&#x17e;e id&#xfa; do rohov, potom jazdci ved&#x13e;a nich, nasleduj&#xfa; strelci a nakoniec d&#xe1;ma, ktor&#xe1; v&#x17e;dy ide na svoju farbu (biela d&#xe1;ma na bielu, &#x10d;ierna d&#xe1;ma na &#x10d;iernu) a kr&#xe1;&#x13e; na zvy&#x161;n&#xfd; &#x161;tvorec.&#xa;&#xa;&#x160;achovnica&#xa;&#xa;Postavi&#x165; fig&#xfa;ry na za&#x10d;iatku partie je naozaj jednoduch&#xe9;.&#xa;&#xa;explorer Odpor&#xfa;&#x10d;an&#xfd; n&#xe1;stroj -&gt; Tr&#xe9;nuj preh&#x13e;ad na &#x161;achovnici&#xa;&#xa;Krok 2. Ako sa h&#xfd;bu &#x161;achov&#xe9; fig&#xfa;ry&#xa;Ka&#x17e;d&#xe1; zo 6 r&#xf4;znych fig&#xfa;r sa h&#xfd;be r&#xf4;zne. Nem&#xf4;&#x17e;u sa h&#xfd;ba&#x165; cez in&#xe9; fig&#xfa;ry (hoci jazdec m&#xf4;&#x17e;e sk&#xe1;ka&#x165; cez in&#xe9; fig&#xfa;ry) a nikdy sa nem&#xf4;&#x17e;u h&#xfd;ba&#x165; na polia s vlastn&#xfd;mi fig&#xfa;rami. Av&#x161;ak, m&#xf4;&#x17e;u sa posun&#xfa;&#x165; na miesto s&#xfa;perov&#xfd;ch fig&#xfa;r, ktor&#xe9; sa potom ber&#xfa;. Fig&#xfa;ry sa vo v&#x161;eobecnosti h&#xfd;bu na poz&#xed;cie, kde m&#xf4;&#x17e;u bra&#x165; in&#xe9; fig&#xfa;ry (t&#xfd;m, &#x17e;e pr&#xed;du na ich pole a potom ich nahradia), br&#xe1;ni&#x165; vlastn&#xe9; fig&#xfa;ry, aby ich s&#xfa;per nebral alebo kontrolova&#x165; d&#xf4;le&#x17e;it&#xe9; polia.&#xa;&#xa;Ako &#x165;aha&#x165; kr&#xe1;&#x13e;om&#xa;Kr&#xe1;&#x13e; je najd&#xf4;le&#x17e;itej&#x161;ia fig&#xfa;rka, ale je jedna z najslab&#x161;&#xed;ch. Kr&#xe1;&#x13e; m&#xf4;&#x17e;e &#xed;s&#x165; len na 1 ved&#x13e;aj&#x161;&#xed; &#x161;tvorec &#x13e;ubovo&#x13e;n&#xfd;m smerom - hore, dole, na strany a diagon&#xe1;lne. Kr&#xe1;&#x13e; sa nikdy nem&#xf4;&#x17e;e posun&#xfa;&#x165; do &#x161;achu (kde by mohol by&#x165; vyhoden&#xfd;). Ke&#x10f; je kr&#xe1;&#x13e; napadnut&#xfd; inou fig&#xfa;rou, naz&#xfd;va sa to &#x201e;&#x161;ach&#x201c;.&#xa;&#xa;H&#xfd;banie kr&#xe1;&#x13e;om v &#x161;achu&#xa;&#xa;Ako &#x165;aha&#x165; d&#xe1;mou&#xa;D&#xe1;ma je najsilnej&#x161;ia fig&#xfa;rka. M&#xf4;&#x17e;e sa pos&#xfa;va&#x165; v &#x13e;ubovo&#x13e;nom smere - dopredu, dozadu, do str&#xe1;n alebo diagon&#xe1;lne - tak &#x10f;aleko, pokia&#x13e; jej nestoj&#xed; v ceste in&#xe1; svoja fig&#xfa;rka. A takisto, ako aj s ostatn&#xfd;mi fig&#xfa;rkami, ak d&#xe1;ma berie s&#xfa;perovu fig&#xfa;rku, jej &#x165;ah t&#xfd;m skon&#x10d;il. V&#x161;imni si, ako biela d&#xe1;ma berie &#x10d;iernu d&#xe1;mu a potom &#x10d;ierny kr&#xe1;&#x13e; je don&#xfa;ten&#xfd; sa h&#xfd;ba&#x165;.&#xa;&#xa;H&#xfd;banie d&#xe1;mou v &#x161;achu&#xa;&#xa;Ako &#x165;aha&#x165; ve&#x17e;ou&#xa;Ve&#x17e;a sa m&#xf4;&#x17e;e pohybova&#x165; tak &#x10f;aleko, ako chce, ale len dopredu, dozadu a do str&#xe1;n. Ve&#x17e;e s&#xfa; zna&#x10d;ne siln&#xe9; fig&#xfa;rky, ke&#x10f; sa kryj&#xfa; navz&#xe1;jom alebo ke&#x10f; spolupracuj&#xfa;!&#xa;&#xa;H&#xfd;banie ve&#x17e;ou v &#x161;achu&#xa;&#xa;Ako &#x165;aha&#x165; strelcom&#xa;Strelec sa m&#xf4;&#x17e;e h&#xfd;ba&#x165; tak &#x10f;aleko, ako chce, ale len diagon&#xe1;lne. Ka&#x17e;d&#xfd; strelec &#x161;tartuje na 1 farbe (svetlej alebo tmavej) a mus&#xed; na tej farbe v&#x17e;dy osta&#x165;. Strelci dobre spolupracuj&#xfa;, preto&#x17e;e ka&#x17e;d&#xfd; kryje slabiny toho druh&#xe9;ho.&#xa;&#xa;H&#xfd;banie strelcom v &#x161;achu&#xa;&#xa;Ako &#x165;aha&#x165; jazdcom&#xa;Jazdci sa pohybuj&#xfa; &#xfa;plne in&#xfd;m sp&#xf4;sobom ako ostatn&#xe9; fig&#xfa;ry - id&#xfa; 2 pol&#xed;&#x10d;ka jedn&#xfd;m smerom a potom 1 &#x10f;al&#x161;ie pol&#xed;&#x10d;ko pod 90&#xb0; uhlom - do p&#xed;smena &quot;L&quot;. Jazdci s&#xfa; taktie&#x17e; jedin&#xfd;mi fig&#xfa;rami, ktor&#xe9; m&#xf4;&#x17e;u prech&#xe1;dza&#x165; ponad in&#xfd;mi fig&#xfa;rami.&#xa;&#xa;H&#xfd;banie jazdcom v &#x161;achu&#xa;&#xa;Ako &#x165;aha&#x165; pe&#x161;iakom&#xa;Pe&#x161;iaci s&#xfa; nezvy&#x10d;ajn&#xed;, preto&#x17e;e sa h&#xfd;bu a ber&#xfa; rozdielnymi smermi: h&#xfd;bu sa dopredu, ale ber&#xfa; diagon&#xe1;lne. Pe&#x161;iaci sa m&#xf4;&#x17e;u h&#xfd;ba&#x165; len 1 pol&#xed;&#x10d;ko dopredu, okrem prv&#xe9;ho &#x165;ahu, kedy sa m&#xf4;&#x17e;u posun&#xfa;&#x165; o 2 polia. Pe&#x161;iaci m&#xf4;&#x17e;u bra&#x165; len na 1 diagon&#xe1;lnom pol&#xed;&#x10d;ku pred nimi. Nikdy sa nem&#xf4;&#x17e;u h&#xfd;ba&#x165; alebo bra&#x165; in&#xe9; fig&#xfa;ry dozadu. Ak je priamo pred pe&#x161;iakom in&#xe1; fig&#xfa;ra, nem&#xf4;&#x17e;e sa &#x10f;alej pos&#xfa;va&#x165; ani t&#xfa; fig&#xfa;ru zobra&#x165;.&#xa;&#xa;"/>
               </Properties>
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JLabel" name="lblRules">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="70" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="66" red="66" type="rgb"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="RULES"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[500, 100]"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="150" y="0" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JButton" name="lblOK">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="af" green="af" red="af" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="32" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="66" red="66" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="OK"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[180, 40]"/>
+            </Property>
+            <Property name="rolloverEnabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblOKMouseReleased"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="320" y="740" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>
