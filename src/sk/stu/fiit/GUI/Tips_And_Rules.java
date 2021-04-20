@@ -31,7 +31,7 @@ public class Tips_And_Rules extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(816, 839));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

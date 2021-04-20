@@ -5,6 +5,12 @@
  */
 package sk.stu.fiit.GUI;
 
+import java.awt.Image;
+import java.io.File;
+import java.nio.file.Paths;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 /**
  *
  * @author matba
@@ -16,7 +22,11 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
         initComponents();
+        panelGameBoard.setLayout(null);
     }
+
+    private int[] nextPosBlackElim = {810, 70};
+    private int[] nextPosWhiteElim = {810, 710};
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -99,6 +109,7 @@ public class MainWindow extends javax.swing.JFrame {
         panelGame.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelGameBoard.setBackground(new java.awt.Color(255, 255, 255));
+        panelGameBoard.setOpaque(false);
         panelGameBoard.setPreferredSize(new java.awt.Dimension(800, 800));
         panelGameBoard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -199,21 +210,26 @@ public class MainWindow extends javax.swing.JFrame {
         panelGameBoard.add(blackRookR, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 100, 100));
 
         lblGameBoard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/boards/woodboard.png"))); // NOI18N
+        lblGameBoard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lblGameBoardMouseReleased(evt);
+            }
+        });
         panelGameBoard.add(lblGameBoard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        panelGame.add(panelGameBoard, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
 
         panelGameWhiteMiniFigures.setBackground(new java.awt.Color(237, 223, 206));
         panelGameWhiteMiniFigures.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 4));
         panelGameWhiteMiniFigures.setPreferredSize(new java.awt.Dimension(40, 340));
         panelGameWhiteMiniFigures.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelGame.add(panelGameWhiteMiniFigures, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 100, -1, 340));
+        panelGameBoard.add(panelGameWhiteMiniFigures, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 60, -1, 340));
 
         panelGameBlackMiniFigures.setBackground(new java.awt.Color(148, 51, 13));
         panelGameBlackMiniFigures.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 4));
         panelGameBlackMiniFigures.setPreferredSize(new java.awt.Dimension(40, 340));
         panelGameBlackMiniFigures.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelGame.add(panelGameBlackMiniFigures, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 440, -1, 340));
+        panelGameBoard.add(panelGameBlackMiniFigures, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 400, -1, 340));
+
+        panelGame.add(panelGameBoard, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 840, 800));
 
         panelGameRows.setBackground(new java.awt.Color(255, 255, 255));
         panelGameRows.setPreferredSize(new java.awt.Dimension(40, 780));
@@ -250,6 +266,11 @@ public class MainWindow extends javax.swing.JFrame {
         panelGameDialog.add(lblGameMoveHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
 
         comboGameBoardColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Default", "Blue", "Brown", "Green", "Grey", "Red" }));
+        comboGameBoardColor.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboGameBoardColorItemStateChanged(evt);
+            }
+        });
         panelGameDialog.add(comboGameBoardColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 310, 30));
 
         lblGameBoardColor.setText("Customize board");
@@ -313,6 +334,42 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void lblGameBoardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGameBoardMouseReleased
+        // TODO add your handling code here:
+        eliminateFigure(whiteQueen, true);
+        eliminateFigure(blackPawnB, false);
+    }//GEN-LAST:event_lblGameBoardMouseReleased
+
+    private void comboGameBoardColorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboGameBoardColorItemStateChanged
+        // TODO add your handling code here:
+        String color = comboGameBoardColor.getSelectedItem().toString();
+        if (color == null) {
+            return;
+        }
+        switch (color) {
+            case "Default":
+                lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "woodboard.png").toString()));
+                break;
+            case "Blue":
+                lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "blueboard.png").toString()));
+                break;
+            case "Brown":
+                lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "brownboard.png").toString()));
+                break;
+            case "Green":
+                lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "greenboard.png").toString()));
+                break;
+            case "Grey":
+                lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "greyboard.png").toString()));
+                break;
+            case "Red":
+                lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "redboard.png").toString()));
+                break;
+            default:
+                lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "woodboard.png").toString()));
+        }
+    }//GEN-LAST:event_comboGameBoardColorItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -409,4 +466,28 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel whiteRookL;
     private javax.swing.JLabel whiteRookR;
     // End of variables declaration//GEN-END:variables
+
+    private void resetElimPosValues() {
+        nextPosBlackElim[0] = 810;
+        nextPosBlackElim[1] = 70;
+        nextPosWhiteElim[0] = 810;
+        nextPosWhiteElim[1] = 710;
+    }
+
+    private void eliminateFigure(JLabel figure, boolean isWhite) {
+        figure.setIcon(rescale((ImageIcon) figure.getIcon(), 20, 20));
+        if (isWhite) {
+            figure.setBounds(nextPosWhiteElim[0], nextPosWhiteElim[1], 20, 20);
+            nextPosWhiteElim[1] -= 20;
+        } else {
+            figure.setBounds(nextPosBlackElim[0], nextPosBlackElim[1], 20, 20);
+            nextPosBlackElim[1] += 20;
+        }
+    }
+
+    private ImageIcon rescale(ImageIcon i, int width, int height) {
+        Image image = i.getImage();
+        Image newImage = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+        return new ImageIcon(newImage);
+    }
 }
