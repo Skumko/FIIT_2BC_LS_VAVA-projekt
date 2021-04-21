@@ -640,6 +640,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel whiteRookR;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Resets inital coordinates of positions where eliminated figures are put
+     */
     private void resetElimPosValues() {
         nextPosBlackElim[0] = 810;
         nextPosBlackElim[1] = 70;
@@ -647,6 +650,13 @@ public class MainWindow extends javax.swing.JFrame {
         nextPosWhiteElim[1] = 710;
     }
 
+    /**
+     * Rescales {@link ImageIcon ImageIcon} of {@link JLabel label} of figure
+     * and change its location to side panel
+     *
+     * @param figure {@link JLabel JLabel} of figure to be eliminated
+     * @param isWhite true if eliminated figure was white
+     */
     private void eliminateFigure(JLabel figure, boolean isWhite) {
         figure.setIcon(rescale((ImageIcon) figure.getIcon(), 20, 20));
         if (isWhite) {
@@ -658,6 +668,14 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Rescales {@link ImageIcon ImageIcon} to fit new size
+     *
+     * @param i {@link ImageIcon ImageIcon} to be rescaled
+     * @param width new width of image
+     * @param height new height of image
+     * @return rescaled {@link ImageIcon ImageIcon}
+     */
     private ImageIcon rescale(ImageIcon i, int width, int height) {
         Image image = i.getImage();
         Image newImage = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
@@ -687,6 +705,13 @@ public class MainWindow extends javax.swing.JFrame {
         return xy;
     }
 
+    /**
+     * Creates dots of {@link JLabel JLabels} on fileds where figure 
+     * can possibly move
+     * @param figure {@link JLabel label} of selected figure
+     * @param sectors {@link List List<int>} of sectors where figure
+     * can possibly move
+     */
     private void showPossibleMoves(JLabel figure, List sectors) {
         if (dots.containsKey(figure)) {
             removePossibleMoves();
@@ -694,21 +719,26 @@ public class MainWindow extends javax.swing.JFrame {
         }
         removePossibleMoves();
 
-        Function<Integer, JLabel> consumer = (sector) -> {
-            JLabel l = new JLabel();
-            panelGameBoard.add(l, 0);
-            l.setIcon(new ImageIcon(Path.of("src", "figurky_png","100x100", "dot.png").toString()));
+        Function<Integer, JLabel> function = (sector) -> {
+            JLabel label = new JLabel();
+            panelGameBoard.add(label, 0);
+            label.setIcon(new ImageIcon(Path.of("src", "figurky_png", "100x100", "dot.png").toString()));
             int x = oneToxy(sector)[0];
             int y = oneToxy(sector)[1];
-            l.setBounds(x * 100, y * 100, 100, 100);
-            l.setVisible(true);
-            return l;
+            label.setBounds(x * 100, y * 100, 100, 100);
+            label.setVisible(true);
+            return label;
         };
 
-        dots.put(figure, (List<JLabel>) sectors.stream().map(consumer).collect(Collectors.toList()));
+        dots.put(figure, (List<JLabel>) sectors.stream().map(function).collect(Collectors.toList()));
 
     }
 
+    /**
+     * Removes all dots of possible moves.
+     * Removes all labels from {@link JPanel panelGameBoard}.
+     * Clears field {@link Map dots}
+     */
     public void removePossibleMoves() {
         List<JLabel> labels = dots.values().stream().findFirst().orElse(null);
         if (labels == null) {
