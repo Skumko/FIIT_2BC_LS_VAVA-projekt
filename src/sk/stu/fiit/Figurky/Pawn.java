@@ -9,11 +9,11 @@ package sk.stu.fiit.Figurky;
  *
  * @author palko
  */
-public class Kralovna extends Figurka {
+public class Pawn extends Piece {
 
-    public Kralovna(boolean jeBiela) {
+    public Pawn(boolean jeBiela) {
         super(jeBiela);
-        this.typ = Typ.KRALOVNA;
+        this.typ = Typ.PESIAK;
     }
 
     @Override

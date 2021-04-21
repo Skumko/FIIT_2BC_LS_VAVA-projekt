@@ -9,7 +9,7 @@ package sk.stu.fiit.Figurky;
  *
  * @author palko
  */
-public abstract class Figurka {
+public abstract class Piece {
 
     //staci vediet ci je biela --> ak biela tak !cierna logicky
     private boolean biela = false;
@@ -28,10 +28,10 @@ public abstract class Figurka {
         this.znicena = znicena;
     }
 
-    public Figurka() {
+    public Piece() {
     }
 
-    public Figurka(boolean jeBiela) {
+    public Piece(boolean jeBiela) {
         this.biela = jeBiela;
     }
 

@@ -9,11 +9,11 @@ package sk.stu.fiit.Figurky;
  *
  * @author palko
  */
-public class Pesiak extends Figurka {
+public class Rook extends Piece {
 
-    public Pesiak(boolean jeBiela) {
+    public Rook(boolean jeBiela) {
         super(jeBiela);
-        this.typ = Typ.PESIAK;
+        this.typ = Typ.VEZA;
     }
 
     @Override
