@@ -5,20 +5,26 @@
  */
 package sk.stu.fiit.Figurky;
 
+import java.util.Collection;
+import sk.stu.fiit.HraciaDoska.Board;
+import sk.stu.fiit.HraciaDoska.Move;
+import sk.stu.fiit.Side;
+
 /**
  *
- * @author palko
+ * @author Pavol Belej
  */
 public abstract class Piece {
 
     //staci vediet ci je biela --> ak biela tak !cierna logicky
-    private boolean biela = false;
+    protected final int position;
+    private final Side colorSide;
     private boolean znicena = false;
-    protected Typ typ;
-
-    public enum Typ {
-        PESIAK, JAZDEC, STRELEC, VEZA, KRAL, KRALOVNA,
-    }
+//    protected Typ typ;
+//
+//    public enum Typ {
+//        PESIAK, JAZDEC, STRELEC, VEZA, KRAL, KRALOVNA,
+//    }
 
     public boolean isZnicena() {
         return znicena;
@@ -28,20 +34,21 @@ public abstract class Piece {
         this.znicena = znicena;
     }
 
-    public Piece() {
+    public Piece(final int position, final Side side) {
+        this.position = position;
+        this.colorSide = side;
     }
 
-    public Piece(boolean jeBiela) {
-        this.biela = jeBiela;
+    public Side getColorSide() {
+        return colorSide;
     }
 
-    public boolean isBiela() {
-        return biela;
-    }
+//    public Typ getTyp() {
+//        return typ;
+//    }
+    public abstract Collection<Move> getPossibleMoves(final Board board);
 
-    public Typ getTyp() {
-        return typ;
+    public static boolean checkCoordinate(final int coordinate) {
+        return coordinate <= 0 && coordinate < 64;
     }
-
-    public abstract boolean mozeHybat();
 }

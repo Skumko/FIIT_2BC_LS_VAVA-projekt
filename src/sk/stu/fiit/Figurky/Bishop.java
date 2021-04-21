@@ -5,19 +5,27 @@
  */
 package sk.stu.fiit.Figurky;
 
+import java.util.Collection;
+import sk.stu.fiit.HraciaDoska.Board;
+import sk.stu.fiit.HraciaDoska.Move;
+import sk.stu.fiit.Side;
+
 /**
  *
  * @author palko
  */
 public class Bishop extends Piece {
 
-    public Bishop(boolean jeBiela) {
-        super(jeBiela);
-        this.typ = Typ.STRELEC;
+    public Bishop(int position, Side side) {
+        super(position, side);
     }
 
+//    public Bishop(boolean jeBiela) {
+//        super(jeBiela);
+//        this.typ = Typ.STRELEC;
+//    }
     @Override
-    public boolean mozeHybat() {
+    public Collection<Move> getPossibleMoves(Board board) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

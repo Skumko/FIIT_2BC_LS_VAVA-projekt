@@ -5,20 +5,28 @@
  */
 package sk.stu.fiit.Figurky;
 
+import java.util.Collection;
+import sk.stu.fiit.HraciaDoska.Board;
+import sk.stu.fiit.HraciaDoska.Move;
+import sk.stu.fiit.Side;
+
 /**
  *
  * @author palko
  */
 public class Queen extends Piece {
 
-    public Queen(boolean jeBiela) {
-        super(jeBiela);
-        this.typ = Typ.KRALOVNA;
+    public Queen(int position, Side side) {
+        super(position, side);
     }
 
     @Override
-    public boolean mozeHybat() {
+    public Collection<Move> getPossibleMoves(Board board) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+//    public Queen(boolean jeBiela) {
+//        super(jeBiela);
+//        this.typ = Typ.KRALOVNA;
+//    }
 }
