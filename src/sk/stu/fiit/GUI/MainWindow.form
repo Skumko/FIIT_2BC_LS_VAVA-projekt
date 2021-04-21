@@ -114,7 +114,7 @@
             <Property name="useNullLayout" type="boolean" value="false"/>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="txtOpponentsIP">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="c8" green="c8" red="c8" type="rgb"/>
@@ -296,7 +296,7 @@
                 <Component class="javax.swing.JLabel" name="whitePawnA">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -308,7 +308,7 @@
                 <Component class="javax.swing.JLabel" name="whitePawnB">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -320,7 +320,7 @@
                 <Component class="javax.swing.JLabel" name="whitePawnC">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -332,7 +332,7 @@
                 <Component class="javax.swing.JLabel" name="whitePawnD">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -344,7 +344,7 @@
                 <Component class="javax.swing.JLabel" name="whitePawnE">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -356,7 +356,7 @@
                 <Component class="javax.swing.JLabel" name="whitePawnF">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -368,7 +368,7 @@
                 <Component class="javax.swing.JLabel" name="whitePawnG">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -380,7 +380,7 @@
                 <Component class="javax.swing.JLabel" name="whitePawnH">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -392,7 +392,7 @@
                 <Component class="javax.swing.JLabel" name="whiteRookL">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielveza.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WR.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -404,7 +404,7 @@
                 <Component class="javax.swing.JLabel" name="whiteKnightL">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bieljazdec.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WN.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -416,7 +416,7 @@
                 <Component class="javax.swing.JLabel" name="whiteBishopL">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielstrelec.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WB.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -428,7 +428,7 @@
                 <Component class="javax.swing.JLabel" name="whiteQueen">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielkralovna.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WQ.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -440,7 +440,7 @@
                 <Component class="javax.swing.JLabel" name="whiteKing">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielkral.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WK.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -452,7 +452,7 @@
                 <Component class="javax.swing.JLabel" name="whiteBishopR">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielstrelec.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WB.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -464,7 +464,7 @@
                 <Component class="javax.swing.JLabel" name="whiteKnightR">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bieljazdec.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WN.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -476,7 +476,7 @@
                 <Component class="javax.swing.JLabel" name="whiteRookR">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/bielveza.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/WR.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -488,7 +488,7 @@
                 <Component class="javax.swing.JLabel" name="blackPawnA">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -500,7 +500,7 @@
                 <Component class="javax.swing.JLabel" name="blackPawnB">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -512,7 +512,7 @@
                 <Component class="javax.swing.JLabel" name="blackPawnC">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -524,7 +524,7 @@
                 <Component class="javax.swing.JLabel" name="blackPawnD">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -536,7 +536,7 @@
                 <Component class="javax.swing.JLabel" name="blackPawnE">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -548,7 +548,7 @@
                 <Component class="javax.swing.JLabel" name="blackPawnF">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -560,7 +560,7 @@
                 <Component class="javax.swing.JLabel" name="blackPawnG">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -572,7 +572,7 @@
                 <Component class="javax.swing.JLabel" name="blackPawnH">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernpesiak.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BP.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -584,7 +584,7 @@
                 <Component class="javax.swing.JLabel" name="blackRookL">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernveza.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BR.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -596,7 +596,7 @@
                 <Component class="javax.swing.JLabel" name="blackKnightL">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernjazdec.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BN.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -608,7 +608,7 @@
                 <Component class="javax.swing.JLabel" name="blackBishopL">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernstrelec.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BB.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -620,7 +620,7 @@
                 <Component class="javax.swing.JLabel" name="blackQueen">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernkralovna.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BQ.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -632,7 +632,7 @@
                 <Component class="javax.swing.JLabel" name="blackKing">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernkral.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BK.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -644,7 +644,7 @@
                 <Component class="javax.swing.JLabel" name="blackBishopR">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernstrelec.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BB.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -656,7 +656,7 @@
                 <Component class="javax.swing.JLabel" name="blackKnightR">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernjazdec.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BN.png"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -668,7 +668,7 @@
                 <Component class="javax.swing.JLabel" name="blackRookR">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/figurky_png/100x100/ciernveza.png"/>
+                      <Image iconType="3" name="/figurky_png/100x100/BR.png"/>
                     </Property>
                   </Properties>
                   <Constraints>

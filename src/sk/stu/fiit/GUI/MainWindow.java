@@ -60,7 +60,7 @@ public class MainWindow extends javax.swing.JFrame {
         lblLocalIP = new javax.swing.JLabel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         panelInit = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtOpponentsIP = new javax.swing.JTextField();
         lblInitEnterIP = new javax.swing.JLabel();
         btnInitRules = new javax.swing.JButton();
         btnIintCreateGame = new javax.swing.JButton();
@@ -159,11 +159,11 @@ public class MainWindow extends javax.swing.JFrame {
         panelInit.setPreferredSize(new java.awt.Dimension(1400, 900));
         panelInit.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField1.setBackground(new java.awt.Color(200, 200, 200));
-        jTextField1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(102, 102, 0));
-        jTextField1.setPreferredSize(new java.awt.Dimension(320, 50));
-        panelInit.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 460, 320, 50));
+        txtOpponentsIP.setBackground(new java.awt.Color(200, 200, 200));
+        txtOpponentsIP.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        txtOpponentsIP.setForeground(new java.awt.Color(102, 102, 0));
+        txtOpponentsIP.setPreferredSize(new java.awt.Dimension(320, 50));
+        panelInit.add(txtOpponentsIP, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 460, 320, 50));
 
         lblInitEnterIP.setBackground(new java.awt.Color(200, 200, 200));
         lblInitEnterIP.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
@@ -219,100 +219,100 @@ public class MainWindow extends javax.swing.JFrame {
         panelGameBoard.setPreferredSize(new java.awt.Dimension(800, 800));
         panelGameBoard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        whitePawnA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielpesiak.png"))); // NOI18N
+        whitePawnA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WP.png"))); // NOI18N
         panelGameBoard.add(whitePawnA, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, -1, -1));
 
-        whitePawnB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielpesiak.png"))); // NOI18N
+        whitePawnB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WP.png"))); // NOI18N
         panelGameBoard.add(whitePawnB, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 600, -1, -1));
 
-        whitePawnC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielpesiak.png"))); // NOI18N
+        whitePawnC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WP.png"))); // NOI18N
         panelGameBoard.add(whitePawnC, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 600, -1, -1));
 
-        whitePawnD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielpesiak.png"))); // NOI18N
+        whitePawnD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WP.png"))); // NOI18N
         panelGameBoard.add(whitePawnD, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 600, -1, -1));
 
-        whitePawnE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielpesiak.png"))); // NOI18N
+        whitePawnE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WP.png"))); // NOI18N
         panelGameBoard.add(whitePawnE, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 600, -1, -1));
 
-        whitePawnF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielpesiak.png"))); // NOI18N
+        whitePawnF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WP.png"))); // NOI18N
         panelGameBoard.add(whitePawnF, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 600, -1, -1));
 
-        whitePawnG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielpesiak.png"))); // NOI18N
+        whitePawnG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WP.png"))); // NOI18N
         panelGameBoard.add(whitePawnG, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 600, -1, -1));
 
-        whitePawnH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielpesiak.png"))); // NOI18N
+        whitePawnH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WP.png"))); // NOI18N
         panelGameBoard.add(whitePawnH, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 600, 100, 100));
 
-        whiteRookL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielveza.png"))); // NOI18N
+        whiteRookL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WR.png"))); // NOI18N
         panelGameBoard.add(whiteRookL, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 700, -1, -1));
 
-        whiteKnightL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bieljazdec.png"))); // NOI18N
+        whiteKnightL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WN.png"))); // NOI18N
         panelGameBoard.add(whiteKnightL, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 700, -1, -1));
 
-        whiteBishopL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielstrelec.png"))); // NOI18N
+        whiteBishopL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WB.png"))); // NOI18N
         panelGameBoard.add(whiteBishopL, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 700, -1, -1));
 
-        whiteQueen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielkralovna.png"))); // NOI18N
+        whiteQueen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WQ.png"))); // NOI18N
         panelGameBoard.add(whiteQueen, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 700, -1, -1));
 
-        whiteKing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielkral.png"))); // NOI18N
+        whiteKing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WK.png"))); // NOI18N
         panelGameBoard.add(whiteKing, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 700, -1, -1));
 
-        whiteBishopR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielstrelec.png"))); // NOI18N
+        whiteBishopR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WB.png"))); // NOI18N
         panelGameBoard.add(whiteBishopR, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 700, -1, -1));
 
-        whiteKnightR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bieljazdec.png"))); // NOI18N
+        whiteKnightR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WN.png"))); // NOI18N
         panelGameBoard.add(whiteKnightR, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 700, -1, -1));
 
-        whiteRookR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/bielveza.png"))); // NOI18N
+        whiteRookR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/WR.png"))); // NOI18N
         panelGameBoard.add(whiteRookR, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 700, -1, -1));
 
-        blackPawnA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernpesiak.png"))); // NOI18N
+        blackPawnA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BP.png"))); // NOI18N
         panelGameBoard.add(blackPawnA, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 100, 100));
 
-        blackPawnB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernpesiak.png"))); // NOI18N
+        blackPawnB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BP.png"))); // NOI18N
         panelGameBoard.add(blackPawnB, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 100, 100));
 
-        blackPawnC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernpesiak.png"))); // NOI18N
+        blackPawnC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BP.png"))); // NOI18N
         panelGameBoard.add(blackPawnC, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, 100, 100));
 
-        blackPawnD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernpesiak.png"))); // NOI18N
+        blackPawnD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BP.png"))); // NOI18N
         panelGameBoard.add(blackPawnD, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, 100, 100));
 
-        blackPawnE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernpesiak.png"))); // NOI18N
+        blackPawnE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BP.png"))); // NOI18N
         panelGameBoard.add(blackPawnE, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 100, 100, 100));
 
-        blackPawnF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernpesiak.png"))); // NOI18N
+        blackPawnF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BP.png"))); // NOI18N
         panelGameBoard.add(blackPawnF, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 100, 100));
 
-        blackPawnG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernpesiak.png"))); // NOI18N
+        blackPawnG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BP.png"))); // NOI18N
         panelGameBoard.add(blackPawnG, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 100, 100, 100));
 
-        blackPawnH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernpesiak.png"))); // NOI18N
+        blackPawnH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BP.png"))); // NOI18N
         panelGameBoard.add(blackPawnH, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 100, 100, 100));
 
-        blackRookL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernveza.png"))); // NOI18N
+        blackRookL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BR.png"))); // NOI18N
         panelGameBoard.add(blackRookL, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 100));
 
-        blackKnightL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernjazdec.png"))); // NOI18N
+        blackKnightL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BN.png"))); // NOI18N
         panelGameBoard.add(blackKnightL, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 100, 100));
 
-        blackBishopL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernstrelec.png"))); // NOI18N
+        blackBishopL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BB.png"))); // NOI18N
         panelGameBoard.add(blackBishopL, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 100, 100));
 
-        blackQueen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernkralovna.png"))); // NOI18N
+        blackQueen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BQ.png"))); // NOI18N
         panelGameBoard.add(blackQueen, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 100, 100));
 
-        blackKing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernkral.png"))); // NOI18N
+        blackKing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BK.png"))); // NOI18N
         panelGameBoard.add(blackKing, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, 100, 100));
 
-        blackBishopR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernstrelec.png"))); // NOI18N
+        blackBishopR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BB.png"))); // NOI18N
         panelGameBoard.add(blackBishopR, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 100, 100));
 
-        blackKnightR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernjazdec.png"))); // NOI18N
+        blackKnightR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BN.png"))); // NOI18N
         panelGameBoard.add(blackKnightR, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 100, 100));
 
-        blackRookR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/ciernveza.png"))); // NOI18N
+        blackRookR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/100x100/BR.png"))); // NOI18N
         panelGameBoard.add(blackRookR, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 100, 100));
 
         lblGameBoard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/figurky_png/boards/woodboard.png"))); // NOI18N
@@ -564,7 +564,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnSurrender;
     private javax.swing.JComboBox<String> comboGameBoardColor;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblGameBoard;
     private javax.swing.JLabel lblGameBoardColor;
     private javax.swing.JLabel lblGameColumns;
@@ -591,6 +590,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel panelLanguage;
     private javax.swing.JScrollPane scrollGameMoveHistory;
     private javax.swing.JTextPane txtGameMoveHistory;
+    private javax.swing.JTextField txtOpponentsIP;
     private javax.swing.JLabel whiteBishopL;
     private javax.swing.JLabel whiteBishopR;
     private javax.swing.JLabel whiteKing;
