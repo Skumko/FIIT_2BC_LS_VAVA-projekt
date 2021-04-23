@@ -28,7 +28,9 @@ public class Knight extends Piece {
     }
 
     /**
-     * This method calculates all possible moves for certain Knight piece.
+     * This method calculates all possible moves for certain {@link Knight}
+     * piece. Knight can move in a L shape pattern. It is the only piece that
+     * can jump over other pieces.
      *
      * @param board represents current {@link Board} on which the game is
      * played.
@@ -54,10 +56,10 @@ public class Knight extends Piece {
                     legalMoves.add(new NormalMove(board, this, possiblePosition));
                 } else {
                     //if tile is occupied, we need to check which side that piece belongs to
-                    final Piece pieceAtTile = possibleTile.getPiece();
+                    final Piece pieceOnTile = possibleTile.getPiece();
                     //we can only move there is it's opposite side piece
-                    if (pieceAtTile.getColorSide() != this.getColorSide()) {
-                        legalMoves.add(new AttackMove(board, this, possiblePosition, pieceAtTile));
+                    if (pieceOnTile.getColorSide() != this.getColorSide()) {
+                        legalMoves.add(new AttackMove(board, this, possiblePosition, pieceOnTile));
                     }
                 }
             }

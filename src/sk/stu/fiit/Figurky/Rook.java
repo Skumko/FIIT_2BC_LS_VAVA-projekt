@@ -26,6 +26,15 @@ public class Rook extends Piece {
         super(position, side);
     }
 
+    /**
+     * This method calculates all possible moves for certain {@link Rook} piece.
+     * Rook can move any number of tile vertically or horizontally.
+     *
+     * @param board represents current {@link Board} on which the game is
+     * played.
+     * @return {@link ArrayList} of objects of type {@link Move}, which
+     * represents all possible moves.
+     */
     @Override
     public Collection<Move> getPossibleMoves(final Board board) {
 

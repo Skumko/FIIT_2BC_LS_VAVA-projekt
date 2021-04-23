@@ -20,11 +20,7 @@ public abstract class Piece {
     //staci vediet ci je biela --> ak biela tak !cierna logicky
     protected final int position;
     private final Side colorSide;
-//    protected Typ typ;
-//
-//    public enum Typ {
-//        PESIAK, JAZDEC, STRELEC, VEZA, KRAL, KRALOVNA,
-//    }
+    protected boolean hasMoved = false;
 
     public Piece(final int position, final Side side) {
         this.position = position;
@@ -35,9 +31,10 @@ public abstract class Piece {
         return colorSide;
     }
 
-//    public Typ getTyp() {
-//        return typ;
-//    }
+    public boolean hasMoved() {
+        return this.hasMoved;
+    }
+
     public abstract Collection<Move> getPossibleMoves(final Board board);
 
     /**

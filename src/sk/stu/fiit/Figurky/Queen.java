@@ -26,6 +26,17 @@ public class Queen extends Piece {
         super(position, side);
     }
 
+    /**
+     * This method calculates all possible moves for certain {@link Queen}
+     * piece. Queen combines moves of a {@link Bishop} and a {@link Rook}. That
+     * said, queen can move horizontally, vertically and diagonally any number
+     * of tiles.
+     *
+     * @param board represents current {@link Board} on which the game is
+     * played.
+     * @return {@link ArrayList} of objects of type {@link Move}, which
+     * represents all possible moves.
+     */
     @Override
     public Collection<Move> getPossibleMoves(final Board board) {
 
