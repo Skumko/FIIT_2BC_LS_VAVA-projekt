@@ -25,7 +25,7 @@ import sk.stu.fiit.Figurky.Pawn;
 
 /**
  *
- * @author matba
+ * @author Matúš Baran
  */
 public class MainWindow extends javax.swing.JFrame {
 
@@ -537,7 +537,7 @@ public class MainWindow extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -706,11 +706,12 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     /**
-     * Creates dots of {@link JLabel JLabels} on fileds where figure 
-     * can possibly move
+     * Creates dots of {@link JLabel JLabels} on fileds where figure can
+     * possibly move
+     *
      * @param figure {@link JLabel label} of selected figure
-     * @param sectors {@link List List<int>} of sectors where figure
-     * can possibly move
+     * @param sectors {@link List List<int>} of sectors where figure can
+     * possibly move
      */
     private void showPossibleMoves(JLabel figure, List sectors) {
         if (dots.containsKey(figure)) {
@@ -735,9 +736,8 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     /**
-     * Removes all dots of possible moves.
-     * Removes all labels from {@link JPanel panelGameBoard}.
-     * Clears field {@link Map dots}
+     * Removes all dots of possible moves. Removes all labels from
+     * {@link JPanel panelGameBoard}. Clears field {@link Map dots}
      */
     public void removePossibleMoves() {
         List<JLabel> labels = dots.values().stream().findFirst().orElse(null);
