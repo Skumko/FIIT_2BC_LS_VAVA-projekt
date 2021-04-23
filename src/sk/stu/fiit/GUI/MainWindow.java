@@ -706,6 +706,20 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     /**
+     * temporary method for testing purposes
+     *
+     * @param sectors
+     */
+    public void test(List sectors) {
+        btnLanguageSKMouseReleased(null);
+        if ((int) sectors.get(0) % 2 == 0) {
+            showPossibleMoves(whiteQueen, sectors);
+        } else {
+            showPossibleMoves(whiteKing, sectors);
+        }
+    }
+
+    /**
      * Creates dots of {@link JLabel JLabels} on fileds where figure can
      * possibly move
      *
