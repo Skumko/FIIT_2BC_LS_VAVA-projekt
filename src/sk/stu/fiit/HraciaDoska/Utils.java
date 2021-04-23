@@ -11,4 +11,6 @@ package sk.stu.fiit.HraciaDoska;
  */
 public class Utils {
 
+    public static final int NUM_OF_TILES = 64;
+
 }

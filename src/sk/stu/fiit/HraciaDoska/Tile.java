@@ -34,7 +34,7 @@ public abstract class Tile {
     private static Map<Integer, EmptyTile> initEmptyBoard() {
         Map<Integer, EmptyTile> emptyTiles = new HashMap<>();
 
-        for (int i = 0; i < 64; i++) {
+        for (int i = 0; i < Utils.NUM_OF_TILES; i++) {
             emptyTiles.put(i, new EmptyTile(i));
         }
         //we make the map unmodifiable to ensure encapsulation and prevent any modification to tiles of the board, then return it
