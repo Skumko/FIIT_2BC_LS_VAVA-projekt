@@ -8,8 +8,6 @@ package sk.stu.fiit.sockets;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -27,8 +25,11 @@ import sk.stu.fiit.GUI.MainWindow;
  */
 public class Host {
 
+    public static final int port = 48777;
     private boolean active = true;
-    private static InetAddress hostIP;
+    private InetAddress hostIP;
+    private InetAddress guestIP = null;
+    private String fen;
 
     private Socket senderSocket;
     private Socket listenerSocket;
@@ -36,77 +37,116 @@ public class Host {
     private DataInputStream dis;
     private DataOutputStream dos;
 
-    private Thread senderT = new Thread() {
+    private MainWindow m;
+
+    private final Thread senderT = new Thread() {
         @Override
         public void run() {
-            send();
+            try {
+                send();
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(Host.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     };
-    private Thread listenerT = new Thread() {
+    private final Thread listenerT = new Thread() {
         @Override
         public void run() {
             listen();
         }
     };
 
-    private MainWindow m = new MainWindow();
+    public Host(MainWindow m, boolean localhost) {
+        this.m = m;
+        setLocalIP(localhost);
+//        listenerT.start();
+    }
 
     public static void main(String[] args) {
-        Host host = new Host();
-        Host.setIP(true);
-        System.out.println(hostIP);
+        Host host = new Host(new MainWindow(), true);
+        System.out.println(host.hostIP);
         host.m.setVisible(true);
         host.listenerT.start();
         host.senderT.start();
     }
 
+    /**
+     * Method to listen for incoming sockets.
+     */
     public void listen() {
-        try (ServerSocket ss = new ServerSocket(48777, 100, hostIP);) {
-            this.listenerSocket = ss.accept();
-            this.dis = new DataInputStream(listenerSocket.getInputStream());
-            this.dos = new DataOutputStream(listenerSocket.getOutputStream());
-            String msg = dis.readUTF();
-            this.m.test(parseMsg(msg));
+        try (ServerSocket ss = new ServerSocket(port, 100, hostIP);) {
+            listenerSocket = ss.accept();
+            setGuestIP(listenerSocket.getInetAddress());
+            dis = new DataInputStream(listenerSocket.getInputStream());
+            dos = new DataOutputStream(listenerSocket.getOutputStream());
+            setFen(dis.readUTF());
+            /*
+            perform operations with fen
+             */
+//            m.test(parseMsg(msg));
             while (active) {
-//                listenerSocket = ss.accept();
-                msg = dis.readUTF();
-                this.m.test(parseMsg(msg));
+                setFen(dis.readUTF());
+                /*
+                perform operations with fen
+                actualize the board
+                 */
+//                m.test(parseMsg(msg));
             }
+            listenerSocket.close();
         } catch (IOException ex) {
-            Logger.getLogger(Host.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Doplnit logger");
         }
     }
 
-    public void send() {
+    /**
+     * Method to send string representation of board via socket. Field
+     * {@link #fen fen}, which contains string representation of board, needs to
+     * be set before calling this method via
+     * {@link #setFen(java.lang.String) setFen(String)}. If {@link #guestIP
+     * guestIP} equals null, an UnknownHostException is thrown.
+     *
+     * @throws UnknownHostException
+     */
+    public void send() throws UnknownHostException {
+        if (guestIP == null) {
+            throw new UnknownHostException("Guest IP je null");
+        }
+//        setFen(newFen) before sending message
         try {
-            this.senderSocket = new Socket("127.0.0.1", 48777);
+            senderSocket = new Socket(guestIP, port);
+            dos = new DataOutputStream(senderSocket.getOutputStream());
+            dos.writeUTF(getFen());
+            dos.flush();
+        } catch (IOException ex) {
+            System.err.println("Doplnit logger");
+        }
+        /*
+        try {
+            senderSocket = new Socket("127.0.0.1", port);
             for (int i = 0; i < 130; i++) {
                 Thread.sleep(300);
                 System.out.println(i + " krat");
                 String msg = Integer.toString(i);
-                this.dos = new DataOutputStream(senderSocket.getOutputStream());
-                this.dos.writeUTF(msg);
-                this.dos.flush();
+                dos = new DataOutputStream(senderSocket.getOutputStream());
+                dos.writeUTF(msg);
+                dos.flush();
             }
         } catch (IOException ex) {
             Logger.getLogger(Host.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(Host.class.getName()).log(Level.SEVERE, null, ex);
         }
+         */
     }
 
     private List parseMsg(String msg) {
         int x = Integer.parseInt(msg) % 62;
-        return List.of((int) (Math.random() * 63),(int) (Math.random() * 63), (int) (Math.random() * 63), (int) (Math.random() * 63));
-//        if (msg.equals("7926")) {
-//            return List.of(7, 9, 26);
-//        }
-//        return List.of(1, 2);
+        return List.of((int) (Math.random() * 63), (int) (Math.random() * 63), (int) (Math.random() * 63), (int) (Math.random() * 63));
     }
 
-    public static void setIP(boolean local) {
+    public final void setLocalIP(boolean localhost) {
         try (final DatagramSocket socket = new DatagramSocket()) {
-            if (local) {
+            if (localhost) {
                 hostIP = InetAddress.getLoopbackAddress();
             } else {
                 socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
@@ -115,5 +155,17 @@ public class Host {
         } catch (SocketException | UnknownHostException ex) {
             System.err.println("Doplnit logger");
         }
+    }
+
+    public void setGuestIP(InetAddress ip) throws UnknownHostException {
+        guestIP = ip;
+    }
+
+    public void setFen(String newFen) {
+        fen = newFen;
+    }
+
+    public String getFen() {
+        return fen;
     }
 }
