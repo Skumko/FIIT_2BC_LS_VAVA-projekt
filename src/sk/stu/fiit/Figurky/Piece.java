@@ -8,6 +8,7 @@ package sk.stu.fiit.Figurky;
 import java.util.Collection;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
+import sk.stu.fiit.HraciaDoska.Utils;
 import sk.stu.fiit.Side;
 
 /**
@@ -19,20 +20,11 @@ public abstract class Piece {
     //staci vediet ci je biela --> ak biela tak !cierna logicky
     protected final int position;
     private final Side colorSide;
-    private boolean znicena = false;
 //    protected Typ typ;
 //
 //    public enum Typ {
 //        PESIAK, JAZDEC, STRELEC, VEZA, KRAL, KRALOVNA,
 //    }
-
-    public boolean isZnicena() {
-        return znicena;
-    }
-
-    public void setZnicena(boolean znicena) {
-        this.znicena = znicena;
-    }
 
     public Piece(final int position, final Side side) {
         this.position = position;
@@ -48,7 +40,14 @@ public abstract class Piece {
 //    }
     public abstract Collection<Move> getPossibleMoves(final Board board);
 
+    /**
+     * Method checks if passed number is valid representation of board tile.
+     *
+     * @param coordinate one-number possible representation of a tile.
+     * @return true, if {
+     * @param coordinate} is valid, otherwise returns false.
+     */
     public static boolean checkCoordinate(final int coordinate) {
-        return coordinate <= 0 && coordinate < 64;
+        return coordinate <= 0 && coordinate < Utils.NUM_OF_TILES;
     }
 }

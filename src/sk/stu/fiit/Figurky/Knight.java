@@ -10,8 +10,9 @@ import java.util.Collections;
 import java.util.List;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
+import sk.stu.fiit.HraciaDoska.Move.AttackMove;
+import sk.stu.fiit.HraciaDoska.Move.NormalMove;
 import sk.stu.fiit.HraciaDoska.Tile;
-import sk.stu.fiit.HraciaDoska.Utils;
 import sk.stu.fiit.Side;
 
 /**
@@ -20,30 +21,43 @@ import sk.stu.fiit.Side;
  */
 public class Knight extends Piece {
 
-    private final static int[] PROBABLE_POSSIBLE_MOVES = {-17, -15, -10, -6, 6, 10, 15, 17};
+    private final static int[] POSSIBLE_MOVES_OFFSETS = {-17, -15, -10, -6, 6, 10, 15, 17};
 
     public Knight(final int position, final Side side) {
         super(position, side);
     }
 
+    /**
+     * This method calculates all possible moves for certain Knight piece.
+     *
+     * @param board represents current {@link Board} on which the game is
+     * played.
+     * @return {@link ArrayList} of objects of type {@link Move}, which
+     * represents all possible moves.
+     */
     @Override
-    public List<Move> getPossibleMoves(Board board) {
+    public List<Move> getPossibleMoves(final Board board) {
         int possiblePosition;
         final List<Move> legalMoves = new ArrayList<>();
-        for (final int currentOffset : PROBABLE_POSSIBLE_MOVES) {
+        //iterate through all offsets in POSSIBLE_MOVES_OFFSETS array
+        for (final int currentOffset : POSSIBLE_MOVES_OFFSETS) {
+            //get new position by applying offset
             possiblePosition = this.position + currentOffset;
-
+            //check for exclusion
             if (isExclusion(this.position, currentOffset)) {
                 continue;
             }
             if (Piece.checkCoordinate(possiblePosition)) {
                 final Tile possibleTile = board.getTile(possiblePosition);
+                //check if the tile is NOT occupied
                 if (!possibleTile.hasPiece()) {
-                    legalMoves.add(new Move());
+                    legalMoves.add(new NormalMove(board, this, possiblePosition));
                 } else {
+                    //if tile is occupied, we need to check which side that piece belongs to
                     final Piece pieceAtTile = possibleTile.getPiece();
+                    //we can only move there is it's opposite side piece
                     if (pieceAtTile.getColorSide() != this.getColorSide()) {
-                        legalMoves.add(new Move());
+                        legalMoves.add(new AttackMove(board, this, possiblePosition, pieceAtTile));
                     }
                 }
             }
@@ -55,7 +69,8 @@ public class Knight extends Piece {
      * This methods checks if the current pieces is on the tile that does not
      * work according to some of the offset logic. This is true if the tile is
      * in the first, second, seventh or eighth column(file). In those, specific
-     * offsets do not work as expected and we need to catch these exceptions.
+     * offsets do not work as expected and we need to check for these
+     * exceptions.
      *
      * @param currentPosition represents the number representation of the tile
      * on the chess board.
@@ -69,14 +84,17 @@ public class Knight extends Piece {
         //if the position is in the first column
         if ((currentPosition % 8 == 0) && (offset == -17 || offset == -10 || offset == 6 || offset == 15)) {
             return true;
-            //if the position is in the second column
-        } else if (((currentPosition - 1) % 8 == 0) && (offset == -10 || offset == 6)) {
+
+        } //if the position is in the second column
+        else if (((currentPosition - 1) % 8 == 0) && (offset == -10 || offset == 6)) {
             return true;
-            //if the position is in the seventh column
-        } else if (((currentPosition - 6) % 8 == 0) && (offset == -6 || offset == 10)) {
+
+        } //if the position is in the seventh column
+        else if (((currentPosition - 6) % 8 == 0) && (offset == -6 || offset == 10)) {
             return true;
-            //if the position is in the eighth column
-        } else if (((currentPosition - 7) % 8 == 0) && (offset == -15 || offset == -6 || offset == 10 || offset == 17)) {
+
+        }//if the position is in the eighth column
+        else if (((currentPosition - 7) % 8 == 0) && (offset == -15 || offset == -6 || offset == 10 || offset == 17)) {
             return true;
         }
         //else return false, for the position is not among the exclusive tiles
