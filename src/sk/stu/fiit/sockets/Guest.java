@@ -52,14 +52,17 @@ public class Guest {
         }
     };
 
-    public Guest(MainWindow m, String hostIP) {
+    public Guest(MainWindow m) {
         this.m = m;
         setLocalIP(active);
-        try {
-            setHostIP(hostIP);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(Guest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    }
+
+    /**
+     * Starts executing method {@link #listen() listen()} in separate {@link
+     * #listenerT thread}
+     */
+    public void startListener() {
+        listenerT.start();
     }
 
     /**
@@ -80,6 +83,14 @@ public class Guest {
         } catch (IOException ex) {
             System.err.println("Doplnit logger");
         }
+    }
+
+    /**
+     * Starts executing method {@link #send() send()} in separate {@link
+     * #senderT thread}
+     */
+    public void startSender() {
+        senderT.start();
     }
 
     /**
@@ -106,7 +117,7 @@ public class Guest {
         return List.of((int) (Math.random() * 63), (int) (Math.random() * 63), (int) (Math.random() * 63), (int) (Math.random() * 63));
     }
 
-    public void setLocalIP(boolean localhost) {
+    public final void setLocalIP(boolean localhost) {
         try (final DatagramSocket socket = new DatagramSocket()) {
             if (localhost) {
                 hostIP = InetAddress.getLoopbackAddress();
@@ -119,8 +130,16 @@ public class Guest {
         }
     }
 
+    public InetAddress getLocalIP() {
+        return guestIP;
+    }
+
     public void setHostIP(String ip) throws UnknownHostException {
         guestIP = InetAddress.getByName(ip);
+    }
+
+    public InetAddress getHostIp() {
+        return hostIP;
     }
 
     public void setFen(String newFen) {

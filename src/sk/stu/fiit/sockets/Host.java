@@ -71,6 +71,14 @@ public class Host {
     }
 
     /**
+     * Starts executing method {@link #listen() listen()} in separate {@link
+     * #listenerT thread}
+     */
+    public void startListener() {
+        listenerT.start();
+    }
+
+    /**
      * Method to listen for incoming sockets.
      */
     public void listen() {
@@ -91,11 +99,20 @@ public class Host {
                 actualize the board
                  */
 //                m.test(parseMsg(msg));
+                parseMsg("sufuski");
             }
             listenerSocket.close();
         } catch (IOException ex) {
             System.err.println("Doplnit logger");
         }
+    }
+
+    /**
+     * Starts executing method {@link #send() send()} in separate {@link
+     * #senderT thread}
+     */
+    public void startSender() {
+        senderT.start();
     }
 
     /**
@@ -157,8 +174,24 @@ public class Host {
         }
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean a) {
+        active = a;
+    }
+
+    public InetAddress getLocalIp() {
+        return hostIP;
+    }
+
     public void setGuestIP(InetAddress ip) throws UnknownHostException {
         guestIP = ip;
+    }
+
+    public InetAddress getGuestIP() {
+        return guestIP;
     }
 
     public void setFen(String newFen) {

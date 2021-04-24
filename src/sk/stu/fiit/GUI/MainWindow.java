@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -202,6 +204,11 @@ public class MainWindow extends javax.swing.JFrame {
         btnIintCreateGame.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         btnIintCreateGame.setForeground(new java.awt.Color(102, 102, 0));
         btnIintCreateGame.setText("Create game");
+        btnIintCreateGame.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnIintCreateGameMouseReleased(evt);
+            }
+        });
         panelInit.add(btnIintCreateGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 550, 320, 60));
 
         btnInitPlayOffline.setBackground(new java.awt.Color(175, 175, 175));
@@ -215,6 +222,11 @@ public class MainWindow extends javax.swing.JFrame {
         btnInitJoinGame.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         btnInitJoinGame.setForeground(new java.awt.Color(102, 102, 0));
         btnInitJoinGame.setText("Join game");
+        btnInitJoinGame.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnInitJoinGameMouseReleased(evt);
+            }
+        });
         panelInit.add(btnInitJoinGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 550, 320, 60));
 
         lblInitGameName.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
@@ -480,8 +492,9 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void lblGameBoardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGameBoardMouseReleased
         // TODO add your handling code here:
-        eliminateFigure(whiteQueen, true);
-        eliminateFigure(blackPawnB, false);
+        System.out.println(xyToOne(evt.getX() / 100, evt.getY() / 100));
+//        eliminateFigure(whiteQueen, true);
+//        eliminateFigure(blackPawnB, false);
     }//GEN-LAST:event_lblGameBoardMouseReleased
 
     private void comboGameBoardColorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboGameBoardColorItemStateChanged
@@ -540,6 +553,30 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         showPossibleMoves((JLabel) evt.getComponent(), List.of(50, 62, 35));
     }//GEN-LAST:event_whitePawnBMouseReleased
+
+    private void btnIintCreateGameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIintCreateGameMouseReleased
+        // TODO add your handling code here:
+        host = new Host(this, false);
+        lblLocalIP.setText(host.getLocalIp().toString().replace('/', ' '));
+        showGame();
+        host.setActive(true);
+        host.startListener();
+    }//GEN-LAST:event_btnIintCreateGameMouseReleased
+
+    private void btnInitJoinGameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInitJoinGameMouseReleased
+        // TODO add your handling code here:
+        guest = new Guest(this);
+        String ip = txtOpponentsIP.getText();
+//        if IP is invalid return
+//        if it's valid, set hostIP
+        if (!checkInputIP(ip)) {
+            return;
+        }
+        guest.setFen("Initial greeting");
+        guest.startSender();
+        showGame();
+        
+    }//GEN-LAST:event_btnInitJoinGameMouseReleased
 
     /**
      * @param args the command line arguments
@@ -651,6 +688,16 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel whiteRookL;
     private javax.swing.JLabel whiteRookR;
     // End of variables declaration//GEN-END:variables
+
+    private void showGame() {
+        panelInit.setVisible(false);
+        panelGame.setVisible(true);
+    }
+
+    private void showInit() {
+        panelInit.setVisible(true);
+        panelGame.setVisible(false);
+    }
 
     /**
      * Resets inital coordinates of positions where eliminated figures are put
@@ -773,5 +820,20 @@ public class MainWindow extends javax.swing.JFrame {
         labels.stream().forEach(label -> panelGameBoard.remove(label));
         panelGameBoard.repaint();
         dots.clear();
+    }
+
+    public boolean checkInputIP(String ip) {
+        if (ip == null) {
+            return false;
+        }
+        try {
+            guest.setHostIP(ip);
+        } catch (UnknownHostException ex) {
+            System.err.println("Doplnit logger");
+            ex.printStackTrace();
+            return false;
+        }
+        System.out.println(guest.getLocalIP().toString());
+        return true;
     }
 }
