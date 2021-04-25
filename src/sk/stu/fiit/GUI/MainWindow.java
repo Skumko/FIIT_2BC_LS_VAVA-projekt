@@ -6,6 +6,11 @@
 package sk.stu.fiit.GUI;
 
 import java.awt.Image;
+import java.awt.event.MouseListener;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -36,10 +41,11 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         panelGame.setVisible(false);
         panelInit.setVisible(true);
-        panelGameBoard.setLayout(null);
+
+        panelGameBoard.setLayout(null); //setting layout to null to be able to move with figures
         printMyIp(lblLocalIP);
         //color is set in game initialization
-        test2(false);
+        addMouseListeners(false);
     }
 
     private int[] nextPosBlackElim = {810, 70};
@@ -554,10 +560,8 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         guest = new Guest(this);
         String ip = txtOpponentsIP.getText();
-//        if IP is invalid return
-//        if it's valid, set hostIP
-        if (!checkInputIP(ip)) {
-            return;
+        if (!checkInputIP(ip)) {    //if IP is valid, sets hostIP
+            return;                 //if IP is invalid return
         }
         guest.setFen("Initial greeting");
         guest.startSender();
@@ -751,11 +755,7 @@ public class MainWindow extends javax.swing.JFrame {
         return xy;
     }
 
-    /**
-     * temporary method for testing purposes
-     *
-     * @param sectors
-     */
+    @TemporaryForTesting
     public void test(List<Integer> sectors) {
         btnLanguageSKMouseReleased(null);
         if ((int) sectors.get(0) % 2 == 0) {
@@ -850,10 +850,12 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     /**
+     * Adds ability to move with figures of particular color based on whether
+     * parameter isWhite is true or false
      *
-     * @param color "black" or "white"
+     * @param isWhite true for white figures, false for black figures
      */
-    private void test2(Boolean isWhite) {
+    private void addMouseListeners(Boolean isWhite) {
 
         List<JLabel> figures;
         if (isWhite) {
@@ -863,7 +865,7 @@ public class MainWindow extends javax.swing.JFrame {
             figures = List.of(blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
                     blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
         }
-//        adds action listener to every figure
+//        adds mouse listener to every figure
         figures.stream()
                 .forEach(figure -> {
                     figure.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -872,8 +874,39 @@ public class MainWindow extends javax.swing.JFrame {
                         }
                     });
                 });
+
     }
 
+    /**
+     * Removes all mouse listeners of figures of particular color based on
+     * whether parameter isWhite is true or false
+     *
+     * @param isWhite true for white figures, false for black figures
+     */
+    private void removeMouseListeners(Boolean isWhite) {
+        List<JLabel> figures;
+        if (isWhite) {
+            figures = List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
+                    whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing);
+        } else {
+            figures = List.of(blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
+                    blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
+        }
+//        removes mouse listeners
+        figures.stream()
+                .forEach(figure -> {
+                    for (MouseListener listener : figure.getMouseListeners()) {
+                        figure.removeMouseListener(listener);
+                    }
+                });
+    }
+
+    /**
+     * Function called inside figures' listeners. For now only showing possible
+     * moves.
+     *
+     * @param evt
+     */
     private void figureListener(java.awt.event.MouseEvent evt) {
         System.out.println("pocet");
         showPossibleMoves((JLabel) evt.getComponent(), List.of((int) (Math.random() * 63), (int) (Math.random() * 63), (int) (Math.random() * 63)));
@@ -883,4 +916,8 @@ public class MainWindow extends javax.swing.JFrame {
 //        showPossibleMoves((JLabel) evt.getComponent(), List.of(10, 12, 25));
 //    }
 
+    @Retention(RetentionPolicy.SOURCE)
+    @Target(ElementType.METHOD)
+    public static @interface TemporaryForTesting {
+    }
 }
