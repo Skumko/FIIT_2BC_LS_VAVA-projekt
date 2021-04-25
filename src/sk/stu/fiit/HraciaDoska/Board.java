@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import sk.stu.fiit.Figurky.*;
+import sk.stu.fiit.Hrac.BlackPlayer;
+import sk.stu.fiit.Hrac.WhitePlayer;
 import sk.stu.fiit.Side;
 
 /**
@@ -26,6 +28,9 @@ public class Board {
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
 
+    private final WhitePlayer whiteP;
+    private final BlackPlayer blackP;
+
     private Board(BoardBuilder builder) {
         this.boardTiles = createBoardTiles(builder);
         this.whitePieces = getActivePieces(builder, Side.WHITE);
@@ -33,10 +38,29 @@ public class Board {
 
         final Collection<Move> whiteInitialLegalMoves = getLegalMoves(this.whitePieces);
         final Collection<Move> blackInitialLegalMoves = getLegalMoves(this.blackPieces);
+
+        this.whiteP = new WhitePlayer(this, whiteInitialLegalMoves, blackInitialLegalMoves);
+        this.blackP = new BlackPlayer(this, blackInitialLegalMoves, whiteInitialLegalMoves);
     }
 
     public Tile getTile(final int possiblePosition) {
         return boardTiles.get(possiblePosition);
+    }
+
+    public Collection<Piece> getWhitePieces() {
+        return whitePieces;
+    }
+
+    public Collection<Piece> getBlackPieces() {
+        return blackPieces;
+    }
+
+    public WhitePlayer getWhiteP() {
+        return whiteP;
+    }
+
+    public BlackPlayer getBlackP() {
+        return blackP;
     }
 
     private List<Tile> createBoardTiles(BoardBuilder builder) {

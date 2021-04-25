@@ -70,6 +70,10 @@ public abstract class Piece {
         return this.position;
     }
 
+    public Type getPieceType() {
+        return pieceType;
+    }
+
     @Override
     public String toString() {
         return this.pieceType.getName();
