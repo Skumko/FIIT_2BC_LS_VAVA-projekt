@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -83,6 +85,15 @@ public class MainWindow extends javax.swing.JFrame {
         btnLanguageEN = new javax.swing.JButton();
         lblLocalIP = new javax.swing.JLabel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
+        panelInit = new javax.swing.JPanel();
+        txtOpponentsIP = new javax.swing.JTextField();
+        lblInitEnterIP = new javax.swing.JLabel();
+        btnInitRules = new javax.swing.JButton();
+        btnIintCreateGame = new javax.swing.JButton();
+        btnInitPlayOffline = new javax.swing.JButton();
+        btnInitJoinGame = new javax.swing.JButton();
+        lblInitGameName = new javax.swing.JLabel();
+        lblInitGameShortcut = new javax.swing.JLabel();
         panelGame = new javax.swing.JPanel();
         panelGameBoard = new javax.swing.JPanel();
         whitePawnA = new javax.swing.JLabel();
@@ -138,15 +149,6 @@ public class MainWindow extends javax.swing.JFrame {
         lblGamePlayerTimer = new javax.swing.JLabel();
         btnOfferPat = new javax.swing.JButton();
         btnSurrender = new javax.swing.JButton();
-        panelInit = new javax.swing.JPanel();
-        txtOpponentsIP = new javax.swing.JTextField();
-        lblInitEnterIP = new javax.swing.JLabel();
-        btnInitRules = new javax.swing.JButton();
-        btnIintCreateGame = new javax.swing.JButton();
-        btnInitPlayOffline = new javax.swing.JButton();
-        btnInitJoinGame = new javax.swing.JButton();
-        lblInitGameName = new javax.swing.JLabel();
-        lblInitGameShortcut = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OMGOC - OnlineMultiplayerGameOfChess");
@@ -179,6 +181,78 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLayeredPane1.setPreferredSize(new java.awt.Dimension(1400, 900));
         jLayeredPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelInit.setBackground(new java.awt.Color(0, 40, 60));
+        panelInit.setPreferredSize(new java.awt.Dimension(1400, 900));
+        panelInit.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtOpponentsIP.setBackground(new java.awt.Color(200, 200, 200));
+        txtOpponentsIP.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        txtOpponentsIP.setForeground(new java.awt.Color(102, 102, 0));
+        txtOpponentsIP.setPreferredSize(new java.awt.Dimension(320, 50));
+        panelInit.add(txtOpponentsIP, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 460, 320, 50));
+
+        lblInitEnterIP.setBackground(new java.awt.Color(200, 200, 200));
+        lblInitEnterIP.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lblInitEnterIP.setForeground(new java.awt.Color(200, 200, 200));
+        lblInitEnterIP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInitEnterIP.setText("Enter opponent's IP address:");
+        panelInit.add(lblInitEnterIP, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 400, 600, -1));
+
+        btnInitRules.setBackground(new java.awt.Color(175, 175, 175));
+        btnInitRules.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btnInitRules.setForeground(new java.awt.Color(102, 102, 0));
+        btnInitRules.setText("Rules");
+        btnInitRules.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnInitRulesMouseReleased(evt);
+            }
+        });
+        panelInit.add(btnInitRules, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 780, 320, 60));
+
+        btnIintCreateGame.setBackground(new java.awt.Color(175, 175, 175));
+        btnIintCreateGame.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btnIintCreateGame.setForeground(new java.awt.Color(102, 102, 0));
+        btnIintCreateGame.setText("Create game");
+        btnIintCreateGame.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnIintCreateGameMouseReleased(evt);
+            }
+        });
+        panelInit.add(btnIintCreateGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 550, 320, 60));
+
+        btnInitPlayOffline.setBackground(new java.awt.Color(175, 175, 175));
+        btnInitPlayOffline.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btnInitPlayOffline.setForeground(new java.awt.Color(102, 102, 0));
+        btnInitPlayOffline.setText("Play offline game");
+        btnInitPlayOffline.setPreferredSize(new java.awt.Dimension(380, 60));
+        panelInit.add(btnInitPlayOffline, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 660, 380, 60));
+
+        btnInitJoinGame.setBackground(new java.awt.Color(175, 175, 175));
+        btnInitJoinGame.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btnInitJoinGame.setForeground(new java.awt.Color(102, 102, 0));
+        btnInitJoinGame.setText("Join game");
+        btnInitJoinGame.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnInitJoinGameMouseReleased(evt);
+            }
+        });
+        panelInit.add(btnInitJoinGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 550, 320, 60));
+
+        lblInitGameName.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
+        lblInitGameName.setForeground(new java.awt.Color(102, 102, 0));
+        lblInitGameName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInitGameName.setText(" Online Multiplayer Game Of Chess ");
+        panelInit.add(lblInitGameName, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, 600, -1));
+
+        lblInitGameShortcut.setFont(new java.awt.Font("Tahoma", 1, 150)); // NOI18N
+        lblInitGameShortcut.setForeground(new java.awt.Color(102, 102, 0));
+        lblInitGameShortcut.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInitGameShortcut.setText("OMGOC");
+        lblInitGameShortcut.setPreferredSize(new java.awt.Dimension(700, 200));
+        panelInit.add(lblInitGameShortcut, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, -1, -1));
+
+        jLayeredPane1.add(panelInit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         panelGame.setBackground(new java.awt.Color(0, 40, 60));
         panelGame.setPreferredSize(new java.awt.Dimension(1400, 900));
@@ -409,78 +483,6 @@ public class MainWindow extends javax.swing.JFrame {
         panelGame.add(btnSurrender, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 790, 170, 60));
 
         jLayeredPane1.add(panelGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        panelInit.setBackground(new java.awt.Color(0, 40, 60));
-        panelInit.setPreferredSize(new java.awt.Dimension(1400, 900));
-        panelInit.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtOpponentsIP.setBackground(new java.awt.Color(200, 200, 200));
-        txtOpponentsIP.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        txtOpponentsIP.setForeground(new java.awt.Color(102, 102, 0));
-        txtOpponentsIP.setPreferredSize(new java.awt.Dimension(320, 50));
-        panelInit.add(txtOpponentsIP, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 460, 320, 50));
-
-        lblInitEnterIP.setBackground(new java.awt.Color(200, 200, 200));
-        lblInitEnterIP.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        lblInitEnterIP.setForeground(new java.awt.Color(200, 200, 200));
-        lblInitEnterIP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInitEnterIP.setText("Enter opponent's IP address:");
-        panelInit.add(lblInitEnterIP, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 400, 600, -1));
-
-        btnInitRules.setBackground(new java.awt.Color(175, 175, 175));
-        btnInitRules.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        btnInitRules.setForeground(new java.awt.Color(102, 102, 0));
-        btnInitRules.setText("Rules");
-        btnInitRules.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnInitRulesMouseReleased(evt);
-            }
-        });
-        panelInit.add(btnInitRules, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 780, 320, 60));
-
-        btnIintCreateGame.setBackground(new java.awt.Color(175, 175, 175));
-        btnIintCreateGame.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        btnIintCreateGame.setForeground(new java.awt.Color(102, 102, 0));
-        btnIintCreateGame.setText("Create game");
-        btnIintCreateGame.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnIintCreateGameMouseReleased(evt);
-            }
-        });
-        panelInit.add(btnIintCreateGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 550, 320, 60));
-
-        btnInitPlayOffline.setBackground(new java.awt.Color(175, 175, 175));
-        btnInitPlayOffline.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        btnInitPlayOffline.setForeground(new java.awt.Color(102, 102, 0));
-        btnInitPlayOffline.setText("Play offline game");
-        btnInitPlayOffline.setPreferredSize(new java.awt.Dimension(380, 60));
-        panelInit.add(btnInitPlayOffline, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 660, 380, 60));
-
-        btnInitJoinGame.setBackground(new java.awt.Color(175, 175, 175));
-        btnInitJoinGame.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        btnInitJoinGame.setForeground(new java.awt.Color(102, 102, 0));
-        btnInitJoinGame.setText("Join game");
-        btnInitJoinGame.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnInitJoinGameMouseReleased(evt);
-            }
-        });
-        panelInit.add(btnInitJoinGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 550, 320, 60));
-
-        lblInitGameName.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
-        lblInitGameName.setForeground(new java.awt.Color(102, 102, 0));
-        lblInitGameName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInitGameName.setText(" Online Multiplayer Game Of Chess ");
-        panelInit.add(lblInitGameName, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, 600, -1));
-
-        lblInitGameShortcut.setFont(new java.awt.Font("Tahoma", 1, 150)); // NOI18N
-        lblInitGameShortcut.setForeground(new java.awt.Color(102, 102, 0));
-        lblInitGameShortcut.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInitGameShortcut.setText("OMGOC");
-        lblInitGameShortcut.setPreferredSize(new java.awt.Dimension(700, 200));
-        panelInit.add(lblInitGameShortcut, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, -1, -1));
-
-        jLayeredPane1.add(panelInit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(jLayeredPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -817,9 +819,21 @@ public class MainWindow extends javax.swing.JFrame {
         dots.clear();
     }
 
+    /**
+     * Regex pattern is from https://mkyong.com/regular-expressions/how-to-validate-ip-address-with-regular-expression/
+     * @param ip
+     * @return 
+     */
     public boolean checkInputIP(String ip) {
         if (ip == null) {
             return false;
+        }
+        Pattern goodIP = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}"
+                + "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$");
+        Matcher m = goodIP.matcher(ip);
+        if(!m.find()){
+            System.out.println(ip);
+            return false;   //invalid IP input
         }
         try {
             guest.setHostIP(ip);
@@ -840,11 +854,12 @@ public class MainWindow extends javax.swing.JFrame {
      * @param sector number of sector to where move the figure
      */
     private void moveFigure(JLabel figure, int sector, List<Integer> possibleMoves) {
-//        check for ability to move to selected sector
-        if (!possibleMoves.contains(sector)) {
+        if (!possibleMoves.contains(sector)) {  //check for ability to move to selected sector
             return;
         }
-//        check for elimination of opponent's figure
+        /*
+        check for elimination of opponent's figure
+         */
         figure.setLocation(oneToxy(sector)[0] * 100, oneToxy(sector)[1] * 100);
         removePossibleMoves();
     }
@@ -908,13 +923,8 @@ public class MainWindow extends javax.swing.JFrame {
      * @param evt
      */
     private void figureListener(java.awt.event.MouseEvent evt) {
-        System.out.println("pocet");
         showPossibleMoves((JLabel) evt.getComponent(), List.of((int) (Math.random() * 63), (int) (Math.random() * 63), (int) (Math.random() * 63)));
     }
-//    private void whitePawnAMouseReleased(java.awt.event.MouseEvent evt) {
-//        // TODO add your handling code here:
-//        showPossibleMoves((JLabel) evt.getComponent(), List.of(10, 12, 25));
-//    }
 
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
