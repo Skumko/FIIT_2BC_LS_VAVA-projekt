@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import sk.stu.fiit.Figurky.Piece;
+import sk.stu.fiit.Side;
 
 /**
  * The Tile class represents one specific Tile on a chess board. The field
@@ -52,11 +53,7 @@ public abstract class Tile {
      */
     public static final class OccupiedTile extends Tile {
 
-        private Piece piece;
-
-        public OccupiedTile(int c) {
-            super(c);
-        }
+        private final Piece piece;
 
         private OccupiedTile(Piece piece, int c) {
             super(c);
@@ -74,10 +71,6 @@ public abstract class Tile {
             return this.piece;
         }
 
-        public void setPiece(Piece piece) {
-            this.piece = piece;
-        }
-
         /**
          * Provides information on whether a specific tile is occupied
          *
@@ -86,6 +79,11 @@ public abstract class Tile {
         @Override
         public boolean hasPiece() {
             return true;
+        }
+
+        @Override
+        public String toString() {
+            return piece.getColorSide() == Side.BLACK ? piece.toString().toLowerCase() : piece.toString();
         }
 
     }
@@ -119,6 +117,11 @@ public abstract class Tile {
         @Override
         public boolean hasPiece() {
             return false;
+        }
+
+        @Override
+        public String toString() {
+            return "-";
         }
 
     }
