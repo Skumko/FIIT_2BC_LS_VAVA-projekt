@@ -22,7 +22,7 @@ public class Pawn extends Piece {
     private static final int[] POSSIBLE_MOVES_OFFSETS = {7, 8, 9, 16};
 
     public Pawn(int position, Side side) {
-        super(position, side);
+        super(position, side, Type.PAWN);
     }
 
     /**

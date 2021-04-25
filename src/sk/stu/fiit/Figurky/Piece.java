@@ -17,14 +17,33 @@ import sk.stu.fiit.Side;
  */
 public abstract class Piece {
 
-    //staci vediet ci je biela --> ak biela tak !cierna logicky
     protected final int position;
     private final Side colorSide;
     protected boolean hasMoved = false;
+    private final Type pieceType;
 
-    public Piece(final int position, final Side side) {
+    public enum Type {
+        PAWN("P"),
+        KNIGHT("N"),
+        BISHOP("B"),
+        ROOK("R"),
+        QUEEN("Q"),
+        KING("K");
+        private String name;
+
+        Type(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+    }
+
+    public Piece(final int position, final Side side, Type type) {
         this.position = position;
         this.colorSide = side;
+        this.pieceType = type;
     }
 
     public Side getColorSide() {
@@ -41,10 +60,19 @@ public abstract class Piece {
      * Method checks if passed number is valid representation of board tile.
      *
      * @param coordinate one-number possible representation of a tile.
-     * @return true, if {
-     * @param coordinate} is valid, otherwise returns false.
+     * @return true, if coordinate is valid, otherwise returns false.
      */
     public static boolean checkCoordinate(final int coordinate) {
-        return coordinate <= 0 && coordinate < Utils.NUM_OF_TILES;
+        return coordinate >= 0 && coordinate < Utils.NUM_OF_TILES;
     }
+
+    public int getPosition() {
+        return this.position;
+    }
+
+    @Override
+    public String toString() {
+        return this.pieceType.getName();
+    }
+
 }

@@ -23,7 +23,7 @@ public class King extends Piece {
     private static final int[] POSSIBLE_MOVES_OFFSETS = {-9, -8, -7, -1, 1, 7, 8, 9};
 
     public King(int position, Side side) {
-        super(position, side);
+        super(position, side, Type.KING);
     }
 
     /**

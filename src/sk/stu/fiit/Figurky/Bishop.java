@@ -25,7 +25,7 @@ public class Bishop extends Piece {
     private final static int[] POSSIBLE_MOVES_VECTORS = {-9, -7, 7, 9};
 
     public Bishop(int position, Side side) {
-        super(position, side);
+        super(position, side, Type.BISHOP);
     }
 
     /**

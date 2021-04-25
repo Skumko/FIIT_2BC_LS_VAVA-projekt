@@ -23,7 +23,7 @@ public class Rook extends Piece {
     private static final int[] POSSIBLE_MOVES_VECTORS = {-8, -1, 1, 8};
 
     public Rook(int position, Side side) {
-        super(position, side);
+        super(position, side, Type.ROOK);
     }
 
     /**
