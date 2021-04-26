@@ -5,6 +5,10 @@
  */
 package sk.stu.fiit;
 
+import sk.stu.fiit.Hrac.BlackPlayer;
+import sk.stu.fiit.Hrac.Player;
+import sk.stu.fiit.Hrac.WhitePlayer;
+
 /**
  *
  * @author Pavol Belej
@@ -15,14 +19,26 @@ public enum Side {
         public int getDirection() {
             return -1;
         }
+
+        @Override
+        public Player pickSide(final WhitePlayer whiteP, final BlackPlayer blackP) {
+            return whiteP;
+        }
     },
     BLACK {
         @Override
         public int getDirection() {
             return 1;
         }
+
+        @Override
+        public Player pickSide(final WhitePlayer whiteP, final BlackPlayer blackP) {
+            return blackP;
+        }
     };
 
     public abstract int getDirection();
+
+    public abstract Player pickSide(WhitePlayer whiteP, BlackPlayer blackP);
 
 }
