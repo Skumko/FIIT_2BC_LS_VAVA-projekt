@@ -6,7 +6,6 @@
 package sk.stu.fiit.Hrac;
 
 import java.util.Collection;
-import sk.stu.fiit.Figurky.King;
 import sk.stu.fiit.Figurky.Piece;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;

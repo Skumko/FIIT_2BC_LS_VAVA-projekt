@@ -19,7 +19,7 @@ public class PerformMove {
     private final MoveStatus moveStatus;
 
     public enum MoveStatus {
-        DONE;
+        DONE, ILLEGAL_MOVE, KING_IN_CHECK;
 
     }
 
