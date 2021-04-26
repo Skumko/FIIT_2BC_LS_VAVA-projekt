@@ -5,7 +5,6 @@
  */
 package sk.stu.fiit.HraciaDoska;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,8 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import sk.stu.fiit.Figurky.*;
 import sk.stu.fiit.Hrac.BlackPlayer;
+import sk.stu.fiit.Hrac.Player;
 import sk.stu.fiit.Hrac.WhitePlayer;
 import sk.stu.fiit.Side;
 
@@ -30,17 +31,19 @@ public class Board {
 
     private final WhitePlayer whiteP;
     private final BlackPlayer blackP;
+    private final Player currentPlayer;
 
-    private Board(BoardBuilder builder) {
+    private Board(final BoardBuilder builder) {
         this.boardTiles = createBoardTiles(builder);
         this.whitePieces = getActivePieces(builder, Side.WHITE);
         this.blackPieces = getActivePieces(builder, Side.BLACK);
 
-        final Collection<Move> whiteInitialLegalMoves = getLegalMoves(this.whitePieces);
-        final Collection<Move> blackInitialLegalMoves = getLegalMoves(this.blackPieces);
+        final Collection<Move> whiteInitialLegalMoves = getPiecesLegalMoves(this.whitePieces);
+        final Collection<Move> blackInitialLegalMoves = getPiecesLegalMoves(this.blackPieces);
 
         this.whiteP = new WhitePlayer(this, whiteInitialLegalMoves, blackInitialLegalMoves);
         this.blackP = new BlackPlayer(this, blackInitialLegalMoves, whiteInitialLegalMoves);
+        this.currentPlayer = builder.nextToMove.pickSide(this.whiteP, this.blackP);
     }
 
     public Tile getTile(final int possiblePosition) {
@@ -61,6 +64,11 @@ public class Board {
 
     public BlackPlayer getBlackP() {
         return blackP;
+    }
+
+    public Collection<Move> getAllLegalMoves() {
+        return Stream.concat(this.whiteP.getLegalMoves().stream(),
+                this.blackP.getLegalMoves().stream()).collect(Collectors.toList());
     }
 
     private List<Tile> createBoardTiles(BoardBuilder builder) {
@@ -121,7 +129,7 @@ public class Board {
                 .collect(Collectors.toList());
     }
 
-    private Collection<Move> getLegalMoves(final Collection<Piece> pieces) {
+    private Collection<Move> getPiecesLegalMoves(final Collection<Piece> pieces) {
         return pieces.stream()
                 .flatMap(piece -> piece.getPossibleMoves(this).stream())
                 .collect(Collectors.toList());
@@ -142,10 +150,15 @@ public class Board {
         return builder.toString();
     }
 
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+
     public static class BoardBuilder {
 
         Map<Integer, Piece> boardState;
         Side nextToMove;
+        Pawn enPassantPawn;
 
         public BoardBuilder() {
             this.boardState = new HashMap<>();
@@ -163,6 +176,10 @@ public class Board {
 
         public Board build() {
             return new Board(this);
+        }
+
+        void setEnPassantPawn(Pawn movedPawn) {
+            this.enPassantPawn = movedPawn;
         }
     }
 }

@@ -28,6 +28,10 @@ public abstract class Tile {
         this.coordinate = coordinate;
     }
 
+    public int getCoordinate() {
+        return coordinate;
+    }
+
     public abstract Piece getPiece();
 
     public abstract boolean hasPiece();
