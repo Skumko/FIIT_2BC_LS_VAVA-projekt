@@ -102,4 +102,9 @@ public class Knight extends Piece {
         //else return false, for the position is not among the exclusive tiles
         return false;
     }
+
+    @Override
+    public Knight movePiece(Move move) {
+        return new Knight(move.getDestinationCoordinate(), move.getMovedPiece().getColorSide());
+    }
 }

@@ -79,4 +79,9 @@ public class King extends Piece {
         //else return false, for the position is not among the exclusive tiles
         return false;
     }
+
+    @Override
+    public King movePiece(Move move) {
+        return new King(move.getDestinationCoordinate(), move.getMovedPiece().getColorSide());
+    }
 }

@@ -21,6 +21,7 @@ public abstract class Piece {
     private final Side colorSide;
     protected boolean hasMoved = false;
     private final Type pieceType;
+    private final int savedHashCode;
 
     public enum Type {
         PAWN("P"),
@@ -44,6 +45,7 @@ public abstract class Piece {
         this.position = position;
         this.colorSide = side;
         this.pieceType = type;
+        this.savedHashCode = computeHash();
     }
 
     public Side getColorSide() {
@@ -74,9 +76,38 @@ public abstract class Piece {
         return pieceType;
     }
 
+    private int computeHash() {
+        int hash = 7;
+        hash = 31 * hash + pieceType.hashCode();
+        hash = 31 * hash + position;
+        hash = 31 * hash + colorSide.hashCode();
+        hash = 31 * hash + (hasMoved() ? 1 : 0);
+        return hash;
+    }
+
+    public abstract Piece movePiece(Move move);
+
     @Override
     public String toString() {
         return this.pieceType.getName();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Piece)) {
+            return false;
+        }
+        final Piece other = (Piece) obj;
+        return this.position == other.getPosition() && this.pieceType == other.getPieceType()
+                && this.colorSide == other.getColorSide() && this.hasMoved == other.hasMoved();
+    }
+
+    @Override
+    public int hashCode() {
+        return this.savedHashCode;
     }
 
 }
