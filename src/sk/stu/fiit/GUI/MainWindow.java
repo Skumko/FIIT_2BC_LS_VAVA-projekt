@@ -449,10 +449,11 @@ public class MainWindow extends javax.swing.JFrame {
         panelGameOpponentInfo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblGameOpponentInfo.setBackground(new java.awt.Color(0, 0, 0));
-        lblGameOpponentInfo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblGameOpponentInfo.setForeground(new java.awt.Color(102, 102, 0));
-        lblGameOpponentInfo.setText("Matko Kubko, 192.168.78.55");
-        panelGameOpponentInfo.add(lblGameOpponentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 230, 20));
+        lblGameOpponentInfo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblGameOpponentInfo.setForeground(new java.awt.Color(50, 210, 50));
+        lblGameOpponentInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblGameOpponentInfo.setText("127.0.0.1");
+        panelGameOpponentInfo.add(lblGameOpponentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 270, 20));
 
         panelGame.add(panelGameOpponentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 30, 290, 40));
 
@@ -820,6 +821,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     /**
+     * Checks if input ip is valid format 0-255.0-255.0-255.0-255
      * Regex pattern is from https://mkyong.com/regular-expressions/how-to-validate-ip-address-with-regular-expression/
      * @param ip
      * @return 
@@ -832,7 +834,6 @@ public class MainWindow extends javax.swing.JFrame {
                 + "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$");
         Matcher m = goodIP.matcher(ip);
         if(!m.find()){
-            System.out.println(ip);
             return false;   //invalid IP input
         }
         try {

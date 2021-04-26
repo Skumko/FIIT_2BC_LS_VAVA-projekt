@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sk.stu.fiit.GUI.MainWindow;
+import sk.stu.fiit.GUI.MainWindow.TemporaryForTesting;
 
 /**
  *
@@ -31,8 +32,8 @@ public class Host {
     private InetAddress guestIP = null;
     private String fen;
 
-    private Socket senderSocket;
-    private Socket listenerSocket;
+    private Socket senderSocket = null;
+    private Socket listenerSocket = null;
 
     private DataInputStream dis;
     private DataOutputStream dos;
@@ -130,7 +131,9 @@ public class Host {
         }
 //        setFen(newFen) before sending message
         try {
-            senderSocket = new Socket(guestIP, port);
+            if (senderSocket == null) {
+                senderSocket = new Socket(guestIP, port);
+            }
             dos = new DataOutputStream(senderSocket.getOutputStream());
             dos.writeUTF(getFen());
             dos.flush();
@@ -156,6 +159,7 @@ public class Host {
          */
     }
 
+    @TemporaryForTesting
     private List parseMsg(String msg) {
         int x = Integer.parseInt(msg) % 62;
         return List.of((int) (Math.random() * 63), (int) (Math.random() * 63), (int) (Math.random() * 63), (int) (Math.random() * 63));

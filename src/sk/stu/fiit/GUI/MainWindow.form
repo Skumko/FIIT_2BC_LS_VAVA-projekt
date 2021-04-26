@@ -1018,16 +1018,17 @@
                       <Color blue="0" green="0" red="0" type="rgb"/>
                     </Property>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="11" style="1"/>
+                      <Font name="Tahoma" size="24" style="1"/>
                     </Property>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="0" green="66" red="66" type="rgb"/>
+                      <Color blue="32" green="d2" red="32" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Matko Kubko, 192.168.78.55"/>
+                    <Property name="horizontalAlignment" type="int" value="0"/>
+                    <Property name="text" type="java.lang.String" value="127.0.0.1"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="10" y="10" width="230" height="20"/>
+                      <AbsoluteConstraints x="10" y="10" width="270" height="20"/>
                     </Constraint>
                   </Constraints>
                 </Component>
