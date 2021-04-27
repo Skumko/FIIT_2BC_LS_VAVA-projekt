@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
-import sk.stu.fiit.HraciaDoska.Move.AttackMove;
+import sk.stu.fiit.HraciaDoska.Move.NormalAttackMove;
 import sk.stu.fiit.HraciaDoska.Move.NormalMove;
 import sk.stu.fiit.HraciaDoska.Tile;
 import sk.stu.fiit.Side;
@@ -27,8 +27,8 @@ public class Knight extends Piece {
         super(position, side, Type.KNIGHT, false);
     }
 
-    public Knight(int position, Side side, Type type, boolean hasMoved) {
-        super(position, side, type, hasMoved);
+    public Knight(int position, Side side, boolean hasMoved) {
+        super(position, side, Type.KNIGHT, hasMoved);
     }
 
     /**
@@ -63,7 +63,7 @@ public class Knight extends Piece {
                     final Piece pieceOnTile = possibleTile.getPiece();
                     //we can only move there is it's opposite side piece
                     if (pieceOnTile.getColorSide() != this.getColorSide()) {
-                        legalMoves.add(new AttackMove(board, this, possiblePosition, pieceOnTile));
+                        legalMoves.add(new NormalAttackMove(board, this, possiblePosition, pieceOnTile));
                     }
                 }
             }

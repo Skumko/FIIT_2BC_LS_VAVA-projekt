@@ -26,8 +26,8 @@ public class Queen extends Piece {
         super(position, side, Type.QUEEN, false);
     }
 
-    public Queen(int position, Side side, Type type, boolean hasMoved) {
-        super(position, side, type, hasMoved);
+    public Queen(int position, Side side, boolean hasMoved) {
+        super(position, side, Type.QUEEN, hasMoved);
     }
 
     /**
@@ -65,7 +65,7 @@ public class Queen extends Piece {
                         final Piece pieceAtTile = possibleTile.getPiece();
                         //we can only move there is it's opposite side piece
                         if (pieceAtTile.getColorSide() != this.getColorSide()) {
-                            legalMoves.add(new Move.AttackMove(board, this, possiblePosition, pieceAtTile));
+                            legalMoves.add(new Move.NormalAttackMove(board, this, possiblePosition, pieceAtTile));
                         }
                         //after we find a blocking piece, queen can no more move in that direction
                         //regardless of the side which that piece belongs to (only knight can jump over pieces)
