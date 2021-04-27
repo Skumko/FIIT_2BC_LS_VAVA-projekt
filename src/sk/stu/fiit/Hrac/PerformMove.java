@@ -20,7 +20,6 @@ public class PerformMove {
 
     public enum MoveStatus {
         DONE, ILLEGAL_MOVE, KING_IN_CHECK;
-
     }
 
     public PerformMove(Board makeMoveBoard, Move move, MoveStatus moveStatus) {

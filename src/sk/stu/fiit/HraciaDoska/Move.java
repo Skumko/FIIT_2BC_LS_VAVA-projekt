@@ -249,6 +249,7 @@ public abstract class Move {
             } else if (castlingRook.getPosition() == movedPiece.getPosition() - 4) {
                 return "0-0-0";
             }
+
             throw new RuntimeException("PIECES NOT PART OF CASTLING PROCCESS");
         }
 
@@ -267,6 +268,7 @@ public abstract class Move {
                     return move;
                 }
             }
+            //TO DO
             return null;
         }
 
