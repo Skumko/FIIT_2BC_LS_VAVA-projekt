@@ -29,6 +29,16 @@ public enum Side {
         public int getOppositeDirection() {
             return 1;
         }
+
+        @Override
+        public boolean isPromotionTile(int position) {
+            for (int i = 0; i < 8; i++) {
+                if (position == i) {
+                    return true;
+                }
+            }
+            return false;
+        }
     },
     BLACK {
         @Override
@@ -45,11 +55,23 @@ public enum Side {
         public int getOppositeDirection() {
             return -1;
         }
+
+        @Override
+        public boolean isPromotionTile(int position) {
+            for (int i = 56; i < 64; i++) {
+                if (position == i) {
+                    return true;
+                }
+            }
+            return false;
+        }
     };
 
     public abstract int getDirection();
 
     public abstract int getOppositeDirection();
+
+    public abstract boolean isPromotionTile(int position);
 
     public abstract Player pickSide(WhitePlayer whiteP, BlackPlayer blackP);
 
