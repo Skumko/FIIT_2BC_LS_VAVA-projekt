@@ -132,6 +132,14 @@ public class Guest {
         }
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean a) {
+        active = a;
+    }
+
     public InetAddress getLocalIP() {
         return guestIP;
     }
