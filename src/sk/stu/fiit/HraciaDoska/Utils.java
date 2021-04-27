@@ -14,6 +14,8 @@ import sk.stu.fiit.Figurky.Pawn;
 public class Utils {
 
     public static final int NUM_OF_TILES = 64;
+    public static final int WHITE_KING_BASE_POSITION = 60;
+    public static final int BLACK_KING_BASE_POSITION = 4;
 
     public static String getCoordinateNotation(int destinationCoordinate) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
