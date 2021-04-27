@@ -130,8 +130,25 @@ public class Pawn extends Piece {
     }
 
     public Piece getPromoted() {
-        //return MainWindow.getPromotionPiece(this.position, this.colorSide);
-        return new Queen(this.position, this.colorSide, false);
+        String[] options = {"Queen", "Knight", "Bishop", "Rook"};
+        //Integer[] options = {1, 3, 5, 7, 9, 11};
+        //Double[] options = {3.141, 1.618};
+        //Character[] options = {'a', 'b', 'c', 'd'};
+        int x = JOptionPane.showOptionDialog(null, "Choose the promotion piece.",
+                "PROMOTION",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        switch (x) {
+            case 0:
+                return new Queen(this.position, this.colorSide, false);
+            case 1:
+                return new Knight(this.position, this.colorSide, false);
+            case 2:
+                return new Bishop(this.position, this.colorSide, false);
+            case 3:
+                return new Rook(this.position, this.colorSide, false);
+            default:
+                return new Queen(this.position, this.colorSide, false);
+        }
     }
 
 }
