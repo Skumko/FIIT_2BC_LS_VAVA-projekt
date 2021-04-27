@@ -175,8 +175,90 @@ public class Board {
         return builder.toString();
     }
 
-    public String boardFromString(final String fenString) {
-        return "";
+    public Board boardFromString(final String fenString) {
+        final String[] fenParts = fenString.trim().split(" ");
+        final BoardBuilder builder = new BoardBuilder();
+        final boolean whiteKingSideCastle = fenParts[2].contains("K");
+        final boolean whiteQueenSideCastle = fenParts[2].contains("Q");
+        final boolean blackKingSideCastle = fenParts[2].contains("k");
+        final boolean blackQueenSideCastle = fenParts[2].contains("q");
+        final String boardConf = fenParts[0];
+        final char[] boardTiles = boardConf.replaceAll("/", "")
+                .replaceAll("8", "--------")
+                .replaceAll("7", "-------")
+                .replaceAll("6", "------")
+                .replaceAll("5", "-----")
+                .replaceAll("4", "----")
+                .replaceAll("3", "---")
+                .replaceAll("2", "--")
+                .replaceAll("1", "-")
+                .toCharArray();
+        int i = 0;
+        while (i < boardTiles.length) {
+            switch (boardTiles[i]) {
+                case 'r':
+                    builder.setPiece(new Rook(i, Side.BLACK));
+                    i++;
+                    break;
+                case 'n':
+                    builder.setPiece(new Knight(i, Side.BLACK));
+                    i++;
+                    break;
+                case 'b':
+                    builder.setPiece(new Bishop(i, Side.BLACK));
+                    i++;
+                    break;
+                case 'q':
+                    builder.setPiece(new Queen(i, Side.BLACK));
+                    i++;
+                    break;
+                case 'k':
+                    builder.setPiece(new King(i, Side.BLACK, blackKingSideCastle, blackQueenSideCastle));
+                    i++;
+                    break;
+                case 'p':
+                    builder.setPiece(new Pawn(i, Side.BLACK));
+                    i++;
+                    break;
+                case 'R':
+                    builder.setPiece(new Rook(i, Side.WHITE));
+                    i++;
+                    break;
+                case 'N':
+                    builder.setPiece(new Knight(i, Side.WHITE));
+                    i++;
+                    break;
+                case 'B':
+                    builder.setPiece(new Bishop(i, Side.WHITE));
+                    i++;
+                    break;
+                case 'Q':
+                    builder.setPiece(new Queen(i, Side.WHITE));
+                    i++;
+                    break;
+                case 'K':
+                    builder.setPiece(new King(i, Side.WHITE, whiteKingSideCastle, whiteQueenSideCastle));
+                    i++;
+                    break;
+                case 'P':
+                    builder.setPiece(new Pawn(i, Side.WHITE));
+                    i++;
+                    break;
+                case '-':
+                    i++;
+                    break;
+                default:
+                    throw new RuntimeException("Invalid FEN String " + boardConf);
+            }
+        }
+        if ("w".equals(fenParts[1])) {
+            builder.setNextToMove(Side.WHITE);
+        } else if ("b".equals(fenParts[1])) {
+            builder.setNextToMove(Side.BLACK);
+        } else {
+            throw new RuntimeException("MOVE MAKER IS NEITHER BLACK NOR WHITE!");
+        }
+        return builder.build();
     }
 
     public Player getCurrentPlayer() {
