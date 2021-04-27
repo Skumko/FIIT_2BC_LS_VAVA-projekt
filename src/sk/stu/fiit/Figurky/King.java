@@ -12,6 +12,7 @@ import java.util.List;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
 import sk.stu.fiit.HraciaDoska.Tile;
+import sk.stu.fiit.HraciaDoska.Utils;
 import sk.stu.fiit.Side;
 
 /**
@@ -32,14 +33,16 @@ public class King extends Piece {
         this.isCastled = false;
         this.canCastleKingside = canCastleKingside;
         this.canCastleQueenside = canCastleQueenside;
+        this.hasMoved = hasMoved();
     }
 
-    public King(int position, Side side, boolean hasMoved, final boolean isCastled,
+    public King(int position, Side side, final boolean isCastled,
             final boolean canCastleKingside, final boolean canCastleQueenside) {
-        super(position, side, Type.KING, hasMoved);
+        super(position, side, Type.KING, false);
         this.isCastled = isCastled;
         this.canCastleKingside = canCastleKingside;
         this.canCastleQueenside = canCastleQueenside;
+        this.hasMoved = hasMoved();
     }
 
     public boolean canCastleKingside() {
@@ -82,7 +85,7 @@ public class King extends Piece {
                     final Piece pieceOnTile = possibleTile.getPiece();
                     //we can only move there is it's opposite side piece
                     if (pieceOnTile.getColorSide() != this.getColorSide()) {
-                        legalMoves.add(new Move.AttackMove(board, this, possiblePosition, pieceOnTile));
+                        legalMoves.add(new Move.NormalAttackMove(board, this, possiblePosition, pieceOnTile));
                     }
                 }
             }
@@ -105,7 +108,19 @@ public class King extends Piece {
     }
 
     @Override
-    public King movePiece(Move move) {
-        return new King(move.getDestinationCoordinate(), move.getMovedPiece().getColorSide(), true, move.isCastlingMove(), false, false);
+    public final boolean hasMoved() {
+        if (this.getColorSide() == Side.WHITE && this.getPosition() == Utils.WHITE_KING_BASE_POSITION) {
+            return false;
+        }
+        if (this.getColorSide() == Side.BLACK && this.getPosition() == Utils.BLACK_KING_BASE_POSITION) {
+            return false;
+        }
+        return true;
     }
+
+    @Override
+    public King movePiece(Move move) {
+        return new King(move.getDestinationCoordinate(), this.getColorSide(), move.isCastlingMove(), false, false);
+    }
+
 }

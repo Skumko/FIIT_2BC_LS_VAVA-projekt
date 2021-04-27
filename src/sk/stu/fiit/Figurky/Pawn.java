@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.JOptionPane;
+import sk.stu.fiit.GUI.MainWindow;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
+import sk.stu.fiit.HraciaDoska.Move.Promotion;
 import sk.stu.fiit.Side;
 
 /**
@@ -25,8 +28,8 @@ public class Pawn extends Piece {
         super(position, side, Type.PAWN, false);
     }
 
-    public Pawn(int position, Side side, Type type, boolean hasMoved) {
-        super(position, side, type, hasMoved);
+    public Pawn(int position, Side side, boolean hasMoved) {
+        super(position, side, Type.PAWN, hasMoved);
     }
 
     /**
@@ -55,8 +58,12 @@ public class Pawn extends Piece {
 
             //moving forward to unoccupied tile
             if (currentOffset == 8 && !board.getTile(possiblePosition).hasPiece()) {
-                //to do
-                legalMoves.add(new Move.NormalMove(board, this, possiblePosition));
+                //check if the forward move is actually promoting
+                if (this.colorSide.isPromotionTile(possiblePosition)) {
+                    legalMoves.add(new Promotion(new Move.PawnMove(board, this, possiblePosition)));
+                } else {
+                    legalMoves.add(new Move.PawnMove(board, this, possiblePosition));
+                }
             } //moving forward two tiles as a first pawn move
             else if (currentOffset == 16 && !this.hasMoved()) {
 
@@ -73,7 +80,19 @@ public class Pawn extends Piece {
                 if (board.getTile(possiblePosition).hasPiece()) {
                     final Piece pieceOnTile = board.getTile(possiblePosition).getPiece();
                     if (this.getColorSide() != pieceOnTile.getColorSide()) {
-                        legalMoves.add(new Move.PawnAttackMove(board, this, possiblePosition, pieceOnTile));
+                        if (this.colorSide.isPromotionTile(possiblePosition)) {
+                            legalMoves.add(new Promotion(new Move.PawnAttackMove(board, this, possiblePosition, pieceOnTile)));
+                        } else {
+                            legalMoves.add(new Move.PawnAttackMove(board, this, possiblePosition, pieceOnTile));
+                        }
+                    }
+                } else if (board.getEnPassantPawn() != null) {
+                    //we have to check for the position of that pawn
+                    if (board.getEnPassantPawn().getPosition() == (this.position + this.getColorSide().getOppositeDirection())) {
+                        final Piece piece = board.getEnPassantPawn();
+                        if (piece.getColorSide() != this.getColorSide()) {
+                            legalMoves.add(new Move.EnPassantMove(board, this, possiblePosition, piece));
+                        }
                     }
                 }
             } else if (currentOffset == 9
@@ -82,7 +101,19 @@ public class Pawn extends Piece {
                 if (board.getTile(possiblePosition).hasPiece()) {
                     final Piece pieceOnTile = board.getTile(possiblePosition).getPiece();
                     if (this.getColorSide() != pieceOnTile.getColorSide()) {
-                        legalMoves.add(new Move.PawnAttackMove(board, this, possiblePosition, pieceOnTile));
+                        if (this.colorSide.isPromotionTile(possiblePosition)) {
+                            legalMoves.add(new Promotion(new Move.PawnAttackMove(board, this, possiblePosition, pieceOnTile)));
+                        } else {
+                            legalMoves.add(new Move.PawnAttackMove(board, this, possiblePosition, pieceOnTile));
+                        }
+                    }
+                } else if (board.getEnPassantPawn() != null) {
+                    //we have to check for the position of that pawn
+                    if (board.getEnPassantPawn().getPosition() == (this.position - this.getColorSide().getOppositeDirection())) {
+                        final Piece piece = board.getEnPassantPawn();
+                        if (piece.getColorSide() != this.getColorSide()) {
+                            legalMoves.add(new Move.EnPassantMove(board, this, possiblePosition, piece));
+                        }
                     }
                 }
 
@@ -96,6 +127,11 @@ public class Pawn extends Piece {
     @Override
     public Pawn movePiece(Move move) {
         return new Pawn(move.getDestinationCoordinate(), move.getMovedPiece().getColorSide());
+    }
+
+    public Piece getPromoted() {
+        return MainWindow.getPromotionPiece(this.position, this.colorSide);
+
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
-import static sk.stu.fiit.HraciaDoska.Move.AttackMove;
+import sk.stu.fiit.HraciaDoska.Move.NormalAttackMove;
 import static sk.stu.fiit.HraciaDoska.Move.NormalMove;
 import sk.stu.fiit.HraciaDoska.Tile;
 import sk.stu.fiit.Side;
@@ -28,8 +28,8 @@ public class Bishop extends Piece {
         super(position, side, Type.BISHOP, false);
     }
 
-    public Bishop(int position, Side side, Type type, boolean hasMoved) {
-        super(position, side, type, hasMoved);
+    public Bishop(int position, Side side, boolean hasMoved) {
+        super(position, side, Type.BISHOP, hasMoved);
     }
 
     /**
@@ -65,7 +65,7 @@ public class Bishop extends Piece {
                         final Piece pieceAtTile = possibleTile.getPiece();
                         //we can only move there is it's opposite side piece
                         if (pieceAtTile.getColorSide() != this.getColorSide()) {
-                            legalMoves.add(new AttackMove(board, this, possiblePosition, pieceAtTile));
+                            legalMoves.add(new NormalAttackMove(board, this, possiblePosition, pieceAtTile));
                         }
                         //after we find a blocking piece, bishop can no more move in that direction
                         //regardless of the side which that piece belongs to

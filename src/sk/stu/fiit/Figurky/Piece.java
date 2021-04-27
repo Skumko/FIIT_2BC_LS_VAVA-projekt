@@ -18,7 +18,7 @@ import sk.stu.fiit.Side;
 public abstract class Piece {
 
     protected final int position;
-    private final Side colorSide;
+    protected final Side colorSide;
     protected boolean hasMoved = false;
     private final Type pieceType;
     private final int savedHashCode;
