@@ -130,8 +130,8 @@ public class Pawn extends Piece {
     }
 
     public Piece getPromoted() {
-        return MainWindow.getPromotionPiece(this.position, this.colorSide);
-
+        //return MainWindow.getPromotionPiece(this.position, this.colorSide);
+        return new Queen(this.position, this.colorSide, false);
     }
 
 }
