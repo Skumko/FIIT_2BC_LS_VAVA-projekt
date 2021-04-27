@@ -24,6 +24,11 @@ public enum Side {
         public Player pickSide(final WhitePlayer whiteP, final BlackPlayer blackP) {
             return whiteP;
         }
+
+        @Override
+        public int getOppositeDirection() {
+            return 1;
+        }
     },
     BLACK {
         @Override
@@ -35,9 +40,16 @@ public enum Side {
         public Player pickSide(final WhitePlayer whiteP, final BlackPlayer blackP) {
             return blackP;
         }
+
+        @Override
+        public int getOppositeDirection() {
+            return -1;
+        }
     };
 
     public abstract int getDirection();
+
+    public abstract int getOppositeDirection();
 
     public abstract Player pickSide(WhitePlayer whiteP, BlackPlayer blackP);
 

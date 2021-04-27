@@ -36,4 +36,9 @@ public class WhitePlayer extends Player {
         return this.board.getBlackP();
     }
 
+    @Override
+    public String toString() {
+        return "w";
+    }
+
 }

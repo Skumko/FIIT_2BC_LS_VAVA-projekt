@@ -22,12 +22,32 @@ public class King extends Piece {
 
     private static final int[] POSSIBLE_MOVES_OFFSETS = {-9, -8, -7, -1, 1, 7, 8, 9};
 
-    public King(int position, Side side) {
+    private final boolean canCastleKingside;
+    private final boolean canCastleQueenside;
+    private final boolean isCastled;
+
+    public King(int position, Side side, final boolean canCastleKingside,
+            final boolean canCastleQueenside) {
         super(position, side, Type.KING, false);
+        this.isCastled = false;
+        this.canCastleKingside = canCastleKingside;
+        this.canCastleQueenside = canCastleQueenside;
     }
 
-    public King(int position, Side side, Type type, boolean hasMoved) {
-        super(position, side, type, hasMoved);
+    public King(int position, Side side, boolean hasMoved, final boolean isCastled,
+            final boolean canCastleKingside, final boolean canCastleQueenside) {
+        super(position, side, Type.KING, hasMoved);
+        this.isCastled = isCastled;
+        this.canCastleKingside = canCastleKingside;
+        this.canCastleQueenside = canCastleQueenside;
+    }
+
+    public boolean canCastleKingside() {
+        return this.canCastleKingside;
+    }
+
+    public boolean canCastleQueenside() {
+        return this.canCastleQueenside;
     }
 
     /**
@@ -86,6 +106,6 @@ public class King extends Piece {
 
     @Override
     public King movePiece(Move move) {
-        return new King(move.getDestinationCoordinate(), move.getMovedPiece().getColorSide());
+        return new King(move.getDestinationCoordinate(), move.getMovedPiece().getColorSide(), true, move.isCastlingMove(), false, false);
     }
 }

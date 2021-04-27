@@ -187,6 +187,12 @@ public abstract class Move {
             builder.setNextToMove(this.board.getCurrentPlayer().getOpponent().getPlayerSide());
             return builder.build();
         }
+
+        @Override
+        public String toString() {
+            return Utils.getCoordinateNotation(this.destinationCoordinate);
+        }
+
     }
 
     public static class PawnAttackMove extends AttackMove {

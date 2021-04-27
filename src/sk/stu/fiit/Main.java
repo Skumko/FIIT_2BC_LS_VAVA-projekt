@@ -18,7 +18,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Board board = Board.createStartBoard();
-        System.out.println(board);
+        System.out.println(board.toString());
     }
 
 }

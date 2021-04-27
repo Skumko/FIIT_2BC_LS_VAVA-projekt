@@ -33,6 +33,8 @@ public class Board {
     private final BlackPlayer blackP;
     private final Player currentPlayer;
 
+    private final Pawn enPassantPawn;
+
     private Board(final BoardBuilder builder) {
         this.boardTiles = createBoardTiles(builder);
         this.whitePieces = getActivePieces(builder, Side.WHITE);
@@ -44,6 +46,7 @@ public class Board {
         this.whiteP = new WhitePlayer(this, whiteInitialLegalMoves, blackInitialLegalMoves);
         this.blackP = new BlackPlayer(this, blackInitialLegalMoves, whiteInitialLegalMoves);
         this.currentPlayer = builder.nextToMove.pickSide(this.whiteP, this.blackP);
+        this.enPassantPawn = builder.enPassantPawn;
     }
 
     public Tile getTile(final int possiblePosition) {
@@ -64,6 +67,10 @@ public class Board {
 
     public BlackPlayer getBlackP() {
         return blackP;
+    }
+
+    public Pawn getEnPassantPawn() {
+        return this.enPassantPawn;
     }
 
     public Collection<Move> getAllLegalMoves() {
@@ -88,7 +95,7 @@ public class Board {
         builder.setPiece(new Knight(1, Side.BLACK));
         builder.setPiece(new Bishop(2, Side.BLACK));
         builder.setPiece(new Queen(3, Side.BLACK));
-        builder.setPiece(new King(4, Side.BLACK));
+        builder.setPiece(new King(4, Side.BLACK, true, true));
         builder.setPiece(new Bishop(5, Side.BLACK));
         builder.setPiece(new Knight(6, Side.BLACK));
         builder.setPiece(new Rook(7, Side.BLACK));
@@ -114,7 +121,7 @@ public class Board {
         builder.setPiece(new Knight(57, Side.WHITE));
         builder.setPiece(new Bishop(58, Side.WHITE));
         builder.setPiece(new Queen(59, Side.WHITE));
-        builder.setPiece(new King(60, Side.WHITE));
+        builder.setPiece(new King(60, Side.WHITE, true, true));
         builder.setPiece(new Bishop(61, Side.WHITE));
         builder.setPiece(new Knight(62, Side.WHITE));
         builder.setPiece(new Rook(63, Side.WHITE));
@@ -137,17 +144,39 @@ public class Board {
 
     @Override
     public String toString() {
+        //implementation to create fen string from board
         final StringBuilder builder = new StringBuilder();
+        int numberOfEmptyTiles = 0;
         for (int i = 0; i < Utils.NUM_OF_TILES; i++) {
-            final String tileString = this.boardTiles.get(i).toString();
-            builder.append(String.format("%3s", tileString));
-            //if we get to the edge of the rank
-            if ((i + 1) % 8 == 0) {
-                builder.append("\n");
+            if (i > 0 && i % 8 == 0) {
+                if (numberOfEmptyTiles != 0) {
+                    builder.append(numberOfEmptyTiles);
+                }
+                builder.append("/");
+                numberOfEmptyTiles = 0;
+            }
+            final Tile tile = this.boardTiles.get(i);
+            if (tile.hasPiece()) {
+                if (numberOfEmptyTiles != 0) {
+                    builder.append(numberOfEmptyTiles);
+                }
+                final String pieceString = this.boardTiles.get(i).toString();
+                builder.append(pieceString);
+            } else {
+                numberOfEmptyTiles++;
             }
 
         }
+        builder.append(" ").append(getCurrentPlayer().toString());
+        builder.append(" ").append(Utils.getCastlingCapabilites(this));
+        builder.append(" ").append(Utils.getEnPassantTile(this));
+        builder.append(" 0 1");
+
         return builder.toString();
+    }
+
+    public String boardFromString(final String fenString) {
+        return "";
     }
 
     public Player getCurrentPlayer() {
@@ -181,5 +210,6 @@ public class Board {
         void setEnPassantPawn(Pawn movedPawn) {
             this.enPassantPawn = movedPawn;
         }
+
     }
 }

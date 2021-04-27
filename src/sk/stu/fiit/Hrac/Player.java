@@ -160,4 +160,12 @@ public abstract class Player {
     public boolean isStalemate() {
         return false;
     }
+
+    public boolean canCastleKingside() {
+        return this.playerKing.canCastleKingside();
+    }
+
+    public boolean canCastleQueenside() {
+        return this.playerKing.canCastleQueenside();
+    }
 }
