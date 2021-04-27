@@ -41,11 +41,12 @@ public abstract class Piece {
         }
     }
 
-    public Piece(final int position, final Side side, Type type) {
+    public Piece(final int position, final Side side, Type type, boolean hasMoved) {
         this.position = position;
         this.colorSide = side;
         this.pieceType = type;
         this.savedHashCode = computeHash();
+        this.hasMoved = hasMoved;
     }
 
     public Side getColorSide() {

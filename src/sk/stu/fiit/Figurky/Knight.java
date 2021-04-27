@@ -24,7 +24,11 @@ public class Knight extends Piece {
     private final static int[] POSSIBLE_MOVES_OFFSETS = {-17, -15, -10, -6, 6, 10, 15, 17};
 
     public Knight(final int position, final Side side) {
-        super(position, side, Type.KNIGHT);
+        super(position, side, Type.KNIGHT, false);
+    }
+
+    public Knight(int position, Side side, Type type, boolean hasMoved) {
+        super(position, side, type, hasMoved);
     }
 
     /**

@@ -23,7 +23,11 @@ public class Queen extends Piece {
     private static final int[] POSSIBLE_MOVES_VECTORS = {-9, -8, -7, -1, 1, 7, 8, 9};
 
     public Queen(int position, Side side) {
-        super(position, side, Type.QUEEN);
+        super(position, side, Type.QUEEN, false);
+    }
+
+    public Queen(int position, Side side, Type type, boolean hasMoved) {
+        super(position, side, type, hasMoved);
     }
 
     /**

@@ -16,14 +16,16 @@ import static sk.stu.fiit.HraciaDoska.Board.BoardBuilder;
  */
 public abstract class Move {
 
-    final Board board;
-    final Piece movedPiece;
-    final int destinationCoordinate;
+    protected final Board board;
+    protected final Piece movedPiece;
+    protected final int destinationCoordinate;
+    protected final boolean isFirst;
 
     private Move(final Board board, final Piece movedPiece, final int destinationCoordinate) {
         this.board = board;
         this.movedPiece = movedPiece;
         this.destinationCoordinate = destinationCoordinate;
+        this.isFirst = !movedPiece.hasMoved();
     }
 
     public int getDestinationCoordinate() {
@@ -55,7 +57,6 @@ public abstract class Move {
 
         //get all allied pieces except the moved piece and place them on the new board
         for (final Piece piece : this.board.getCurrentPlayer().getActivePieces()) {
-            //TO DO will need to implement equals for piece
             if (!this.movedPiece.equals(piece)) {
                 builder.setPiece(piece);
             }
@@ -102,6 +103,10 @@ public abstract class Move {
             super(board, movedPiece, destinationCoordinate);
         }
 
+        @Override
+        public boolean equals(final Object other) {
+            return this == other || other instanceof NormalMove && super.equals(other);
+        }
     }
 
     public static class AttackMove extends Move {

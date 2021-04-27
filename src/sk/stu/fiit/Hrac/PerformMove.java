@@ -32,4 +32,8 @@ public class PerformMove {
         return moveStatus;
     }
 
+    public Board getMakeMoveBoard() {
+        return makeMoveBoard;
+    }
+
 }

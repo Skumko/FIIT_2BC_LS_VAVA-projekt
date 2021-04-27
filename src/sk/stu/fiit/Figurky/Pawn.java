@@ -22,7 +22,11 @@ public class Pawn extends Piece {
     private static final int[] POSSIBLE_MOVES_OFFSETS = {7, 8, 9, 16};
 
     public Pawn(int position, Side side) {
-        super(position, side, Type.PAWN);
+        super(position, side, Type.PAWN, false);
+    }
+
+    public Pawn(int position, Side side, Type type, boolean hasMoved) {
+        super(position, side, type, hasMoved);
     }
 
     /**
@@ -45,7 +49,7 @@ public class Pawn extends Piece {
 
             int possiblePosition = this.position + (this.getColorSide().getDirection() * currentOffset);
 
-            if (Piece.checkCoordinate(possiblePosition)) {
+            if (!Piece.checkCoordinate(possiblePosition)) {
                 continue;
             }
 
@@ -59,7 +63,7 @@ public class Pawn extends Piece {
                 //the tile which the pawn jumps over has to be empty
                 final int betweenTileCoordinate = this.position + this.getColorSide().getDirection() * 8;
                 if (!board.getTile(betweenTileCoordinate).hasPiece() && !board.getTile(possiblePosition).hasPiece()) {
-                    legalMoves.add(new Move.NormalMove(board, this, possiblePosition));
+                    legalMoves.add(new Move.PawnJump(board, this, possiblePosition));
                 }
 
             } //exclusion of attacking move when pawns are on 1st or 8th column
@@ -69,7 +73,7 @@ public class Pawn extends Piece {
                 if (board.getTile(possiblePosition).hasPiece()) {
                     final Piece pieceOnTile = board.getTile(possiblePosition).getPiece();
                     if (this.getColorSide() != pieceOnTile.getColorSide()) {
-                        //move when attacking TODO
+                        legalMoves.add(new Move.PawnAttackMove(board, this, possiblePosition, pieceOnTile));
                     }
                 }
             } else if (currentOffset == 9
@@ -78,7 +82,7 @@ public class Pawn extends Piece {
                 if (board.getTile(possiblePosition).hasPiece()) {
                     final Piece pieceOnTile = board.getTile(possiblePosition).getPiece();
                     if (this.getColorSide() != pieceOnTile.getColorSide()) {
-                        //add attacking move TODO
+                        legalMoves.add(new Move.PawnAttackMove(board, this, possiblePosition, pieceOnTile));
                     }
                 }
 

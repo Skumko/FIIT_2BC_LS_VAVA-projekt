@@ -143,13 +143,18 @@ public abstract class Player {
         return new PerformMove(boardAfterMove, move, MoveStatus.DONE);
     }
 
-    //TO DO - get status on the king safety
-    public boolean isInCheck() {
-        return false;
+    private boolean canEscape() {
+        return this.legalMoves.stream()
+                .anyMatch(move -> makeMove(move)
+                .getMoveStatus() == MoveStatus.DONE);
     }
 
-    public boolean isCheckmate() {
-        return false;
+    public boolean isInCheck() {
+        return this.isInCheck;
+    }
+
+    public boolean isInCheckMate() {
+        return this.isInCheck && !canEscape();
     }
 
     public boolean isStalemate() {
