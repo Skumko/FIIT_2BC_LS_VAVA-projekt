@@ -579,27 +579,36 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void comboGameBoardColorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboGameBoardColorItemStateChanged
         // TODO add your handling code here:
+        if (comboGameBoardColor.getSelectedItem() == null) {
+            return;
+        }
         String color = comboGameBoardColor.getSelectedItem().toString();
         if (color == null) {
             return;
         }
         switch (color) {
             case "Default":
+            case "Východzia":
                 lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "woodboard.png").toString()));
                 break;
             case "Blue":
+            case "Modrá":
                 lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "blueboard.png").toString()));
                 break;
             case "Brown":
+            case "Hnedá":
                 lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "brownboard.png").toString()));
                 break;
             case "Green":
+            case "Zelená":
                 lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "greenboard.png").toString()));
                 break;
             case "Grey":
+            case "Šedá":
                 lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "greyboard.png").toString()));
                 break;
             case "Red":
+            case "Červená":
                 lblGameBoard.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "boards", "redboard.png").toString()));
                 break;
             default:
@@ -1222,6 +1231,15 @@ public class MainWindow extends javax.swing.JFrame {
         btnInitRules.setText(bundle.getString("RULES"));
         btnOfferPat.setText(bundle.getString("OFFER_PAT"));
         btnSurrender.setText(bundle.getString("SURRENDER"));
+        
+        //combobox for board customization
+        comboGameBoardColor.removeAllItems();
+        comboGameBoardColor.addItem(bundle.getString("DEFAULT"));
+        comboGameBoardColor.addItem(bundle.getString("BLUE"));
+        comboGameBoardColor.addItem(bundle.getString("BROWN"));
+        comboGameBoardColor.addItem(bundle.getString("GREEN"));
+        comboGameBoardColor.addItem(bundle.getString("GREY"));
+        comboGameBoardColor.addItem(bundle.getString("RED"));
     }
 
     @Retention(RetentionPolicy.SOURCE)
