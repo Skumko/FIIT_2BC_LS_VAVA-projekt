@@ -30,12 +30,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import sk.stu.fiit.Figurky.Piece;
 import sk.stu.fiit.Hrac.PerformMove;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
 import sk.stu.fiit.HraciaDoska.Move.CastlingMove;
+import sk.stu.fiit.Side;
 import sk.stu.fiit.sockets.Guest;
 import sk.stu.fiit.sockets.Host;
 
@@ -99,6 +101,15 @@ public class MainWindow extends javax.swing.JFrame {
         btnLanguageEN = new javax.swing.JButton();
         lblLocalIP = new javax.swing.JLabel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
+        panelInit = new javax.swing.JPanel();
+        txtOpponentsIP = new javax.swing.JTextField();
+        lblInitEnterIP = new javax.swing.JLabel();
+        btnInitRules = new javax.swing.JButton();
+        btnIintCreateGame = new javax.swing.JButton();
+        btnInitPlayOffline = new javax.swing.JButton();
+        btnInitJoinGame = new javax.swing.JButton();
+        lblInitGameName = new javax.swing.JLabel();
+        lblInitGameShortcut = new javax.swing.JLabel();
         panelGame = new javax.swing.JPanel();
         panelGameBoard = new javax.swing.JPanel();
         whitePawnA = new javax.swing.JLabel();
@@ -154,15 +165,6 @@ public class MainWindow extends javax.swing.JFrame {
         lblGamePlayerTimer = new javax.swing.JLabel();
         btnOfferPat = new javax.swing.JButton();
         btnSurrender = new javax.swing.JButton();
-        panelInit = new javax.swing.JPanel();
-        txtOpponentsIP = new javax.swing.JTextField();
-        lblInitEnterIP = new javax.swing.JLabel();
-        btnInitRules = new javax.swing.JButton();
-        btnIintCreateGame = new javax.swing.JButton();
-        btnInitPlayOffline = new javax.swing.JButton();
-        btnInitJoinGame = new javax.swing.JButton();
-        lblInitGameName = new javax.swing.JLabel();
-        lblInitGameShortcut = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OMGOC - OnlineMultiplayerGameOfChess");
@@ -200,6 +202,83 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLayeredPane1.setPreferredSize(new java.awt.Dimension(1400, 900));
         jLayeredPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelInit.setBackground(new java.awt.Color(0, 40, 60));
+        panelInit.setPreferredSize(new java.awt.Dimension(1400, 900));
+        panelInit.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtOpponentsIP.setBackground(new java.awt.Color(200, 200, 200));
+        txtOpponentsIP.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        txtOpponentsIP.setForeground(new java.awt.Color(102, 102, 0));
+        txtOpponentsIP.setPreferredSize(new java.awt.Dimension(320, 50));
+        panelInit.add(txtOpponentsIP, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 460, 320, 50));
+
+        lblInitEnterIP.setBackground(new java.awt.Color(200, 200, 200));
+        lblInitEnterIP.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lblInitEnterIP.setForeground(new java.awt.Color(200, 200, 200));
+        lblInitEnterIP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInitEnterIP.setText("Enter opponent's IP address:");
+        panelInit.add(lblInitEnterIP, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 400, 600, -1));
+
+        btnInitRules.setBackground(new java.awt.Color(175, 175, 175));
+        btnInitRules.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btnInitRules.setForeground(new java.awt.Color(102, 102, 0));
+        btnInitRules.setText("Rules");
+        btnInitRules.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnInitRulesMouseReleased(evt);
+            }
+        });
+        panelInit.add(btnInitRules, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 780, 320, 60));
+
+        btnIintCreateGame.setBackground(new java.awt.Color(175, 175, 175));
+        btnIintCreateGame.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btnIintCreateGame.setForeground(new java.awt.Color(102, 102, 0));
+        btnIintCreateGame.setText("Create game");
+        btnIintCreateGame.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnIintCreateGameMouseReleased(evt);
+            }
+        });
+        panelInit.add(btnIintCreateGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 550, 320, 60));
+
+        btnInitPlayOffline.setBackground(new java.awt.Color(175, 175, 175));
+        btnInitPlayOffline.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btnInitPlayOffline.setForeground(new java.awt.Color(102, 102, 0));
+        btnInitPlayOffline.setText("Play offline game");
+        btnInitPlayOffline.setPreferredSize(new java.awt.Dimension(380, 60));
+        btnInitPlayOffline.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnInitPlayOfflineMouseReleased(evt);
+            }
+        });
+        panelInit.add(btnInitPlayOffline, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 660, 380, 60));
+
+        btnInitJoinGame.setBackground(new java.awt.Color(175, 175, 175));
+        btnInitJoinGame.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btnInitJoinGame.setForeground(new java.awt.Color(102, 102, 0));
+        btnInitJoinGame.setText("Join game");
+        btnInitJoinGame.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnInitJoinGameMouseReleased(evt);
+            }
+        });
+        panelInit.add(btnInitJoinGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 550, 320, 60));
+
+        lblInitGameName.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
+        lblInitGameName.setForeground(new java.awt.Color(102, 102, 0));
+        lblInitGameName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInitGameName.setText(" Online Multiplayer Game Of Chess ");
+        panelInit.add(lblInitGameName, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, 600, -1));
+
+        lblInitGameShortcut.setFont(new java.awt.Font("Tahoma", 1, 150)); // NOI18N
+        lblInitGameShortcut.setForeground(new java.awt.Color(102, 102, 0));
+        lblInitGameShortcut.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInitGameShortcut.setText("OMGOC");
+        lblInitGameShortcut.setPreferredSize(new java.awt.Dimension(700, 200));
+        panelInit.add(lblInitGameShortcut, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, -1, -1));
+
+        jLayeredPane1.add(panelInit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         panelGame.setBackground(new java.awt.Color(0, 40, 60));
         panelGame.setPreferredSize(new java.awt.Dimension(1400, 900));
@@ -442,83 +521,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLayeredPane1.add(panelGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        panelInit.setBackground(new java.awt.Color(0, 40, 60));
-        panelInit.setPreferredSize(new java.awt.Dimension(1400, 900));
-        panelInit.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtOpponentsIP.setBackground(new java.awt.Color(200, 200, 200));
-        txtOpponentsIP.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        txtOpponentsIP.setForeground(new java.awt.Color(102, 102, 0));
-        txtOpponentsIP.setPreferredSize(new java.awt.Dimension(320, 50));
-        panelInit.add(txtOpponentsIP, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 460, 320, 50));
-
-        lblInitEnterIP.setBackground(new java.awt.Color(200, 200, 200));
-        lblInitEnterIP.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        lblInitEnterIP.setForeground(new java.awt.Color(200, 200, 200));
-        lblInitEnterIP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInitEnterIP.setText("Enter opponent's IP address:");
-        panelInit.add(lblInitEnterIP, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 400, 600, -1));
-
-        btnInitRules.setBackground(new java.awt.Color(175, 175, 175));
-        btnInitRules.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        btnInitRules.setForeground(new java.awt.Color(102, 102, 0));
-        btnInitRules.setText("Rules");
-        btnInitRules.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnInitRulesMouseReleased(evt);
-            }
-        });
-        panelInit.add(btnInitRules, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 780, 320, 60));
-
-        btnIintCreateGame.setBackground(new java.awt.Color(175, 175, 175));
-        btnIintCreateGame.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        btnIintCreateGame.setForeground(new java.awt.Color(102, 102, 0));
-        btnIintCreateGame.setText("Create game");
-        btnIintCreateGame.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnIintCreateGameMouseReleased(evt);
-            }
-        });
-        panelInit.add(btnIintCreateGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 550, 320, 60));
-
-        btnInitPlayOffline.setBackground(new java.awt.Color(175, 175, 175));
-        btnInitPlayOffline.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        btnInitPlayOffline.setForeground(new java.awt.Color(102, 102, 0));
-        btnInitPlayOffline.setText("Play offline game");
-        btnInitPlayOffline.setPreferredSize(new java.awt.Dimension(380, 60));
-        btnInitPlayOffline.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnInitPlayOfflineMouseReleased(evt);
-            }
-        });
-        panelInit.add(btnInitPlayOffline, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 660, 380, 60));
-
-        btnInitJoinGame.setBackground(new java.awt.Color(175, 175, 175));
-        btnInitJoinGame.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        btnInitJoinGame.setForeground(new java.awt.Color(102, 102, 0));
-        btnInitJoinGame.setText("Join game");
-        btnInitJoinGame.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnInitJoinGameMouseReleased(evt);
-            }
-        });
-        panelInit.add(btnInitJoinGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 550, 320, 60));
-
-        lblInitGameName.setFont(new java.awt.Font("Tahoma", 2, 36)); // NOI18N
-        lblInitGameName.setForeground(new java.awt.Color(102, 102, 0));
-        lblInitGameName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInitGameName.setText(" Online Multiplayer Game Of Chess ");
-        panelInit.add(lblInitGameName, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, 600, -1));
-
-        lblInitGameShortcut.setFont(new java.awt.Font("Tahoma", 1, 150)); // NOI18N
-        lblInitGameShortcut.setForeground(new java.awt.Color(102, 102, 0));
-        lblInitGameShortcut.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInitGameShortcut.setText("OMGOC");
-        lblInitGameShortcut.setPreferredSize(new java.awt.Dimension(700, 200));
-        panelInit.add(lblInitGameShortcut, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, -1, -1));
-
-        jLayeredPane1.add(panelInit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
         getContentPane().add(jLayeredPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
@@ -567,6 +569,21 @@ public class MainWindow extends javax.swing.JFrame {
                 checkKing(!isWhite);                                            //show red King figure
             } else {                                                            //opponents king is not in check
                 uncheckKings();                                                 //set default images to both kings
+            }
+            if (board.getCurrentPlayer().isStalemate()) {                       //stalemate
+                JOptionPane.showMessageDialog(null, "Stalemate!");
+                new MainWindow().setVisible(true);
+                this.dispose();
+            }
+            if (board.getCurrentPlayer().isInCheckMate()) {                     //checkmate
+                if (board.getCurrentPlayer().getPlayerSide() == Side.WHITE) {
+                    JOptionPane.showMessageDialog(null, "Checkmate!\nWhite player wins");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Checkmate!\nBlack player wins");
+                }
+//                showInit();
+                new MainWindow().setVisible(true);
+                this.dispose();
             }
             /*
             TO-DO
@@ -805,6 +822,85 @@ public class MainWindow extends javax.swing.JFrame {
         nextPosBlackElim[1] = 70;
         nextPosWhiteElim[0] = 810;
         nextPosWhiteElim[1] = 710;
+    }
+
+    private void resetFiguresPosition() {
+        new MainWindow().setVisible(true);
+        this.dispose();
+        List<JLabel> figures = List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
+                whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing,
+                blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
+                blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
+        figures.stream()
+                .forEach(figure -> rescale((ImageIcon) figure.getIcon(), 100, 100));
+
+        blackPawnA.setBounds(0, 100, 100, 100);
+        blackPawnB.setBounds(100, 100, 100, 100);
+        blackPawnC.setBounds(200, 100, 100, 100);
+        blackPawnD.setBounds(300, 100, 100, 100);
+        blackPawnE.setBounds(400, 100, 100, 100);
+        blackPawnF.setBounds(500, 100, 100, 100);
+        blackPawnG.setBounds(600, 100, 100, 100);
+        blackPawnH.setBounds(700, 100, 100, 100);
+        blackRookL.setBounds(0, 0, 100, 100);
+        blackKnightL.setBounds(100, 0, 100, 100);
+        blackBishopL.setBounds(200, 0, 100, 100);
+        blackQueen.setBounds(300, 0, 100, 100);
+        blackKing.setBounds(400, 0, 100, 100);
+        blackBishopR.setBounds(500, 0, 100, 100);
+        blackKnightR.setBounds(600, 0, 100, 100);
+        blackRookR.setBounds(700, 0, 100, 100);
+
+        whitePawnA.setBounds(0, 600, 100, 100);
+        whitePawnB.setBounds(100, 600, 100, 100);
+        whitePawnC.setBounds(200, 600, 100, 100);
+        whitePawnD.setBounds(300, 600, 100, 100);
+        whitePawnE.setBounds(400, 600, 100, 100);
+        whitePawnF.setBounds(500, 600, 100, 100);
+        whitePawnG.setBounds(600, 600, 100, 100);
+        whitePawnH.setBounds(700, 600, 100, 100);
+        whiteRookL.setBounds(0, 700, 100, 100);
+        whiteKnightL.setBounds(100, 700, 100, 100);
+        whiteBishopL.setBounds(200, 700, 100, 100);
+        whiteQueen.setBounds(300, 700, 100, 100);
+        whiteKing.setBounds(400, 700, 100, 100);
+        whiteBishopR.setBounds(500, 700, 100, 100);
+        whiteKnightR.setBounds(600, 700, 100, 100);
+        whiteRookR.setBounds(700, 700, 100, 100);
+
+        blackPawnA.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
+        blackPawnB.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
+        blackPawnC.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
+        blackPawnD.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
+        blackPawnE.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
+        blackPawnF.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
+        blackPawnG.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
+        blackPawnH.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
+        blackRookL.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BR.png").toString()));
+        blackKnightL.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BN.png").toString()));
+        blackBishopL.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BB.png").toString()));
+        blackQueen.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BQ.png").toString()));
+        blackKing.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BK.png").toString()));
+        blackBishopR.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BB.png").toString()));
+        blackKnightR.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BN.png").toString()));
+        blackRookR.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BR.png").toString()));
+
+        whitePawnA.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
+        whitePawnB.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
+        whitePawnC.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
+        whitePawnD.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
+        whitePawnE.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
+        whitePawnF.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
+        whitePawnG.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
+        whitePawnH.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
+        whiteRookL.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WR.png").toString()));
+        whiteKnightL.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WN.png").toString()));
+        whiteBishopL.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WB.png").toString()));
+        whiteQueen.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WQ.png").toString()));
+        whiteKing.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WK.png").toString()));
+        whiteBishopR.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WB.png").toString()));
+        whiteKnightR.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WN.png").toString()));
+        whiteRookR.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WR.png").toString()));
     }
 
     /**
@@ -1231,7 +1327,7 @@ public class MainWindow extends javax.swing.JFrame {
         btnInitRules.setText(bundle.getString("RULES"));
         btnOfferPat.setText(bundle.getString("OFFER_PAT"));
         btnSurrender.setText(bundle.getString("SURRENDER"));
-        
+
         //combobox for board customization
         comboGameBoardColor.removeAllItems();
         comboGameBoardColor.addItem(bundle.getString("DEFAULT"));
