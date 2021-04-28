@@ -835,7 +835,9 @@ public class MainWindow extends javax.swing.JFrame {
 
             if (move.isAttack()) {                                              //if it is a attack move, eliminate attacked figure
                 JLabel attackedFigure = getLabelBySector(sector);               //get JLabel of figure by sector
-                if (attackedFigure == null) {
+                if (move instanceof Move.EnPassantMove) {
+                    attackedFigure = isWhite ? getLabelBySector(sector +8) : getLabelBySector(sector - 8);
+                } else if (attackedFigure == null) {
                     throw new RuntimeException("Mismatch between game logic attacked piece and GUI attacked piece");
                 }
                 eliminateFigure(attackedFigure, !isWhite);                      //eliminate figure
