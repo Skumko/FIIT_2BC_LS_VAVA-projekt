@@ -543,6 +543,11 @@ public class MainWindow extends javax.swing.JFrame {
             Board boardBeforeMove = board;
             board = perfMove.getMakeMoveBoard();
             printMove(move, boardBeforeMove);
+            if (board.getCurrentPlayer().isInCheck()) {     //if i get opponents king in check
+                checkKing(!isWhite);        //show red King figure
+            } else {                                                                   //opponents king is not in check
+                uncheckKings();
+            }
             /*
             TO-DO
             add move history
@@ -1084,6 +1089,10 @@ public class MainWindow extends javax.swing.JFrame {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * XORs field {@link #isWhite}. Switches mouse listeners to figures of new
+     * color.
+     */
     private void switchSides() {
         removeMouseListeners(isWhite);
         //inverts boolean value
@@ -1143,6 +1152,19 @@ public class MainWindow extends javax.swing.JFrame {
      */
     private void figureListener(java.awt.event.MouseEvent evt) {
         showPossibleMoves((JLabel) evt.getComponent());
+    }
+
+    private void checkKing(boolean isWhite) {
+        if (isWhite) {
+            whiteKing.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WKcheck.png").toString()));
+        } else {
+            blackKing.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BKcheck.png").toString()));
+        }
+    }
+
+    private void uncheckKings() {
+        whiteKing.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WK.png").toString()));
+        blackKing.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BK.png").toString()));
     }
 
     private void updateLocaleTexts() {
