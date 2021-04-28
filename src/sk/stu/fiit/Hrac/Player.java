@@ -36,7 +36,6 @@ public abstract class Player {
         myLegalMoves.addAll(checkCastling(myLegalMoves, opponentLegalMoves));
         this.legalMoves = Collections.unmodifiableCollection(myLegalMoves);
         this.isInCheck = !calculateOpponentsAttacksOnTile(this.playerKing.getPosition(), opponentLegalMoves).isEmpty();
-
     }
 
     public abstract Collection<Piece> getActivePieces();
@@ -158,7 +157,7 @@ public abstract class Player {
     }
 
     public boolean isStalemate() {
-        return false;
+        return !this.isInCheck && !canEscape();
     }
 
     public boolean canCastleKingside() {
