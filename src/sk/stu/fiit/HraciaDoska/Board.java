@@ -39,14 +39,13 @@ public class Board {
         this.boardTiles = createBoardTiles(builder);
         this.whitePieces = getActivePieces(builder, Side.WHITE);
         this.blackPieces = getActivePieces(builder, Side.BLACK);
-
+        this.enPassantPawn = builder.enPassantPawn;
         final Collection<Move> whiteInitialLegalMoves = getPiecesLegalMoves(this.whitePieces);
         final Collection<Move> blackInitialLegalMoves = getPiecesLegalMoves(this.blackPieces);
 
         this.whiteP = new WhitePlayer(this, whiteInitialLegalMoves, blackInitialLegalMoves);
         this.blackP = new BlackPlayer(this, blackInitialLegalMoves, whiteInitialLegalMoves);
         this.currentPlayer = builder.nextToMove.pickSide(this.whiteP, this.blackP);
-        this.enPassantPawn = builder.enPassantPawn;
     }
 
     public Tile getTile(final int possiblePosition) {

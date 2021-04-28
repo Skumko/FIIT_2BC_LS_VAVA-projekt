@@ -89,7 +89,6 @@ public class Pawn extends Piece {
                     }
                 }
                 if (board.getEnPassantPawn() != null) {
-                    System.out.println("there is an enpassant pawn");
                     //we have to check for the position of that pawn
                     if (board.getEnPassantPawn().getPosition() == (this.position + this.getColorSide().getOppositeDirection())) {
                         final Piece piece = board.getEnPassantPawn();
