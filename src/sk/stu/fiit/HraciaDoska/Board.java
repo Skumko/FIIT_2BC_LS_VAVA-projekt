@@ -39,14 +39,13 @@ public class Board {
         this.boardTiles = createBoardTiles(builder);
         this.whitePieces = getActivePieces(builder, Side.WHITE);
         this.blackPieces = getActivePieces(builder, Side.BLACK);
-
+        this.enPassantPawn = builder.enPassantPawn;
         final Collection<Move> whiteInitialLegalMoves = getPiecesLegalMoves(this.whitePieces);
         final Collection<Move> blackInitialLegalMoves = getPiecesLegalMoves(this.blackPieces);
 
         this.whiteP = new WhitePlayer(this, whiteInitialLegalMoves, blackInitialLegalMoves);
         this.blackP = new BlackPlayer(this, blackInitialLegalMoves, whiteInitialLegalMoves);
         this.currentPlayer = builder.nextToMove.pickSide(this.whiteP, this.blackP);
-        this.enPassantPawn = builder.enPassantPawn;
     }
 
     public Tile getTile(final int possiblePosition) {
@@ -67,6 +66,10 @@ public class Board {
 
     public BlackPlayer getBlackP() {
         return blackP;
+    }
+
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
     }
 
     public Pawn getEnPassantPawn() {
@@ -261,8 +264,20 @@ public class Board {
         return builder.build();
     }
 
-    public Player getCurrentPlayer() {
-        return this.currentPlayer;
+    public Board createPromotionBoard(Board board, int promotionPawnCoordinate, Piece promotionPiece) {
+        final BoardBuilder builder = new BoardBuilder();
+        for (final Piece piece : board.getCurrentPlayer().getActivePieces()) {
+            builder.setPiece(piece);
+        }
+        for (final Piece piece : board.getCurrentPlayer().getOpponent().getActivePieces()) {
+            if (piece.getPosition() != promotionPawnCoordinate) {
+                builder.setPiece(piece);
+            } else {
+                builder.setPiece(promotionPiece);
+            }
+        }
+        builder.setNextToMove(board.getCurrentPlayer().getPlayerSide());
+        return builder.build();
     }
 
     public static class BoardBuilder {

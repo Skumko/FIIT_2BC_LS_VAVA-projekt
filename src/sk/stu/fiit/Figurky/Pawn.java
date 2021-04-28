@@ -89,7 +89,6 @@ public class Pawn extends Piece {
                     }
                 }
                 if (board.getEnPassantPawn() != null) {
-                    System.out.println("there is an enpassant pawn");
                     //we have to check for the position of that pawn
                     if (board.getEnPassantPawn().getPosition() == (this.position + this.getColorSide().getOppositeDirection())) {
                         final Piece piece = board.getEnPassantPawn();
@@ -153,6 +152,7 @@ public class Pawn extends Piece {
         return new Pawn(move.getDestinationCoordinate(), move.getMovedPiece().getColorSide());
     }
 
+    @Deprecated
     public Piece getPromoted() {
 //        String[] options = {"Queen", "Knight", "Bishop", "Rook"};
 //        int x = JOptionPane.showOptionDialog(null, "Choose the promotion piece.",
