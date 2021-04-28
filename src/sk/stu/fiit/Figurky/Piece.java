@@ -77,6 +77,13 @@ public abstract class Piece {
         return pieceType;
     }
 
+    public boolean isDuplicatePiece() {
+        if (this.pieceType == Type.KNIGHT || this.pieceType == Type.ROOK) {
+            return true;
+        }
+        return false;
+    }
+
     private int computeHash() {
         int hash = 7;
         hash = 31 * hash + pieceType.hashCode();

@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.JOptionPane;
-import sk.stu.fiit.GUI.MainWindow;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
 import sk.stu.fiit.HraciaDoska.Move.Promotion;
@@ -26,10 +25,12 @@ public class Pawn extends Piece {
 
     public Pawn(int position, Side side) {
         super(position, side, Type.PAWN, false);
+        this.hasMoved = hasMoved();
     }
 
     public Pawn(int position, Side side, boolean hasMoved) {
         super(position, side, Type.PAWN, hasMoved);
+        this.hasMoved = hasMoved();
     }
 
     /**
@@ -87,6 +88,7 @@ public class Pawn extends Piece {
                         }
                     }
                 } else if (board.getEnPassantPawn() != null) {
+                    System.out.println("there is an enpassant pawn");
                     //we have to check for the position of that pawn
                     if (board.getEnPassantPawn().getPosition() == (this.position + this.getColorSide().getOppositeDirection())) {
                         final Piece piece = board.getEnPassantPawn();
@@ -125,15 +127,32 @@ public class Pawn extends Piece {
     }
 
     @Override
+    public boolean hasMoved() {
+        if (this.getColorSide() == Side.WHITE) {
+            for (int i = 48; i < 56; i++) {
+                if (this.position == i) {
+                    return false;
+                }
+            }
+            return true;
+        } else if (this.getColorSide() == Side.BLACK) {
+            for (int i = 8; i < 16; i++) {
+                if (this.position == i) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        throw new RuntimeException("WRONG PIECE COLOR");
+    }
+
+    @Override
     public Pawn movePiece(Move move) {
         return new Pawn(move.getDestinationCoordinate(), move.getMovedPiece().getColorSide());
     }
 
     public Piece getPromoted() {
         String[] options = {"Queen", "Knight", "Bishop", "Rook"};
-        //Integer[] options = {1, 3, 5, 7, 9, 11};
-        //Double[] options = {3.141, 1.618};
-        //Character[] options = {'a', 'b', 'c', 'd'};
         int x = JOptionPane.showOptionDialog(null, "Choose the promotion piece.",
                 "PROMOTION",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
