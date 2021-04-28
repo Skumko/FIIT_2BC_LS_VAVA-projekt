@@ -21,7 +21,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,16 +53,17 @@ public class MainWindow extends javax.swing.JFrame {
 
         panelGameBoard.setLayout(null); //setting layout to null to be able to move with figures
         printMyIp(lblLocalIP);          //sets text of IPlabel  to local IP
-        //color is set in game initialization
-//        addMouseListeners(false);
     }
+
+    public static Locale locale = new Locale("sk-SK");
+    public static ResourceBundle bundle = ResourceBundle.getBundle("sk.stu.fiit.resources.resources", locale);
 
     private int[] nextPosBlackElim = {810, 70};
     private int[] nextPosWhiteElim = {810, 710};
     private List<JLabel> dots = new ArrayList<>();
     private long nextDot = 0;
 
-    private Board board = null;     //initialize with createStartBoard
+    private Board board = null;
     private boolean isWhite;
 
     private JLabel selectedFigure = null;
@@ -166,19 +169,23 @@ public class MainWindow extends javax.swing.JFrame {
         panelLanguage.setOpaque(false);
         panelLanguage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btnLanguageSK.setText("SK");
+        btnLanguageSK.setPreferredSize(new java.awt.Dimension(50, 30));
         btnLanguageSK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 btnLanguageSKMouseReleased(evt);
             }
         });
-        panelLanguage.add(btnLanguageSK, new org.netbeans.lib.awtextra.AbsoluteConstraints(1360, 10, 30, 30));
+        panelLanguage.add(btnLanguageSK, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 10, -1, -1));
 
+        btnLanguageEN.setText("EN");
+        btnLanguageEN.setPreferredSize(new java.awt.Dimension(50, 30));
         btnLanguageEN.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 btnLanguageENMouseReleased(evt);
             }
         });
-        panelLanguage.add(btnLanguageEN, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 10, 30, 30));
+        panelLanguage.add(btnLanguageEN, new org.netbeans.lib.awtextra.AbsoluteConstraints(1280, 10, -1, -1));
 
         lblLocalIP.setForeground(new java.awt.Color(200, 200, 200));
         lblLocalIP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -415,14 +422,16 @@ public class MainWindow extends javax.swing.JFrame {
         btnOfferPat.setForeground(new java.awt.Color(100, 100, 100));
         btnOfferPat.setText("Offer pat");
         btnOfferPat.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 0), 4, true));
-        panelGame.add(btnOfferPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 720, 170, 60));
+        btnOfferPat.setPreferredSize(new java.awt.Dimension(250, 60));
+        panelGame.add(btnOfferPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 720, -1, -1));
 
         btnSurrender.setBackground(new java.awt.Color(175, 175, 175));
         btnSurrender.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         btnSurrender.setForeground(new java.awt.Color(153, 0, 0));
         btnSurrender.setText("Surrender");
         btnSurrender.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 0), 4, true));
-        panelGame.add(btnSurrender, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 790, 170, 60));
+        btnSurrender.setPreferredSize(new java.awt.Dimension(250, 60));
+        panelGame.add(btnSurrender, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 790, -1, -1));
 
         jLayeredPane1.add(panelGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -571,14 +580,20 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnLanguageENMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLanguageENMouseReleased
         // TODO add your handling code here:
-        panelGame.setVisible(false);
-        panelInit.setVisible(true);
+        locale = Locale.ENGLISH;
+        bundle = ResourceBundle.getBundle("sk.stu.fiit.resources.resources", Locale.ROOT);
+        updateLocaleTexts();
+//        panelGame.setVisible(false);
+//        panelInit.setVisible(true);
     }//GEN-LAST:event_btnLanguageENMouseReleased
 
     private void btnLanguageSKMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLanguageSKMouseReleased
         // TODO add your handling code here:
-        panelGame.setVisible(true);
-        panelInit.setVisible(false);
+        locale = new Locale("sk-SK");
+        bundle = ResourceBundle.getBundle("sk.stu.fiit.resources.resources", locale);
+        updateLocaleTexts();
+//        panelGame.setVisible(true);
+//        panelInit.setVisible(false);
     }//GEN-LAST:event_btnLanguageSKMouseReleased
 
     private void btnInitRulesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInitRulesMouseReleased
@@ -1072,6 +1087,18 @@ public class MainWindow extends javax.swing.JFrame {
      */
     private void figureListener(java.awt.event.MouseEvent evt) {
         showPossibleMoves((JLabel) evt.getComponent());
+    }
+
+    private void updateLocaleTexts() {
+        lblInitEnterIP.setText(bundle.getString("ENTER_IP"));
+        lblGameBoardColor.setText(bundle.getString("CUSTOMIZE_BOARD"));
+        lblGameMoveHistory.setText(bundle.getString("MOVE_HISTORY"));
+        btnIintCreateGame.setText(bundle.getString("CREATE_GAME"));
+        btnInitJoinGame.setText(bundle.getString("JOIN_GAME"));
+        btnInitPlayOffline.setText(bundle.getString("PLAY_OFFLINE"));
+        btnInitRules.setText(bundle.getString("RULES"));
+        btnOfferPat.setText(bundle.getString("OFFER_PAT"));
+        btnSurrender.setText(bundle.getString("SURRENDER"));
     }
 
     @Retention(RetentionPolicy.SOURCE)
