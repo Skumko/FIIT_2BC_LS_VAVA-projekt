@@ -539,7 +539,8 @@ public class MainWindow extends javax.swing.JFrame {
             }
             List<Integer> posMoves = getPossibleMoves(board, xyToOne(selectedFigure.getX() / 100, selectedFigure.getY() / 100));
             moveFigure(selectedFigure, xyToOne(evt.getX() / 100, evt.getY() / 100), posMoves);
-
+            Board boardBeforeMove = board;
+            board = perfMove.getMakeMoveBoard();
             //nahradit println move history logikou
             if (board.getCurrentPlayer().isInCheckMate()) {
                 System.out.println(move.toString() + "#");
@@ -552,12 +553,22 @@ public class MainWindow extends javax.swing.JFrame {
             } else {
                 if (move.getMovedPiece().isDuplicatePiece()) {
                     boolean possibleDuplicate = false;
-                    for (Piece piece : board.getCurrentPlayer().getActivePieces()) {
+                    for (Piece piece : boardBeforeMove.getCurrentPlayer().getActivePieces()) {
                         if (piece.getPieceType() == move.getMovedPiece().getPieceType() && piece.getPosition() != move.getMovedPiece().getPosition()) {
                             final Piece secondPiece = piece;
-                            for (Move possibleMove : secondPiece.getPossibleMoves(board)) {
+                            for (Move possibleMove : secondPiece.getPossibleMoves(boardBeforeMove)) {
                                 if (possibleMove.getDestinationCoordinate() == move.getDestinationCoordinate()) {
-                                    System.out.println(move.toStringD());
+                                    if (board.getCurrentPlayer().isInCheckMate()) {
+                                        System.out.println(move.toStringD() + "#");
+                                        //some "end game" logic, windows etc.
+                                    } else if (board.getCurrentPlayer().isInCheck()) {
+                                        System.out.println(move.toStringD() + "+");
+                                    } else if (board.getCurrentPlayer().isStalemate()) {
+                                        System.out.println(move.toStringD());
+                                        System.out.println("1/2 - 1/2");
+                                    } else {
+                                        System.out.println(move.toStringD());
+                                    }
                                     possibleDuplicate = true;
                                     break;
                                 }
@@ -571,7 +582,6 @@ public class MainWindow extends javax.swing.JFrame {
                     System.out.println(move.toString());
                 }
             }
-            board = perfMove.getMakeMoveBoard();
             /*
             TO-DO
             add move history
