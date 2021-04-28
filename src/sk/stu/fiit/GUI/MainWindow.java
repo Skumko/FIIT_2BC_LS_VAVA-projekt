@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -541,47 +542,7 @@ public class MainWindow extends javax.swing.JFrame {
             moveFigure(selectedFigure, xyToOne(evt.getX() / 100, evt.getY() / 100), posMoves);
             Board boardBeforeMove = board;
             board = perfMove.getMakeMoveBoard();
-            //nahradit println move history logikou
-            if (board.getCurrentPlayer().isInCheckMate()) {
-                System.out.println(move.toString() + "#");
-                //some "end game" logic, windows etc.
-            } else if (board.getCurrentPlayer().isInCheck()) {
-                System.out.println(move.toString() + "+");
-            } else if (board.getCurrentPlayer().isStalemate()) {
-                System.out.println(move.toString());
-                System.out.println("1/2 - 1/2");
-            } else {
-                if (move.getMovedPiece().isDuplicatePiece()) {
-                    boolean possibleDuplicate = false;
-                    for (Piece piece : boardBeforeMove.getCurrentPlayer().getActivePieces()) {
-                        if (piece.getPieceType() == move.getMovedPiece().getPieceType() && piece.getPosition() != move.getMovedPiece().getPosition()) {
-                            final Piece secondPiece = piece;
-                            for (Move possibleMove : secondPiece.getPossibleMoves(boardBeforeMove)) {
-                                if (possibleMove.getDestinationCoordinate() == move.getDestinationCoordinate()) {
-                                    if (board.getCurrentPlayer().isInCheckMate()) {
-                                        System.out.println(move.toStringD() + "#");
-                                        //some "end game" logic, windows etc.
-                                    } else if (board.getCurrentPlayer().isInCheck()) {
-                                        System.out.println(move.toStringD() + "+");
-                                    } else if (board.getCurrentPlayer().isStalemate()) {
-                                        System.out.println(move.toStringD());
-                                        System.out.println("1/2 - 1/2");
-                                    } else {
-                                        System.out.println(move.toStringD());
-                                    }
-                                    possibleDuplicate = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if (!possibleDuplicate) {
-                        System.out.println(move.toString());
-                    }
-                } else {
-                    System.out.println(move.toString());
-                }
-            }
+            printMove(move, boardBeforeMove);
             /*
             TO-DO
             add move history
@@ -1109,8 +1070,16 @@ public class MainWindow extends javax.swing.JFrame {
      */
     private List<Integer> getPossibleMoves(Board board, int sector) {
         //        convert Move objects to int representation of sectors
+        Predicate<Move> checkCheckOrChekMate = (move) -> {
+            PerformMove perfMove = board.getCurrentPlayer().makeMove(move);
+            if (perfMove.getMoveStatus() == PerformMove.MoveStatus.KING_IN_CHECK) {
+                return false;
+            }
+            return true;
+        };
         return board.getAllLegalMoves().stream()
                 .filter(move -> move.getMovedPiece().getPosition() == sector)
+                .filter(checkCheckOrChekMate)
                 .map(move -> move.getDestinationCoordinate())
                 .collect(Collectors.toList());
     }
@@ -1120,6 +1089,50 @@ public class MainWindow extends javax.swing.JFrame {
         //inverts boolean value
         this.isWhite = Boolean.logicalXor(isWhite, true);
         addMouseListeners(isWhite);
+    }
+
+    private void printMove(Move move, Board boardBeforeMove) {
+        //nahradit println move history logikou
+        if (board.getCurrentPlayer().isInCheckMate()) {
+            System.out.println(move.toString() + "#");
+            //some "end game" logic, windows etc.
+        } else if (board.getCurrentPlayer().isInCheck()) {
+            System.out.println(move.toString() + "+");
+        } else if (board.getCurrentPlayer().isStalemate()) {
+            System.out.println(move.toString());
+            System.out.println("1/2 - 1/2");
+        } else {
+            if (move.getMovedPiece().isDuplicatePiece()) {
+                boolean possibleDuplicate = false;
+                for (Piece piece : boardBeforeMove.getCurrentPlayer().getActivePieces()) {
+                    if (piece.getPieceType() == move.getMovedPiece().getPieceType() && piece.getPosition() != move.getMovedPiece().getPosition()) {
+                        final Piece secondPiece = piece;
+                        for (Move possibleMove : secondPiece.getPossibleMoves(boardBeforeMove)) {
+                            if (possibleMove.getDestinationCoordinate() == move.getDestinationCoordinate()) {
+                                if (board.getCurrentPlayer().isInCheckMate()) {
+                                    System.out.println(move.toStringD() + "#");
+                                    //some "end game" logic, windows etc.
+                                } else if (board.getCurrentPlayer().isInCheck()) {
+                                    System.out.println(move.toStringD() + "+");
+                                } else if (board.getCurrentPlayer().isStalemate()) {
+                                    System.out.println(move.toStringD());
+                                    System.out.println("1/2 - 1/2");
+                                } else {
+                                    System.out.println(move.toStringD());
+                                }
+                                possibleDuplicate = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (!possibleDuplicate) {
+                    System.out.println(move.toString());
+                }
+            } else {
+                System.out.println(move.toString());
+            }
+        }
     }
 
     /**
