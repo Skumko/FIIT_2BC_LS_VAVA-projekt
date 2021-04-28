@@ -152,6 +152,7 @@ public class Pawn extends Piece {
         return new Pawn(move.getDestinationCoordinate(), move.getMovedPiece().getColorSide());
     }
 
+    @Deprecated
     public Piece getPromoted() {
 //        String[] options = {"Queen", "Knight", "Bishop", "Rook"};
 //        int x = JOptionPane.showOptionDialog(null, "Choose the promotion piece.",

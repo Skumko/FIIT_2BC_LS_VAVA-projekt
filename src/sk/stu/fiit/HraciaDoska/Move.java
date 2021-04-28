@@ -238,7 +238,7 @@ public abstract class Move {
             for (Piece piece : board.getCurrentPlayer().getOpponent().getActivePieces()) {
                 builder.setPiece(piece);
             }
-            builder.setPiece(this.promotedPawn.getPromoted().movePiece(this));
+            builder.setPiece(this.promotedPawn.movePiece(this));
             builder.setNextToMove(board.getCurrentPlayer().getOpponent().getPlayerSide());
             return builder.build();
         }
