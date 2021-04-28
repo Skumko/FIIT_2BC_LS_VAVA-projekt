@@ -5,7 +5,6 @@
  */
 package sk.stu.fiit.GUI;
 
-import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.MouseListener;
 import java.lang.annotation.ElementType;
@@ -19,7 +18,7 @@ import java.net.UnknownHostException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -33,7 +32,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import sk.stu.fiit.Figurky.Piece;
-import sk.stu.fiit.Figurky.Piece.Type;
 import sk.stu.fiit.Hrac.PerformMove;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
@@ -69,6 +67,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private Board board = null;
     private boolean isWhite;
+    private Map<Move, Board> moveHistory = new HashMap<>();
 
     private JLabel selectedFigure = null;
 
@@ -359,25 +358,28 @@ public class MainWindow extends javax.swing.JFrame {
         panelGameDialog.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 0), 4));
         panelGameDialog.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtGameMoveHistory.setText("A2->A4\n----------\nA7->A5\n----------\nD2->D4\n----------\nD7->D4\n----------\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------");
+        txtGameMoveHistory.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         txtGameMoveHistory.setFocusable(false);
         scrollGameMoveHistory.setViewportView(txtGameMoveHistory);
 
-        panelGameDialog.add(scrollGameMoveHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 400, 210));
+        panelGameDialog.add(scrollGameMoveHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 170, 380));
 
+        lblGameMoveHistory.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         lblGameMoveHistory.setText("Move history:");
-        panelGameDialog.add(lblGameMoveHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
+        panelGameDialog.add(lblGameMoveHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 170, -1));
 
+        comboGameBoardColor.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         comboGameBoardColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Default", "Blue", "Brown", "Green", "Grey", "Red" }));
         comboGameBoardColor.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboGameBoardColorItemStateChanged(evt);
             }
         });
-        panelGameDialog.add(comboGameBoardColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 310, 30));
+        panelGameDialog.add(comboGameBoardColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 160, 40));
 
+        lblGameBoardColor.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         lblGameBoardColor.setText("Customize board");
-        panelGameDialog.add(lblGameBoardColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+        panelGameDialog.add(lblGameBoardColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 200, -1));
 
         panelGame.add(panelGameDialog, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 180, 420, 470));
 
@@ -535,6 +537,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         //if it is a valid move
         if (perfMove.getMoveStatus() == PerformMove.MoveStatus.DONE) {
+
+            moveHistory.put(move, board);                                       //put move to history
+
             if (move.isAttack()) {                                              //if it is a attack move, eliminate attacked figure
                 JLabel attackedFigure = getLabelBySector(sector);               //get JLabel of figure by sector
                 if (attackedFigure == null) {
@@ -548,7 +553,6 @@ public class MainWindow extends javax.swing.JFrame {
             //move figure
             moveFigure(selectedFigure, xyToOne(evt.getX() / 100, evt.getY() / 100), posMoves);
             if (move.isCastlingMove()) {
-                System.err.println("je");
                 int rookPosition = ((CastlingMove) move).getCastlingRook().getPosition();
                 int destRookPos = ((CastlingMove) move).getRookDestination();
                 JLabel movedRook = getCastlingRook(sector);
@@ -1118,14 +1122,18 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void printMove(Move move, Board boardBeforeMove) {
         //nahradit println move history logikou
+        StringBuilder text = new StringBuilder(txtGameMoveHistory.getText());
         if (board.getCurrentPlayer().isInCheckMate()) {
             System.out.println(move.toString() + "#");
+            text.append(move.toString() + "#" + "\n");
             //some "end game" logic, windows etc.
         } else if (board.getCurrentPlayer().isInCheck()) {
             System.out.println(move.toString() + "+");
+            text.append(move.toString() + "+" + "\n");
         } else if (board.getCurrentPlayer().isStalemate()) {
             System.out.println(move.toString());
             System.out.println("1/2 - 1/2");
+            text.append(move.toString() + "\n1/2 - 1/2\n");
         } else {
             if (move.getMovedPiece().isDuplicatePiece()) {
                 boolean possibleDuplicate = false;
@@ -1136,14 +1144,18 @@ public class MainWindow extends javax.swing.JFrame {
                             if (possibleMove.getDestinationCoordinate() == move.getDestinationCoordinate()) {
                                 if (board.getCurrentPlayer().isInCheckMate()) {
                                     System.out.println(move.toStringD() + "#");
+                                    text.append(move.toString() + "#" + "\n");
                                     //some "end game" logic, windows etc.
                                 } else if (board.getCurrentPlayer().isInCheck()) {
                                     System.out.println(move.toStringD() + "+");
+                                    text.append(move.toString() + "+" + "\n");
                                 } else if (board.getCurrentPlayer().isStalemate()) {
                                     System.out.println(move.toStringD());
                                     System.out.println("1/2 - 1/2");
+                                    text.append(move.toString() + "\n1/2 - 1/2\n");
                                 } else {
                                     System.out.println(move.toStringD());
+                                    text.append(move.toString() + "\n");
                                 }
                                 possibleDuplicate = true;
                                 break;
@@ -1153,11 +1165,14 @@ public class MainWindow extends javax.swing.JFrame {
                 }
                 if (!possibleDuplicate) {
                     System.out.println(move.toString());
+                    text.append(move.toString() + "\n");
                 }
             } else {
                 System.out.println(move.toString());
+                text.append(move.toString() + "\n");
             }
         }
+        txtGameMoveHistory.setText(text.toString());
     }
 
     /**
