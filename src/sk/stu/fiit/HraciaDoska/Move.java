@@ -371,6 +371,10 @@ public abstract class Move {
             return castlingRook;
         }
 
+        public int getRookDestination() {
+            return rookDestination;
+        }
+
         @Override
         public boolean isCastlingMove() {
             return true;

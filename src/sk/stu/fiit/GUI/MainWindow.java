@@ -37,6 +37,7 @@ import sk.stu.fiit.Figurky.Piece.Type;
 import sk.stu.fiit.Hrac.PerformMove;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
+import sk.stu.fiit.HraciaDoska.Move.CastlingMove;
 import sk.stu.fiit.sockets.Guest;
 import sk.stu.fiit.sockets.Host;
 
@@ -167,6 +168,7 @@ public class MainWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OMGOC - OnlineMultiplayerGameOfChess");
         setPreferredSize(new java.awt.Dimension(1416, 939));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelLanguage.setOpaque(false);
@@ -523,30 +525,44 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void lblGameBoardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGameBoardMouseReleased
         // TODO add your handling code here:
-        if (selectedFigure == null) {
+        if (selectedFigure == null) {                                           //if none figure is selected return
             return;
         }
-        int sector = xyToOne(evt.getX() / 100, evt.getY() / 100);       //sector of tile where mouse clicked
+        int sector = xyToOne(evt.getX() / 100, evt.getY() / 100);               //sector of tile where mouse clicked
+        //get Move object
         Move move = Move.MoveFactory.createMove(board, xyToOne(selectedFigure.getX() / 100, selectedFigure.getY() / 100), sector);
-        PerformMove perfMove = board.getCurrentPlayer().makeMove(move);
+        PerformMove perfMove = board.getCurrentPlayer().makeMove(move);         //perform move
 
+        //if it is a valid move
         if (perfMove.getMoveStatus() == PerformMove.MoveStatus.DONE) {
-            if (move.isAttack()) {              //if it is a attack move, eliminate attacked figure
-                JLabel attackedFigure = getLabelBySector(sector);
+            if (move.isAttack()) {                                              //if it is a attack move, eliminate attacked figure
+                JLabel attackedFigure = getLabelBySector(sector);               //get JLabel of figure by sector
                 if (attackedFigure == null) {
                     throw new RuntimeException("Mismatch between game logic attacked piece and GUI attacked piece");
                 }
-                eliminateFigure(attackedFigure, !isWhite);
+                eliminateFigure(attackedFigure, !isWhite);                      //eliminate figure
             }
+
+            //get possible moves
             List<Integer> posMoves = getPossibleMoves(board, xyToOne(selectedFigure.getX() / 100, selectedFigure.getY() / 100));
+            //move figure
             moveFigure(selectedFigure, xyToOne(evt.getX() / 100, evt.getY() / 100), posMoves);
+            if (move.isCastlingMove()) {
+                System.err.println("je");
+                int rookPosition = ((CastlingMove) move).getCastlingRook().getPosition();
+                int destRookPos = ((CastlingMove) move).getRookDestination();
+                JLabel movedRook = getCastlingRook(sector);
+                moveFigure(movedRook, destRookPos, List.of(destRookPos));
+            }
+
             Board boardBeforeMove = board;
             board = perfMove.getMakeMoveBoard();
-            printMove(move, boardBeforeMove);
-            if (board.getCurrentPlayer().isInCheck()) {     //if i get opponents king in check
-                checkKing(!isWhite);        //show red King figure
-            } else {                                                                   //opponents king is not in check
-                uncheckKings();
+            printMove(move, boardBeforeMove);                                   //print Moves toString representation
+
+            if (board.getCurrentPlayer().isInCheck()) {                         //if i get opponents king in check
+                checkKing(!isWhite);                                            //show red King figure
+            } else {                                                            //opponents king is not in check
+                uncheckKings();                                                 //set default images to both kings
             }
             /*
             TO-DO
@@ -1165,6 +1181,20 @@ public class MainWindow extends javax.swing.JFrame {
     private void uncheckKings() {
         whiteKing.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WK.png").toString()));
         blackKing.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BK.png").toString()));
+    }
+
+    private JLabel getCastlingRook(int sector) {
+        switch (sector) {
+            case 2:                                                             //black QueenCastling
+                return blackRookL;
+            case 6:                                                             //black KingCastling
+                return blackRookR;
+            case 58:                                                            //white QueenCastling
+                return whiteRookL;
+            case 62:                                                            //white KingCastling
+                return whiteRookR;
+        }
+        throw new RuntimeException("Where is Rook???");
     }
 
     private void updateLocaleTexts() {
