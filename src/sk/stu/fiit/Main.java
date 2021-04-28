@@ -5,7 +5,9 @@
  */
 package sk.stu.fiit;
 
+import java.util.Collection;
 import sk.stu.fiit.HraciaDoska.Board;
+import sk.stu.fiit.HraciaDoska.Move;
 
 /**
  *
@@ -19,6 +21,10 @@ public class Main {
     public static void main(String[] args) {
         Board board = Board.createStartBoard();
         System.out.println(board.toString());
+        Collection<Move> legalmoves = board.getCurrentPlayer().getLegalMoves();
+        for (Move legalmove : legalmoves) {
+            System.out.println(legalmove);
+        }
     }
 
 }

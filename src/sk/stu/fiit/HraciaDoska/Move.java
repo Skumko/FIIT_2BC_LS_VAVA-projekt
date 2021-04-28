@@ -56,6 +56,10 @@ public abstract class Move {
         return null;
     }
 
+    public String toStringD() {
+        return null;
+    }
+
     public Board execute() {
         final BoardBuilder builder = new BoardBuilder();
 
@@ -114,7 +118,13 @@ public abstract class Move {
 
         @Override
         public String toString() {
-            return movedPiece.getPieceType().toString() + Utils.getCoordinateNotation(this.destinationCoordinate);
+            return movedPiece.toString() + Utils.getCoordinateNotation(this.destinationCoordinate);
+        }
+
+        @Override
+        public String toStringD() {
+            return movedPiece.toString() + Utils.getCoordinateNotation(this.movedPiece.getPosition()).substring(0, 1)
+                    + Utils.getCoordinateNotation(this.destinationCoordinate);
         }
 
     }
@@ -171,7 +181,13 @@ public abstract class Move {
 
         @Override
         public String toString() {
-            return this.movedPiece.getPieceType() + Utils.getCoordinateNotation(this.destinationCoordinate);
+            return this.movedPiece.toString() + "x" + Utils.getCoordinateNotation(this.destinationCoordinate);
+        }
+
+        @Override
+        public String toStringD() {
+            return movedPiece.toString() + Utils.getCoordinateNotation(this.movedPiece.getPosition()).substring(0, 1)
+                    + "x" + Utils.getCoordinateNotation(this.destinationCoordinate);
         }
 
     }
