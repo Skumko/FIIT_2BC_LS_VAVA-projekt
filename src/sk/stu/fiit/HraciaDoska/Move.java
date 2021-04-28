@@ -223,7 +223,7 @@ public abstract class Move {
 
         @Override
         public boolean isAttack() {
-            return super.isAttack(); //To change body of generated methods, choose Tools | Templates.
+            return decoratedMove.isAttack(); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override

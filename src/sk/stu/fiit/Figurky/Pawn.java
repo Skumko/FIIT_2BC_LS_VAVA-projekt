@@ -87,7 +87,8 @@ public class Pawn extends Piece {
                             legalMoves.add(new Move.PawnAttackMove(board, this, possiblePosition, pieceOnTile));
                         }
                     }
-                } else if (board.getEnPassantPawn() != null) {
+                }
+                if (board.getEnPassantPawn() != null) {
                     System.out.println("there is an enpassant pawn");
                     //we have to check for the position of that pawn
                     if (board.getEnPassantPawn().getPosition() == (this.position + this.getColorSide().getOppositeDirection())) {
@@ -109,7 +110,8 @@ public class Pawn extends Piece {
                             legalMoves.add(new Move.PawnAttackMove(board, this, possiblePosition, pieceOnTile));
                         }
                     }
-                } else if (board.getEnPassantPawn() != null) {
+                }
+                if (board.getEnPassantPawn() != null) {
                     //we have to check for the position of that pawn
                     if (board.getEnPassantPawn().getPosition() == (this.position - this.getColorSide().getOppositeDirection())) {
                         final Piece piece = board.getEnPassantPawn();
@@ -152,22 +154,22 @@ public class Pawn extends Piece {
     }
 
     public Piece getPromoted() {
-        String[] options = {"Queen", "Knight", "Bishop", "Rook"};
-        int x = JOptionPane.showOptionDialog(null, "Choose the promotion piece.",
-                "PROMOTION",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-        switch (x) {
-            case 0:
-                return new Queen(this.position, this.colorSide, false);
-            case 1:
-                return new Knight(this.position, this.colorSide, false);
-            case 2:
-                return new Bishop(this.position, this.colorSide, false);
-            case 3:
-                return new Rook(this.position, this.colorSide, false);
-            default:
-                return new Queen(this.position, this.colorSide, false);
-        }
+//        String[] options = {"Queen", "Knight", "Bishop", "Rook"};
+//        int x = JOptionPane.showOptionDialog(null, "Choose the promotion piece.",
+//                "PROMOTION",
+//                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+//        switch (x) {
+//            case 0:
+//                return new Queen(this.position, this.colorSide, false);
+//            case 1:
+//                return new Knight(this.position, this.colorSide, false);
+//            case 2:
+//                return new Bishop(this.position, this.colorSide, false);
+//            case 3:
+//                return new Rook(this.position, this.colorSide, false);
+//            default:
+        return new Queen(this.position, this.colorSide, false);
+//        }
     }
 
 }

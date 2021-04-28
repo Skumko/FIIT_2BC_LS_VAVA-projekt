@@ -1049,6 +1049,8 @@ public class MainWindow extends javax.swing.JFrame {
 
 //        convert Move objects to int representation of sectors
         List<Integer> possibleSectors = getPossibleMoves(board, xyToOne(figure.getX() / 100, figure.getY() / 100));
+        possibleSectors.stream()
+                .forEach(i->System.out.println(i));
 //        List<Integer> possibleSectors = board.getAllLegalMoves().stream()
 //                .filter(move -> move.getMovedPiece().getPosition() == xyToOne(figure.getX() / 100, figure.getY() / 100))
 //                .map(move -> move.getDestinationCoordinate())
