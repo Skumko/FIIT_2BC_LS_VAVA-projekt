@@ -31,6 +31,8 @@ import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import sk.stu.fiit.Figurky.Piece;
+import sk.stu.fiit.Figurky.Piece.Type;
 import sk.stu.fiit.Hrac.PerformMove;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
@@ -537,8 +539,39 @@ public class MainWindow extends javax.swing.JFrame {
             }
             List<Integer> posMoves = getPossibleMoves(board, xyToOne(selectedFigure.getX() / 100, selectedFigure.getY() / 100));
             moveFigure(selectedFigure, xyToOne(evt.getX() / 100, evt.getY() / 100), posMoves);
+
+            //nahradit println move history logikou
+            if (board.getCurrentPlayer().isInCheckMate()) {
+                System.out.println(move.toString() + "#");
+                //some "end game" logic, windows etc.
+            } else if (board.getCurrentPlayer().isInCheck()) {
+                System.out.println(move.toString() + "+");
+            } else if (board.getCurrentPlayer().isStalemate()) {
+                System.out.println(move.toString());
+                System.out.println("1/2 - 1/2");
+            } else {
+                if (move.getMovedPiece().isDuplicatePiece()) {
+                    boolean possibleDuplicate = false;
+                    for (Piece piece : board.getCurrentPlayer().getActivePieces()) {
+                        if (piece.getPieceType() == move.getMovedPiece().getPieceType() && piece.getPosition() != move.getMovedPiece().getPosition()) {
+                            final Piece secondPiece = piece;
+                            for (Move possibleMove : secondPiece.getPossibleMoves(board)) {
+                                if (possibleMove.getDestinationCoordinate() == move.getDestinationCoordinate()) {
+                                    System.out.println(move.toStringD());
+                                    possibleDuplicate = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (!possibleDuplicate) {
+                        System.out.println(move.toString());
+                    }
+                } else {
+                    System.out.println(move.toString());
+                }
+            }
             board = perfMove.getMakeMoveBoard();
-//            System.out.println(move.toString());
             /*
             TO-DO
             add move history
