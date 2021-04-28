@@ -32,11 +32,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import sk.stu.fiit.Figurky.Bishop;
+import sk.stu.fiit.Figurky.Knight;
 import sk.stu.fiit.Figurky.Piece;
+import sk.stu.fiit.Figurky.Queen;
+import sk.stu.fiit.Figurky.Rook;
 import sk.stu.fiit.Hrac.PerformMove;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
 import sk.stu.fiit.HraciaDoska.Move.CastlingMove;
+import sk.stu.fiit.HraciaDoska.Move.Promotion;
 import sk.stu.fiit.Side;
 import sk.stu.fiit.sockets.SocketUser;
 
@@ -836,7 +841,7 @@ public class MainWindow extends javax.swing.JFrame {
             if (move.isAttack()) {                                              //if it is a attack move, eliminate attacked figure
                 JLabel attackedFigure = getLabelBySector(sector);               //get JLabel of figure by sector
                 if (move instanceof Move.EnPassantMove) {
-                    attackedFigure = isWhite ? getLabelBySector(sector +8) : getLabelBySector(sector - 8);
+                    attackedFigure = isWhite ? getLabelBySector(sector + 8) : getLabelBySector(sector - 8);
                 } else if (attackedFigure == null) {
                     throw new RuntimeException("Mismatch between game logic attacked piece and GUI attacked piece");
                 }
@@ -857,6 +862,12 @@ public class MainWindow extends javax.swing.JFrame {
                 moveFigure(movedRook, destRookPos, List.of(destRookPos));
             }
 
+            if (move instanceof Promotion) {
+                Piece promotedPiece = getPromoted(sector, isWhite ? Side.WHITE : Side.BLACK);
+                promoteSelectedFigureIcon(selectedFigure,promotedPiece);
+                board = board.createPromotionBoard(board, move.getDestinationCoordinate(), promotedPiece);
+                System.err.println("TO-DO add move printing of promotion move");
+            }
             Board boardBeforeMove = board;
             board = perfMove.getMakeMoveBoard();
             printMove(move, boardBeforeMove);                                   //print Moves toString representation
@@ -887,6 +898,28 @@ public class MainWindow extends javax.swing.JFrame {
             } else {
                 switchSides();
             }
+        }
+    }
+
+    public Piece getPromoted(int position, Side side) {
+        String[] options = {bundle.getString("QUEEN"),
+            bundle.getString("KNIGHT"),
+            bundle.getString("BISHOP"),
+            bundle.getString("ROOK")};
+        int x = JOptionPane.showOptionDialog(null, bundle.getString("CHOOSE_PROMOTION"),
+                "PROMOTION",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        switch (x) {
+            case 0:
+                return new Queen(position, side, false);
+            case 1:
+                return new Knight(position, side, false);
+            case 2:
+                return new Bishop(position, side, false);
+            case 3:
+                return new Rook(position, side, false);
+            default:
+                return new Queen(position, side, false);
         }
     }
 
@@ -1076,6 +1109,24 @@ public class MainWindow extends javax.swing.JFrame {
         return new ImageIcon(newImage);
     }
 
+    private void promoteSelectedFigureIcon(JLabel figure, Piece piece) {
+        if (figure == null) {
+            return;
+        }
+        if (piece instanceof Queen) {
+            figure.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", isWhite ? "WQ.png" : "BQ.png").toString()));
+        } else if (piece instanceof Bishop) {
+            figure.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", isWhite ? "WB.png" : "BB.png").toString()));
+        } else if (piece instanceof Knight) {
+            figure.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", isWhite ? "WN.png" : "BN.png").toString()));
+        } else if (piece instanceof Rook) {
+            figure.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", isWhite ? "WR.png" : "BR.png").toString()));
+        } else {
+            System.err.println("Zle nedobre");
+        }
+        this.repaint();
+    }
+
     /**
      * Converts x, y representation of gameboard to one-numbered sector
      * representation
@@ -1127,7 +1178,6 @@ public class MainWindow extends javax.swing.JFrame {
             removePossibleMoves();
             selectedFigure = figure;
         }
-
 //        convert Move objects to int representation of sectors
         List<Integer> possibleSectors = getPossibleMoves(board, xyToOne(figure.getX() / 100, figure.getY() / 100));
         possibleSectors.stream()
