@@ -25,6 +25,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -79,6 +81,9 @@ public class MainWindow extends javax.swing.JFrame {
 
     private JLabel selectedFigure = null;
 
+    public boolean isWhite() {
+        return isWhite;
+    }
 //    private Guest guest = null;
 //    private Host host = null;
     private SocketUser user = null;
@@ -539,7 +544,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void lblGameBoardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGameBoardMouseReleased
         // TODO add your handling code here:
 
-        performMove(xyToOne(evt.getX() / 100, evt.getY() / 100));
+        performMove(xyToOne(evt.getX() / 100, evt.getY() / 100), true);
         /*
         if (selectedFigure == null) {                                           //if none figure is selected return
             return;
@@ -824,7 +829,7 @@ public class MainWindow extends javax.swing.JFrame {
         panelGame.setVisible(false);
     }
 
-    private void performMove(int sector) {
+    private void performMove(int sector, boolean isSending) {
         if (selectedFigure == null) {                                           //if none figure is selected return
             return;
         }
@@ -864,7 +869,7 @@ public class MainWindow extends javax.swing.JFrame {
 
             if (move instanceof Promotion) {
                 Piece promotedPiece = getPromoted(sector, isWhite ? Side.WHITE : Side.BLACK);
-                promoteSelectedFigureIcon(selectedFigure,promotedPiece);
+                promoteSelectedFigureIcon(selectedFigure, promotedPiece);
                 board = board.createPromotionBoard(board, move.getDestinationCoordinate(), promotedPiece);
                 System.err.println("TO-DO add move printing of promotion move");
             }
@@ -893,8 +898,11 @@ public class MainWindow extends javax.swing.JFrame {
                 this.dispose();
             }
             if (isOnline) {
-                removeMouseListeners(isWhite);
-
+                if (isSending) {
+                    removeMouseListeners(isWhite);
+                    user.setFen(board.toString());
+                    user.startSender();
+                }
             } else {
                 switchSides();
             }
@@ -1030,7 +1038,7 @@ public class MainWindow extends javax.swing.JFrame {
             if (isWhite) {                  //if isWhite is true, it means that we are host
 //                host = new Host(this, false);
                 user = new SocketUser(this, SocketUser.PlayerType.HOST);
-                addMouseListeners(true);
+//                addMouseListeners(true);
 //                host.setActive(true);
                 user.setActive(true);
 //                host.startListener();
@@ -1046,8 +1054,15 @@ public class MainWindow extends javax.swing.JFrame {
                 addMouseListeners(false);
                 user.setActive(true);
                 user.setFen("init");
-                user.startListener();
                 user.startSender();        //send initial message to start game
+                try {
+                    Thread.sleep(400);
+                } catch (InterruptedException ex) {
+                    System.err.println("Doplnit logger");
+                    ex.printStackTrace();
+                    return;
+                }
+                user.startListener();
             }
         } else {
             addMouseListeners(true);
@@ -1277,7 +1292,7 @@ public class MainWindow extends javax.swing.JFrame {
      *
      * @param isWhite true for white figures, false for black figures
      */
-    private void addMouseListeners(Boolean isWhite) {
+    public void addMouseListeners(Boolean isWhite) {
 
         List<JLabel> figures;
         if (isWhite) {
@@ -1497,14 +1512,14 @@ public class MainWindow extends javax.swing.JFrame {
             oldFigures = List.copyOf(board.getBlackPieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-            newFigures = List.copyOf(board.getBlackPieces()).stream()
+            newFigures = List.copyOf(newBoard.getBlackPieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
         } else {
             oldFigures = List.copyOf(board.getWhitePieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-            newFigures = List.copyOf(board.getWhitePieces()).stream()
+            newFigures = List.copyOf(newBoard.getWhitePieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
         }
@@ -1519,7 +1534,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
         selectedFigure = getLabelBySector(start);
-        performMove(destination);
+        performMove(destination, false);
         addMouseListeners(isWhite);
     }
 

@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sk.stu.fiit.GUI.MainWindow;
+import static sk.stu.fiit.sockets.SocketUser.PlayerType.GUEST;
+import static sk.stu.fiit.sockets.SocketUser.PlayerType.HOST;
 
 /**
  *
@@ -32,7 +34,7 @@ public class SocketUser {
     private String fen;
 
     private Socket senderSocket = null;
-    private Socket listenerSocket = null;
+    private Socket socket = null;
 
     private DataInputStream dis;
     private DataOutputStream dos;
@@ -89,12 +91,15 @@ public class SocketUser {
      */
     public void listen() {
         try (ServerSocket ss = new ServerSocket(port, 100, myIP);) {
-            listenerSocket = ss.accept();
-            setOpponentsIP(listenerSocket.getInetAddress());
-            dis = new DataInputStream(listenerSocket.getInputStream());
-            dos = new DataOutputStream(listenerSocket.getOutputStream());
-            setFen(dis.readUTF());
-            m.showGame();
+            if (type == HOST) {
+                socket = ss.accept();
+                setOpponentsIP(socket.getInetAddress());
+                dis = new DataInputStream(socket.getInputStream());
+                dos = new DataOutputStream(socket.getOutputStream());
+                setFen(dis.readUTF());
+                m.addMouseListeners(true);
+                m.showGame();
+            }
             /*
             perform operations with fen
              */
@@ -102,12 +107,13 @@ public class SocketUser {
             while (active) {
                 setFen(dis.readUTF());
                 m.actualizeBoardFromFen(fen);
+                m.addMouseListeners(m.isWhite());
                 /*
                 perform operations with fen
                 actualize the board
                  */
             }
-            listenerSocket.close();
+            socket.close();
         } catch (IOException ex) {
             System.err.println("Doplnit logger");
         }
@@ -136,10 +142,12 @@ public class SocketUser {
         }
 //        setFen(newFen) before sending message
         try {
-            if (senderSocket == null) {
-                senderSocket = new Socket(opponentsIP, port);
+//            if (senderSocket == null) {
+            if (type == GUEST && socket == null) {
+                socket = new Socket(opponentsIP, port);
+                dis = new DataInputStream(socket.getInputStream());
+                dos = new DataOutputStream(socket.getOutputStream());
             }
-            dos = new DataOutputStream(senderSocket.getOutputStream());
             dos.writeUTF(getFen());
             dos.flush();
         } catch (IOException ex) {

@@ -162,6 +162,8 @@ public class Board {
             if (tile.hasPiece()) {
                 if (numberOfEmptyTiles != 0) {
                     builder.append(numberOfEmptyTiles);
+                    //reset number of emty tiles after appending it
+                    numberOfEmptyTiles = 0;
                 }
                 final String pieceString = this.boardTiles.get(i).toString();
                 builder.append(pieceString);
