@@ -282,6 +282,13 @@ public class Board {
         return builder.build();
     }
 
+    public boolean kingsOnly() {
+        if (this.blackP.getActivePieces().size() == 1 && this.whiteP.getActivePieces().size() == 1) {
+            return true;
+        }
+        return false;
+    }
+
     public static class BoardBuilder {
 
         Map<Integer, Piece> boardState;
