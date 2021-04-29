@@ -651,7 +651,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnLanguageENMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLanguageENMouseReleased
         // TODO add your handling code here:
         locale = Locale.ENGLISH;
-        bundle = ResourceBundle.getBundle("sk.stu.fiit.resources.resources", Locale.ROOT);
+        bundle = ResourceBundle.getBundle("sk.stu.fiit.resources/resources", Locale.ROOT);
         updateLocaleTexts();
 //        panelGame.setVisible(false);
 //        panelInit.setVisible(true);
@@ -659,8 +659,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnLanguageSKMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLanguageSKMouseReleased
         // TODO add your handling code here:
-        locale = new Locale("sk-SK");
-        bundle = ResourceBundle.getBundle("sk.stu.fiit.resources.resources", locale);
+        locale = new Locale("sk", "SK");
+        bundle = ResourceBundle.getBundle("sk.stu.fiit.resources/resources", locale);
         updateLocaleTexts();
 //        panelGame.setVisible(true);
 //        panelInit.setVisible(false);
