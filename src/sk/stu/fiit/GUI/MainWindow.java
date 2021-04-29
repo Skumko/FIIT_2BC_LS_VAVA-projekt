@@ -370,7 +370,7 @@ public class MainWindow extends javax.swing.JFrame {
         panelGameDialog.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 0), 4));
         panelGameDialog.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtGameMoveHistory.setFont(new java.awt.Font("Monospaced", 1, 36)); // NOI18N
+        txtGameMoveHistory.setFont(new java.awt.Font("Monospaced", 1, 34)); // NOI18N
         txtGameMoveHistory.setFocusable(false);
         scrollGameMoveHistory.setViewportView(txtGameMoveHistory);
 
