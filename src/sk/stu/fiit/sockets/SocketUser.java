@@ -27,14 +27,15 @@ import static sk.stu.fiit.sockets.SocketUser.PlayerType.HOST;
  */
 public class SocketUser {
 
-    public static final int port = 48777;
+    public static final int hostPort = 48777;
+    public static final int guestPort = 48778;
     private boolean active = true;
     private InetAddress myIP;
     private InetAddress opponentsIP = null;
     private String fen;
 
     private Socket senderSocket = null;
-    private Socket socket = null;
+    private Socket listenerSocket = null;
 
     private DataInputStream dis;
     private DataOutputStream dos;
@@ -47,7 +48,14 @@ public class SocketUser {
         HOST, GUEST
     }
 
-    private final Thread senderT = new Thread() {
+    public boolean isHost() {
+        if (this.type == HOST) {
+            return true;
+        }
+        return false;
+    }
+
+    private final Runnable senderT = new Runnable() {
         @Override
         public void run() {
             try {
@@ -57,7 +65,7 @@ public class SocketUser {
             }
         }
     };
-    private final Thread listenerT = new Thread() {
+    private final Runnable listenerT = new Runnable() {
         @Override
         public void run() {
             listen();
@@ -83,29 +91,32 @@ public class SocketUser {
      * #listenerT thread}
      */
     public void startListener() {
-        listenerT.start();
+        new Thread(listenerT).start();
     }
 
     /**
      * Method to listen for incoming sockets.
      */
     public void listen() {
-        try (ServerSocket ss = new ServerSocket(port, 100, myIP);) {
-            if (type == HOST) {
-                socket = ss.accept();
-                setOpponentsIP(socket.getInetAddress());
-                dis = new DataInputStream(socket.getInputStream());
-                dos = new DataOutputStream(socket.getOutputStream());
-                setFen(dis.readUTF());
-                m.addMouseListeners(true);
-                m.showGame();
+        try (ServerSocket ss = new ServerSocket(isHost() ? hostPort : guestPort, 100, myIP);) {
+
+            listenerSocket = ss.accept();
+            if (opponentsIP == null) {
+                setOpponentsIP(listenerSocket.getInetAddress());
             }
-            /*
-            perform operations with fen
-             */
-//            m.test(parseMsg(msg));
+            dis = new DataInputStream(listenerSocket.getInputStream());
+            dos = new DataOutputStream(listenerSocket.getOutputStream());
+            setFen(dis.readUTF());
+            System.out.println("prislo:" + fen);
+            if (!isHost()) {                                                    //if you are not host than this is the first move of game
+                m.actualizeBoardFromFen(fen);
+            }
+            m.addMouseListeners(m.isWhite());
+            m.showGame();
             while (active) {
+                System.out.println("som v cykle");
                 setFen(dis.readUTF());
+                System.out.println("prislo:" + fen);
                 m.actualizeBoardFromFen(fen);
                 m.addMouseListeners(m.isWhite());
                 /*
@@ -113,7 +124,7 @@ public class SocketUser {
                 actualize the board
                  */
             }
-            socket.close();
+            listenerSocket.close();
         } catch (IOException ex) {
             System.err.println("Doplnit logger");
         }
@@ -124,7 +135,7 @@ public class SocketUser {
      * #senderT thread}
      */
     public void startSender() {
-        senderT.start();
+        new Thread(senderT).start();
     }
 
     /**
@@ -142,14 +153,14 @@ public class SocketUser {
         }
 //        setFen(newFen) before sending message
         try {
-//            if (senderSocket == null) {
-            if (type == GUEST && socket == null) {
-                socket = new Socket(opponentsIP, port);
-                dis = new DataInputStream(socket.getInputStream());
-                dos = new DataOutputStream(socket.getOutputStream());
+            if (senderSocket == null) {
+                senderSocket = new Socket(opponentsIP, isHost() ? guestPort : hostPort);
+                dis = new DataInputStream(senderSocket.getInputStream());
+                dos = new DataOutputStream(senderSocket.getOutputStream());
             }
             dos.writeUTF(getFen());
             dos.flush();
+            System.out.println("Odoslane:\n" + fen);
         } catch (IOException ex) {
             System.err.println("Doplnit logger");
         }
