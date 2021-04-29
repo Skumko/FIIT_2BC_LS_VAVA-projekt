@@ -35,6 +35,7 @@ public class Tips_And_Rules extends javax.swing.JFrame {
         lblOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Rules");
         setPreferredSize(new java.awt.Dimension(816, 839));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -64,7 +65,6 @@ public class Tips_And_Rules extends javax.swing.JFrame {
         lblOK.setForeground(new java.awt.Color(102, 102, 0));
         lblOK.setText("OK");
         lblOK.setPreferredSize(new java.awt.Dimension(180, 40));
-        lblOK.setRolloverEnabled(false);
         lblOK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 lblOKMouseReleased(evt);
@@ -90,7 +90,7 @@ public class Tips_And_Rules extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

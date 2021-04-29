@@ -239,7 +239,7 @@ public abstract class Move {
                 builder.setPiece(piece);
             }
             builder.setPiece(this.promotedPawn.movePiece(this));
-            builder.setNextToMove(board.getCurrentPlayer().getOpponent().getPlayerSide());
+            builder.setNextToMove(board.getCurrentPlayer().getPlayerSide());
             return builder.build();
         }
 
@@ -253,9 +253,8 @@ public abstract class Move {
             return this == obj || obj instanceof Promotion && super.equals(obj);
         }
 
-        @Override
-        public String toString() {
-            return decoratedMove.toString();
+        public String toString(Piece piece) {
+            return decoratedMove.toString() + "=" + piece.toString();
         }
 
     }

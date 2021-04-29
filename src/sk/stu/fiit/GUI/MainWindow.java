@@ -65,7 +65,7 @@ public class MainWindow extends javax.swing.JFrame {
         printMyIp(lblLocalIP);          //sets text of IPlabel  to local IP
     }
 
-    public static Locale locale = new Locale("sk-SK");
+    public static Locale locale = Locale.ENGLISH;
     public static ResourceBundle bundle = ResourceBundle.getBundle("sk.stu.fiit.resources.resources", locale);
 
     private int[] nextPosBlackElim = {810, 70};
@@ -80,6 +80,7 @@ public class MainWindow extends javax.swing.JFrame {
     private List<Move> moveHistory = new ArrayList<>();
 
     private JLabel selectedFigure = null;
+    private Piece promotionPiece;
 
     public boolean isWhite() {
         return isWhite;
@@ -856,10 +857,7 @@ public class MainWindow extends javax.swing.JFrame {
             //get possible moves
             List<Integer> posMoves = getPossibleMoves(board, xyToOne(selectedFigure.getX() / 100, selectedFigure.getY() / 100));
 
-            //move figure
 //            moveFigure(selectedFigure, xyToOne(evt.getX() / 100, evt.getY() / 100), posMoves);
-            moveFigure(selectedFigure, sector, posMoves);
-
             if (move.isCastlingMove()) {
                 int rookPosition = ((CastlingMove) move).getCastlingRook().getPosition();
                 int destRookPos = ((CastlingMove) move).getRookDestination();
@@ -867,15 +865,18 @@ public class MainWindow extends javax.swing.JFrame {
                 moveFigure(movedRook, destRookPos, List.of(destRookPos));
             }
 
-            if (move instanceof Promotion) {
-                Piece promotedPiece = getPromoted(sector, isWhite ? Side.WHITE : Side.BLACK);
-                promoteSelectedFigureIcon(selectedFigure, promotedPiece);
-                board = board.createPromotionBoard(board, move.getDestinationCoordinate(), promotedPiece);
-                System.err.println("TO-DO add move printing of promotion move");
-            }
             Board boardBeforeMove = board;
             board = perfMove.getMakeMoveBoard();
+
+            if (move instanceof Promotion) {
+                this.promotionPiece = getPromoted(sector, isWhite ? Side.WHITE : Side.BLACK);
+                promoteSelectedFigureIcon(selectedFigure, promotionPiece);
+                board = board.createPromotionBoard(board, move.getDestinationCoordinate(), promotionPiece);
+                System.err.println("TO-DO add move printing of promotion move");
+            }
             printMove(move, boardBeforeMove);                                   //print Moves toString representation
+            //move figure
+            moveFigure(selectedFigure, sector, posMoves);
 
             if (board.getCurrentPlayer().isInCheck()) {                         //if i get opponents king in check
                 checkKing(!isWhite);                                            //show red King figure
@@ -1380,7 +1381,11 @@ public class MainWindow extends javax.swing.JFrame {
     private void printMove(Move move, Board boardBeforeMove) {
         //nahradit println move history logikou
         StringBuilder text = new StringBuilder(txtGameMoveHistory.getText());
-        text.append(move.toString());
+        if (move instanceof Promotion) {
+            text.append(((Promotion) move).toString(promotionPiece));
+        } else {
+            text.append(move.toString());
+        }
         if (board.getCurrentPlayer().isInCheckMate()) {
             System.out.println(move.toString() + "#");
 //            text.append(move.toString() + "#" + "\n");
