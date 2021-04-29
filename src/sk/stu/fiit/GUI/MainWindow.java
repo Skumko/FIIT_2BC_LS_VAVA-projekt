@@ -161,12 +161,8 @@ public class MainWindow extends javax.swing.JFrame {
         lblGameMoveHistory = new javax.swing.JLabel();
         comboGameBoardColor = new javax.swing.JComboBox<>();
         lblGameBoardColor = new javax.swing.JLabel();
-        panelGameOpponentTimer = new javax.swing.JPanel();
-        lblGameOpponentTimer = new javax.swing.JLabel();
         panelGameOpponentInfo = new javax.swing.JPanel();
         lblGameOpponentInfo = new javax.swing.JLabel();
-        panelGamePlayerTimer = new javax.swing.JPanel();
-        lblGamePlayerTimer = new javax.swing.JLabel();
         btnOfferPat = new javax.swing.JButton();
         btnSurrender = new javax.swing.JButton();
         panelInit = new javax.swing.JPanel();
@@ -377,12 +373,12 @@ public class MainWindow extends javax.swing.JFrame {
         txtGameMoveHistory.setFocusable(false);
         scrollGameMoveHistory.setViewportView(txtGameMoveHistory);
 
-        panelGameDialog.add(scrollGameMoveHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 210, 400));
+        panelGameDialog.add(scrollGameMoveHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 340, 390));
 
         lblGameMoveHistory.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         lblGameMoveHistory.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblGameMoveHistory.setText("Move history:");
-        panelGameDialog.add(lblGameMoveHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 230, -1));
+        panelGameDialog.add(lblGameMoveHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 340, -1));
 
         comboGameBoardColor.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         comboGameBoardColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Default", "Blue", "Brown", "Green", "Grey", "Red" }));
@@ -391,26 +387,14 @@ public class MainWindow extends javax.swing.JFrame {
                 comboGameBoardColorItemStateChanged(evt);
             }
         });
-        panelGameDialog.add(comboGameBoardColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 180, 40));
+        panelGameDialog.add(comboGameBoardColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 200, 40));
 
         lblGameBoardColor.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         lblGameBoardColor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblGameBoardColor.setText("Customize board");
-        panelGameDialog.add(lblGameBoardColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 230, -1));
+        panelGameDialog.add(lblGameBoardColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 380, -1));
 
-        panelGame.add(panelGameDialog, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 100, 250, 600));
-
-        panelGameOpponentTimer.setBackground(new java.awt.Color(200, 200, 200));
-        panelGameOpponentTimer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 0), 4));
-        panelGameOpponentTimer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblGameOpponentTimer.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        lblGameOpponentTimer.setForeground(new java.awt.Color(102, 102, 0));
-        lblGameOpponentTimer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblGameOpponentTimer.setText("15:00");
-        panelGameOpponentTimer.add(lblGameOpponentTimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 40));
-
-        panelGame.add(panelGameOpponentTimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 100, 140, 60));
+        panelGame.add(panelGameDialog, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 100, 420, 600));
 
         panelGameOpponentInfo.setBackground(new java.awt.Color(200, 200, 200));
         panelGameOpponentInfo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -423,23 +407,6 @@ public class MainWindow extends javax.swing.JFrame {
         panelGameOpponentInfo.add(lblGameOpponentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 270, 20));
 
         panelGame.add(panelGameOpponentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 30, 290, 40));
-
-        panelGamePlayerTimer.setBackground(new java.awt.Color(200, 200, 200));
-        panelGamePlayerTimer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 0), 4));
-        panelGamePlayerTimer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblGamePlayerTimer.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        lblGamePlayerTimer.setForeground(new java.awt.Color(102, 102, 0));
-        lblGamePlayerTimer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblGamePlayerTimer.setText("15:00");
-        lblGamePlayerTimer.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lblGamePlayerTimerMouseReleased(evt);
-            }
-        });
-        panelGamePlayerTimer.add(lblGamePlayerTimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 40));
-
-        panelGame.add(panelGamePlayerTimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 720, 140, 60));
 
         btnOfferPat.setBackground(new java.awt.Color(175, 175, 175));
         btnOfferPat.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -704,11 +671,6 @@ public class MainWindow extends javax.swing.JFrame {
         initializeGame(false, true);
     }//GEN-LAST:event_btnInitPlayOfflineMouseReleased
 
-    private void lblGamePlayerTimerMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGamePlayerTimerMouseReleased
-        // TODO add your handling code here:
-        eliminateFigure(whiteQueen, true);
-    }//GEN-LAST:event_lblGamePlayerTimerMouseReleased
-
     /**
      * @param args the command line arguments
      */
@@ -780,8 +742,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblGameColumns;
     private javax.swing.JLabel lblGameMoveHistory;
     private javax.swing.JLabel lblGameOpponentInfo;
-    private javax.swing.JLabel lblGameOpponentTimer;
-    private javax.swing.JLabel lblGamePlayerTimer;
     private javax.swing.JLabel lblGameRows;
     private javax.swing.JLabel lblInitEnterIP;
     private javax.swing.JLabel lblInitGameName;
@@ -793,8 +753,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel panelGameColumns;
     private javax.swing.JPanel panelGameDialog;
     private javax.swing.JPanel panelGameOpponentInfo;
-    private javax.swing.JPanel panelGameOpponentTimer;
-    private javax.swing.JPanel panelGamePlayerTimer;
     private javax.swing.JPanel panelGameRows;
     private javax.swing.JPanel panelGameWhiteMiniFigures;
     private javax.swing.JPanel panelInit;
