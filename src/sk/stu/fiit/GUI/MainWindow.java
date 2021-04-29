@@ -851,7 +851,7 @@ public class MainWindow extends javax.swing.JFrame {
                 uncheckKings();                                                 //set default images to both kings
             }
             //Stalemate
-            if (board.getCurrentPlayer().isStalemate()) {
+            if (board.getCurrentPlayer().isStalemate() || board.kingsOnly()) {
                 JOptionPane.showMessageDialog(null, "Stalemate!");
                 new MainWindow().setVisible(true);
                 this.dispose();
