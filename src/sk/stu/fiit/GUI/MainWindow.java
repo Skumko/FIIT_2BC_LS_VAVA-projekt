@@ -831,20 +831,26 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void performMove(int sector, boolean isSending) {
-        if (selectedFigure == null) {                                           //if none figure is selected return
+        //if none figure is selected return
+        if (selectedFigure == null) {
             return;
         }
-//        int sector = xyToOne(evt.getX() / 100, evt.getY() / 100);               //sector of tile where mouse clicked
+
         //get Move object
         Move move = Move.MoveFactory.createMove(board, xyToOne(selectedFigure.getX() / 100, selectedFigure.getY() / 100), sector);
-        PerformMove perfMove = board.getCurrentPlayer().makeMove(move);         //perform move
+        //perform move
+        PerformMove perfMove = board.getCurrentPlayer().makeMove(move);
 
         //if it is a valid move
         if (perfMove.getMoveStatus() == PerformMove.MoveStatus.DONE) {
 
-            moveHistory.add(move);                                              //put move to history
+            moveHistory.add(move);                                              //add move to history
 
-            if (move.isAttack()) {                                              //if it is a attack move, eliminate attacked figure
+            //get possible moves
+            List<Integer> posMoves = getPossibleMoves(board, xyToOne(selectedFigure.getX() / 100, selectedFigure.getY() / 100));
+
+            //Attack move
+            if (move.isAttack()) {
                 JLabel attackedFigure = getLabelBySector(sector);               //get JLabel of figure by sector
                 if (move instanceof Move.EnPassantMove) {
                     attackedFigure = isWhite ? getLabelBySector(sector + 8) : getLabelBySector(sector - 8);
@@ -854,50 +860,57 @@ public class MainWindow extends javax.swing.JFrame {
                 eliminateFigure(attackedFigure, !isWhite);                      //eliminate figure
             }
 
-            //get possible moves
-            List<Integer> posMoves = getPossibleMoves(board, xyToOne(selectedFigure.getX() / 100, selectedFigure.getY() / 100));
-
-//            moveFigure(selectedFigure, xyToOne(evt.getX() / 100, evt.getY() / 100), posMoves);
+            //Castling move
             if (move.isCastlingMove()) {
                 int rookPosition = ((CastlingMove) move).getCastlingRook().getPosition();
                 int destRookPos = ((CastlingMove) move).getRookDestination();
                 JLabel movedRook = getCastlingRook(sector);
+                JLabel tempSelected = selectedFigure;
                 moveFigure(movedRook, destRookPos, List.of(destRookPos));
+                selectedFigure = tempSelected;
             }
 
             Board boardBeforeMove = board;
             board = perfMove.getMakeMoveBoard();
 
+            //Promotion
             if (move instanceof Promotion) {
                 this.promotionPiece = getPromoted(sector, isWhite ? Side.WHITE : Side.BLACK);
                 promoteSelectedFigureIcon(selectedFigure, promotionPiece);
                 board = board.createPromotionBoard(board, move.getDestinationCoordinate(), promotionPiece);
                 System.err.println("TO-DO add move printing of promotion move");
             }
-            printMove(move, boardBeforeMove);                                   //print Moves toString representation
+
+            //print move to side board
+            printMove(move, boardBeforeMove);
             //move figure
             moveFigure(selectedFigure, sector, posMoves);
 
-            if (board.getCurrentPlayer().isInCheck()) {                         //if i get opponents king in check
+            //Check
+            if (board.getCurrentPlayer().isInCheck()) {
                 checkKing(!isWhite);                                            //show red King figure
-            } else {                                                            //opponents king is not in check
+            } else {
                 uncheckKings();                                                 //set default images to both kings
             }
-            if (board.getCurrentPlayer().isStalemate()) {                       //stalemate
+            //Stalemate
+            if (board.getCurrentPlayer().isStalemate()) {
                 JOptionPane.showMessageDialog(null, "Stalemate!");
                 new MainWindow().setVisible(true);
                 this.dispose();
             }
-            if (board.getCurrentPlayer().isInCheckMate()) {                     //checkmate
+            //Checkmate
+            if (board.getCurrentPlayer().isInCheckMate()) {
                 if (board.getCurrentPlayer().getPlayerSide() == Side.WHITE) {
-                    JOptionPane.showMessageDialog(null, "Checkmate!\nWhite player wins");
-                } else {
                     JOptionPane.showMessageDialog(null, "Checkmate!\nBlack player wins");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Checkmate!\nWhite player wins");
                 }
-//                showInit();
+
+                //start new game
                 new MainWindow().setVisible(true);
                 this.dispose();
             }
+
             if (isOnline) {
                 if (isSending) {
                     removeMouseListeners(isWhite);
@@ -1224,13 +1237,11 @@ public class MainWindow extends javax.swing.JFrame {
      * {@link JPanel panelGameBoard}. Clears field {@link Map dots}
      */
     public void removePossibleMoves() {
-//        List<JLabel> labels = dots.values().stream().findFirst().orElse(null);
 
         if (dots.isEmpty()) {
             return;
         }
         dots.stream().forEach(label -> panelGameBoard.remove(label));
-//        labels.stream().forEach(label -> panelGameBoard.remove(label));
         panelGameBoard.repaint();
         selectedFigure = null;
         dots.clear();
