@@ -163,7 +163,7 @@ public class MainWindow extends javax.swing.JFrame {
         lblGameBoardColor = new javax.swing.JLabel();
         panelGameOpponentInfo = new javax.swing.JPanel();
         lblGameOpponentInfo = new javax.swing.JLabel();
-        btnOfferPat = new javax.swing.JButton();
+        btnOfferDraw = new javax.swing.JButton();
         btnSurrender = new javax.swing.JButton();
         panelInit = new javax.swing.JPanel();
         txtOpponentsIP = new javax.swing.JTextField();
@@ -408,13 +408,13 @@ public class MainWindow extends javax.swing.JFrame {
 
         panelGame.add(panelGameOpponentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 30, 290, 40));
 
-        btnOfferPat.setBackground(new java.awt.Color(175, 175, 175));
-        btnOfferPat.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        btnOfferPat.setForeground(new java.awt.Color(100, 100, 100));
-        btnOfferPat.setText("Offer pat");
-        btnOfferPat.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 0), 4, true));
-        btnOfferPat.setPreferredSize(new java.awt.Dimension(250, 60));
-        panelGame.add(btnOfferPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 720, -1, -1));
+        btnOfferDraw.setBackground(new java.awt.Color(175, 175, 175));
+        btnOfferDraw.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        btnOfferDraw.setForeground(new java.awt.Color(100, 100, 100));
+        btnOfferDraw.setText("Offer draw");
+        btnOfferDraw.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 0), 4, true));
+        btnOfferDraw.setPreferredSize(new java.awt.Dimension(250, 60));
+        panelGame.add(btnOfferDraw, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 720, -1, -1));
 
         btnSurrender.setBackground(new java.awt.Color(175, 175, 175));
         btnSurrender.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -733,7 +733,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnInitRules;
     private javax.swing.JButton btnLanguageEN;
     private javax.swing.JButton btnLanguageSK;
-    private javax.swing.JButton btnOfferPat;
+    private javax.swing.JButton btnOfferDraw;
     private javax.swing.JButton btnSurrender;
     private javax.swing.JComboBox<String> comboGameBoardColor;
     private javax.swing.JLayeredPane jLayeredPane1;
@@ -852,7 +852,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
             //Stalemate
             if (board.getCurrentPlayer().isStalemate() || board.kingsOnly()) {
-                JOptionPane.showMessageDialog(null, "Stalemate!");
+                JOptionPane.showMessageDialog(null, "Draw!");
                 new MainWindow().setVisible(true);
                 this.dispose();
             }
@@ -1466,7 +1466,7 @@ public class MainWindow extends javax.swing.JFrame {
         btnInitJoinGame.setText(bundle.getString("JOIN_GAME"));
         btnInitPlayOffline.setText(bundle.getString("PLAY_OFFLINE"));
         btnInitRules.setText(bundle.getString("RULES"));
-        btnOfferPat.setText(bundle.getString("OFFER_PAT"));
+        btnOfferDraw.setText(bundle.getString("OFFER_PAT"));
         btnSurrender.setText(bundle.getString("SURRENDER"));
 
         //combobox for board customization
