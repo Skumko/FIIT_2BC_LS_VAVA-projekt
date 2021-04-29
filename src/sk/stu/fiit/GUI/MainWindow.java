@@ -25,8 +25,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -40,7 +38,6 @@ import sk.stu.fiit.Figurky.Piece;
 import sk.stu.fiit.Figurky.Queen;
 import sk.stu.fiit.Figurky.Rook;
 import sk.stu.fiit.Hrac.PerformMove;
-import sk.stu.fiit.Hrac.WhitePlayer;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
 import sk.stu.fiit.HraciaDoska.Move.CastlingMove;
@@ -64,6 +61,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         panelGameBoard.setLayout(null); //setting layout to null to be able to move with figures
         printMyIp(lblLocalIP);          //sets text of IPlabel  to local IP
+        btnLanguageENMouseReleased(null);
+        updateLocaleTexts();
     }
 
     public static Locale locale = Locale.ENGLISH;
