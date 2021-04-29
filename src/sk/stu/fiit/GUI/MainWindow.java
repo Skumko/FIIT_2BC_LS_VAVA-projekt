@@ -40,6 +40,7 @@ import sk.stu.fiit.Figurky.Piece;
 import sk.stu.fiit.Figurky.Queen;
 import sk.stu.fiit.Figurky.Rook;
 import sk.stu.fiit.Hrac.PerformMove;
+import sk.stu.fiit.Hrac.WhitePlayer;
 import sk.stu.fiit.HraciaDoska.Board;
 import sk.stu.fiit.HraciaDoska.Move;
 import sk.stu.fiit.HraciaDoska.Move.CastlingMove;
@@ -846,7 +847,7 @@ public class MainWindow extends javax.swing.JFrame {
 
             //Check
             if (board.getCurrentPlayer().isInCheck()) {
-                checkKing(!isWhite);                                            //show red King figure
+                checkKing((board.getCurrentPlayer().getPlayerSide() == Side.WHITE));           //!isWhite                                 //show red King figure
             } else {
                 uncheckKings();                                                 //set default images to both kings
             }
@@ -873,7 +874,8 @@ public class MainWindow extends javax.swing.JFrame {
                 if (isSending) {
                     removeMouseListeners(isWhite);
                     user.setFen(board.toString());
-                    user.startSender();
+                    user.sendFen();
+//                    user.startSender();
                 }
             } else {
                 switchSides();
@@ -1014,7 +1016,7 @@ public class MainWindow extends javax.swing.JFrame {
 //                host.setActive(true);
                 user.setActive(true);
 //                host.startListener();
-                user.startListener();
+                user.host();
             } else {                        //we are guest
 //                guest = new Guest(this);
                 user = new SocketUser(this, SocketUser.PlayerType.GUEST);
@@ -1023,18 +1025,20 @@ public class MainWindow extends javax.swing.JFrame {
                     user = null;
                     return;                 //if IP is invalid return
                 }
-                addMouseListeners(false);
+//                addMouseListeners(false);
+                removeMouseListeners(false);
                 user.setActive(true);
-                user.setFen("init");
-                user.startSender();        //send initial message to start game
-                try {
-                    Thread.sleep(400);
-                } catch (InterruptedException ex) {
-                    System.err.println("Doplnit logger");
-                    ex.printStackTrace();
-                    return;
-                }
-                user.startListener();
+                user.setFen("Init");
+//                user.startSender();        //send initial message to start game
+                user.guest();
+//                try {
+//                    Thread.sleep(400);
+//                } catch (InterruptedException ex) {
+//                    System.err.println("Doplnit logger");
+//                    ex.printStackTrace();
+//                    return;
+//                }
+//                user.startListener();
             }
         } else {
             addMouseListeners(true);

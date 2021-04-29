@@ -55,20 +55,22 @@ public class SocketUser {
         return false;
     }
 
-    private final Runnable senderT = new Runnable() {
+    private final Runnable initHost = new Runnable() {
         @Override
         public void run() {
-            try {
-                send();
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(Host.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            initializeHost();
         }
     };
-    private final Runnable listenerT = new Runnable() {
+    private final Runnable initGuest = new Runnable() {
         @Override
         public void run() {
-            listen();
+            initializeGuest();
+        }
+    };
+    private final Runnable send = new Runnable() {
+        @Override
+        public void run() {
+            send();
         }
     };
 
@@ -86,45 +88,110 @@ public class SocketUser {
 //        host.listenerT.start();
 //        host.senderT.start();
 //    }
-    /**
-     * Starts executing method {@link #listen() listen()} in separate {@link
-     * #listenerT thread}
-     */
-    public void startListener() {
-        new Thread(listenerT).start();
+    public void host() {
+        new Thread(initHost).start();
+    }
+
+    public void guest() {
+        new Thread(initGuest).start();
+    }
+
+    public void sendFen() {
+        new Thread(send).start();
     }
 
     /**
-     * Method to listen for incoming sockets.
+     * Initialization of host
      */
-    public void listen() {
-        try (ServerSocket ss = new ServerSocket(isHost() ? hostPort : guestPort, 100, myIP);) {
+    public void initializeHost() {
+//        try (ServerSocket ss = new ServerSocket(isHost() ? hostPort : guestPort, 100, myIP);) {
+        try (ServerSocket ss = new ServerSocket(hostPort, 100, myIP);) {
 
             listenerSocket = ss.accept();
-            if (opponentsIP == null) {
-                setOpponentsIP(listenerSocket.getInetAddress());
-            }
+//            if (opponentsIP == null) {
+            setOpponentsIP(listenerSocket.getInetAddress());
+//            }
             dis = new DataInputStream(listenerSocket.getInputStream());
-            dos = new DataOutputStream(listenerSocket.getOutputStream());
+
+            //SYN
             setFen(dis.readUTF());
-            System.out.println("prislo:" + fen);
-            if (!isHost()) {                                                    //if you are not host than this is the first move of game
-                m.actualizeBoardFromFen(fen);
-            }
-            m.addMouseListeners(m.isWhite());
-            m.showGame();
+            //SYN ACK
+            senderSocket = new Socket(getOpponentsIP(), guestPort);
+            dos = new DataOutputStream(senderSocket.getOutputStream());
+            dos.writeUTF(fen);
+            dos.flush();
+            //ACK
+            setFen(dis.readUTF());
+
+            m.addMouseListeners(true);
+
+            //now just listen for sockets
             while (active) {
-                System.out.println("som v cykle");
                 setFen(dis.readUTF());
-                System.out.println("prislo:" + fen);
+                System.out.println(fen);
                 m.actualizeBoardFromFen(fen);
-                m.addMouseListeners(m.isWhite());
-                /*
-                perform operations with fen
-                actualize the board
-                 */
+//                m.addMouseListeners(true);
             }
+//            if (!isHost()) {                                                    //if you are not host than this is the first move of game
+//                m.actualizeBoardFromFen(fen);
+//            }
+//            m.addMouseListeners(m.isWhite());
+//            m.showGame();
+//            while (active) {
+//                System.out.println("som v cykle");
+//                setFen(dis.readUTF());
+//                System.out.println("prislo:" + fen);
+//                m.actualizeBoardFromFen(fen);
+//                m.addMouseListeners(m.isWhite());
+//                /*
+//                perform operations with fen
+//                actualize the board
+//                 */
+//            }
             listenerSocket.close();
+        } catch (IOException ex) {
+            System.err.println("Doplnit logger");
+        }
+    }
+
+    /**
+     * Initialization of guest
+     */
+    public void initializeGuest() {
+        if (opponentsIP == null) {
+            throw new RuntimeException("Guest IP je null");
+        }
+        try (ServerSocket ss = new ServerSocket(guestPort, 100, myIP);) {
+            //SYN
+            senderSocket = new Socket(opponentsIP, hostPort);
+            dos = new DataOutputStream(senderSocket.getOutputStream());
+            setFen("Init");
+            dos.writeUTF(fen);
+            dos.flush();
+
+            //SYN ACK
+            listenerSocket = ss.accept();
+            dis = new DataInputStream(listenerSocket.getInputStream());
+            dis.readUTF();
+
+            //ACK
+            dos.writeUTF(fen);
+            dos.flush();
+
+            while (active) {
+                setFen(dis.readUTF());
+                System.out.println(fen);
+                m.actualizeBoardFromFen(fen);
+//                m.addMouseListeners(false);
+            }
+//            if (senderSocket == null) {
+//                senderSocket = new Socket(opponentsIP, isHost() ? guestPort : hostPort);
+//                dis = new DataInputStream(senderSocket.getInputStream());
+//                dos = new DataOutputStream(senderSocket.getOutputStream());
+//            }
+//            dos.writeUTF(getFen());
+//            dos.flush();
+//            System.out.println("Odoslane:\n" + fen);
         } catch (IOException ex) {
             System.err.println("Doplnit logger");
         }
@@ -135,7 +202,7 @@ public class SocketUser {
      * #senderT thread}
      */
     public void startSender() {
-        new Thread(senderT).start();
+//        new Thread(senderT).start();
     }
 
     /**
@@ -144,23 +211,21 @@ public class SocketUser {
      * be set before calling this method via
      * {@link #setFen(java.lang.String) setFen(String)}. If {@link #guestIP
      * guestIP} equals null, an UnknownHostException is thrown.
-     *
-     * @throws UnknownHostException
      */
-    public void send() throws UnknownHostException {
-        if (opponentsIP == null) {
-            throw new UnknownHostException("Guest IP je null");
-        }
+    public void send() {
+//        if (opponentsIP == null) {
+//            throw new UnknownHostException("Guest IP je null");
+//        }
 //        setFen(newFen) before sending message
         try {
-            if (senderSocket == null) {
-                senderSocket = new Socket(opponentsIP, isHost() ? guestPort : hostPort);
-                dis = new DataInputStream(senderSocket.getInputStream());
-                dos = new DataOutputStream(senderSocket.getOutputStream());
-            }
+//            if (senderSocket == null) {
+//                senderSocket = new Socket(opponentsIP, isHost() ? guestPort : hostPort);
+//                dis = new DataInputStream(senderSocket.getInputStream());
+//                dos = new DataOutputStream(senderSocket.getOutputStream());
+//            }
             dos.writeUTF(getFen());
             dos.flush();
-            System.out.println("Odoslane:\n" + fen);
+//            System.out.println("Odoslane:\n" + fen);
         } catch (IOException ex) {
             System.err.println("Doplnit logger");
         }
