@@ -811,11 +811,11 @@ public class MainWindow extends javax.swing.JFrame {
             if (move.isAttack()) {
                 JLabel attackedFigure = getLabelBySector(sector);               //get JLabel of figure by sector
                 if (move instanceof Move.EnPassantMove) {
-                    attackedFigure = isWhite ? getLabelBySector(sector + 8) : getLabelBySector(sector - 8);
+                    attackedFigure = board.getCurrentPlayer().getPlayerSide() == Side.WHITE ? getLabelBySector(sector + 8) : getLabelBySector(sector - 8);
                 } else if (attackedFigure == null) {
                     throw new RuntimeException("Mismatch between game logic attacked piece and GUI attacked piece");
                 }
-                eliminateFigure(attackedFigure, !isWhite);                      //eliminate figure
+                eliminateFigure(attackedFigure, board.getCurrentPlayer().getPlayerSide() == Side.WHITE);                      //eliminate figure
             }
 
             //Castling move
@@ -833,8 +833,13 @@ public class MainWindow extends javax.swing.JFrame {
 
             //Promotion
             if (move instanceof Promotion) {
-                this.promotionPiece = getPromoted(sector, isWhite ? Side.WHITE : Side.BLACK);
-                promoteSelectedFigureIcon(selectedFigure, promotionPiece);
+                if (isSending) {
+                    this.promotionPiece = getPromoted(sector, isWhite ? Side.WHITE : Side.BLACK);
+                    promoteSelectedFigureIcon(selectedFigure, promotionPiece, isWhite);
+                } else {
+                    //promotionPiece is set in method actualizeBoardFromFen
+                    promoteSelectedFigureIcon(selectedFigure, promotionPiece, !(board.getCurrentPlayer().getPlayerSide() == Side.WHITE));
+                }
                 board = board.createPromotionBoard(board, move.getDestinationCoordinate(), promotionPiece);
                 System.err.println("TO-DO add move printing of promotion move");
             }
@@ -869,6 +874,7 @@ public class MainWindow extends javax.swing.JFrame {
                 this.dispose();
             }
 
+            System.out.println(board.toString());
             if (isOnline) {
                 if (isSending) {
                     removeMouseListeners(isWhite);
@@ -901,6 +907,30 @@ public class MainWindow extends javax.swing.JFrame {
                 return new Rook(position, side, false);
             default:
                 return new Queen(position, side, false);
+        }
+    }
+
+    public Piece getPromotedOnline(int position, Side side, Board newBoard) {
+        Piece newPiece;
+
+        if (side == Side.WHITE) {
+            newPiece = newBoard.getWhitePieces().stream().filter(piece -> piece.getPosition() == position).findFirst().orElse(null);
+        } else {
+            newPiece = newBoard.getBlackPieces().stream().filter(piece -> piece.getPosition() == position).findFirst().orElse(null);
+        }
+        if (newPiece == null) {
+            return null;
+        }
+        if (newPiece instanceof Knight) {
+            return new Knight(position, side, false);
+        } else if (newPiece instanceof Bishop) {
+            return new Bishop(position, side, false);
+        } else if (newPiece instanceof Rook) {
+            return new Rook(position, side, false);
+        } else if (newPiece instanceof Queen) {
+            return new Queen(position, side, false);
+        } else {
+            return null;
         }
     }
 
@@ -1060,7 +1090,8 @@ public class MainWindow extends javax.swing.JFrame {
                 blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
 
         for (JLabel figure : figures) {
-            if (xyToOne(figure.getX() / 100, figure.getY() / 100) == sector) {
+            if (figure.getX() < 800 && figure.getY() < 800
+                    && xyToOne(figure.getX() / 100, figure.getY() / 100) == sector) {
                 return figure;
             }
         }
@@ -1099,18 +1130,18 @@ public class MainWindow extends javax.swing.JFrame {
         return new ImageIcon(newImage);
     }
 
-    private void promoteSelectedFigureIcon(JLabel figure, Piece piece) {
+    private void promoteSelectedFigureIcon(JLabel figure, Piece piece, boolean white) {
         if (figure == null) {
             return;
         }
         if (piece instanceof Queen) {
-            figure.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", isWhite ? "WQ.png" : "BQ.png").toString()));
+            figure.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", white ? "WQ.png" : "BQ.png").toString()));
         } else if (piece instanceof Bishop) {
-            figure.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", isWhite ? "WB.png" : "BB.png").toString()));
+            figure.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", white ? "WB.png" : "BB.png").toString()));
         } else if (piece instanceof Knight) {
-            figure.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", isWhite ? "WN.png" : "BN.png").toString()));
+            figure.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", white ? "WN.png" : "BN.png").toString()));
         } else if (piece instanceof Rook) {
-            figure.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", isWhite ? "WR.png" : "BR.png").toString()));
+            figure.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", white ? "WR.png" : "BR.png").toString()));
         } else {
             System.err.println("Zle nedobre");
         }
@@ -1352,6 +1383,9 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void printMove(Move move, Board boardBeforeMove) {
         //nahradit println move history logikou
+        //if its black's turn, then it's complete
+        boolean completeRound = boardBeforeMove.getCurrentPlayer().getPlayerSide() == Side.BLACK;
+
         StringBuilder text = new StringBuilder(txtGameMoveHistory.getText());
         if (move instanceof Promotion) {
             text.append(((Promotion) move).toString(promotionPiece));
@@ -1416,7 +1450,7 @@ public class MainWindow extends javax.swing.JFrame {
 //                text.append("\n");
             }
         }
-        text.append(completeRound());
+        text.append(completeRound ? "\n" : " ");
         txtGameMoveHistory.setText(text.toString());
     }
 
@@ -1486,11 +1520,22 @@ public class MainWindow extends javax.swing.JFrame {
         Set<Integer> newFigures;
         int start;
         int destination;
+        Set<Integer> oldFiguresCastling;
+        Set<Integer> newFiguresCastling;
+        int startCastling;
+        int destCastling;
+
         if (isWhite) {
             oldFigures = List.copyOf(board.getBlackPieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
             newFigures = List.copyOf(newBoard.getBlackPieces()).stream()
+                    .map(piece -> piece.getPosition())
+                    .collect(Collectors.toSet());
+            oldFiguresCastling = List.copyOf(board.getBlackPieces()).stream()
+                    .map(piece -> piece.getPosition())
+                    .collect(Collectors.toSet());
+            newFiguresCastling = List.copyOf(newBoard.getBlackPieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
         } else {
@@ -1500,20 +1545,42 @@ public class MainWindow extends javax.swing.JFrame {
             newFigures = List.copyOf(newBoard.getWhitePieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
+            oldFiguresCastling = List.copyOf(board.getWhitePieces()).stream()
+                    .map(piece -> piece.getPosition())
+                    .collect(Collectors.toSet());
+            newFiguresCastling = List.copyOf(newBoard.getWhitePieces()).stream()
+                    .map(piece -> piece.getPosition())
+                    .collect(Collectors.toSet());
         }
-        start = oldFigures.stream()
-                .filter(oldPos -> newFigures.add(oldPos))
+        //check for castling move
+        startCastling = oldFiguresCastling.stream()
+                .filter(oldPos -> newFiguresCastling.add(oldPos))
+                .filter(oldPos -> oldPos == 4 || oldPos == 60)
                 .findFirst().orElse(-1);
-        destination = newFigures.stream()
-                .filter(newPos -> oldFigures.add(newPos))
+        destCastling = newFiguresCastling.stream()
+                .filter(newPos -> oldFiguresCastling.add(newPos))
+                .filter(newPos -> newPos == 2 || newPos == 6 || newPos == 58 || newPos == 62)
                 .findFirst().orElse(-1);
+        if (startCastling != -1 && destCastling != -1) {
+            start = startCastling;
+            destination = destCastling;
+        } else {
+            start = oldFigures.stream()
+                    .filter(oldPos -> newFigures.add(oldPos))
+                    .findFirst().orElse(-1);
+            destination = newFigures.stream()
+                    .filter(newPos -> oldFigures.add(newPos))
+                    .findFirst().orElse(-1);
+        }
         if (start == -1 || destination == -1) {
             throw new RuntimeException("Unable to find move");
         }
 
+        promotionPiece = getPromotedOnline(destination, newBoard.getCurrentPlayer().getPlayerSide() == Side.WHITE ? Side.BLACK : Side.WHITE, newBoard);
         selectedFigure = getLabelBySector(start);
         performMove(destination, false);
         addMouseListeners(isWhite);
+
     }
 
     //<ONLINE STUFF/>
