@@ -76,6 +76,9 @@ public class MainWindow extends javax.swing.JFrame {
     private Board board = null;
     private boolean isWhite;
     private boolean isOnline;
+    private boolean isDraw = false;
+    private boolean isSurrender = false;
+    private boolean isCheckmate = false;
 
     private List<Move> moveHistory = new ArrayList<>();
 
@@ -875,7 +878,6 @@ public class MainWindow extends javax.swing.JFrame {
                     promoteSelectedFigureIcon(selectedFigure, promotionPiece, !(board.getCurrentPlayer().getPlayerSide() == Side.WHITE));
                 }
                 board = board.createPromotionBoard(board, move.getDestinationCoordinate(), promotionPiece);
-                System.err.println("TO-DO add move printing of promotion move");
             }
 
             //print move to side board
@@ -891,7 +893,11 @@ public class MainWindow extends javax.swing.JFrame {
             }
             //Draw
             if (board.getCurrentPlayer().isStalemate() || board.kingsOnly()) {
-                draw();
+                if (isOnline && isSending) {
+                    isDraw = true;
+                } else {
+                    draw();
+                }
 //                JOptionPane.showMessageDialog(null, "Draw!");
 //                user = null;
 //                new MainWindow().setVisible(true);
@@ -899,7 +905,11 @@ public class MainWindow extends javax.swing.JFrame {
             }
             //Checkmate
             if (board.getCurrentPlayer().isInCheckMate()) {
-                checkmate();
+                if (isOnline && isSending) {
+                    isCheckmate = true;
+                } else {
+                    checkmate();
+                }
 //                if (board.getCurrentPlayer().getPlayerSide() == Side.WHITE) {
 //                    JOptionPane.showMessageDialog(null, "Checkmate!\nBlack player wins");
 //                } else {
@@ -912,13 +922,20 @@ public class MainWindow extends javax.swing.JFrame {
 //                this.dispose();
             }
 
-            System.out.println(board.toString());
             if (isOnline) {
                 if (isSending) {
                     removeMouseListeners(isWhite);
                     user.setFen(board.toString());
-                    user.sendFen();
-//                    user.startSender();
+                    if (isDraw) {
+                        user.sendFenDraw();
+                        draw();
+                    } else if (isCheckmate) {
+                        user.sendFenCheckmate();
+                        checkmate();
+                    } else {
+                        user.setFen(board.toString());
+                        user.sendFen();
+                    }
                 }
             } else {
                 switchSides();
@@ -1095,7 +1112,7 @@ public class MainWindow extends javax.swing.JFrame {
                 user = new SocketUser(this, SocketUser.PlayerType.GUEST);
                 String ip = txtOpponentsIP.getText();
                 if (!checkInputIP(ip)) {    //if IP is valid, sets hostIP
-                    user.closeListenerSocket();
+                    user.close();
                     return;                 //if IP is invalid return
                 }
 //                addMouseListeners(false);
@@ -1635,7 +1652,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
         //start new game
-        user.closeListenerSocket();
+//        user.close();
         new MainWindow().setVisible(true);
         this.dispose();
     }
@@ -1644,14 +1661,14 @@ public class MainWindow extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, player + " surrender");
 
         //start new game
-        user.closeListenerSocket();
+//        user.close();
         new MainWindow().setVisible(true);
         this.dispose();
     }
 
     public void draw() {
         JOptionPane.showMessageDialog(null, "Draw!");
-        user.closeListenerSocket();
+//        user.close();
         new MainWindow().setVisible(true);
         this.dispose();
     }

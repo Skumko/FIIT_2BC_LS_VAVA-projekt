@@ -56,37 +56,154 @@ public class SocketUser {
     }
 
     private final Runnable initHost = new Runnable() {
-        private volatile boolean terminate = false;
 
         @Override
         public void run() {
+
+            try (ServerSocket ss = new ServerSocket(hostPort, 100, myIP);) {
+
+                listenerSocket = ss.accept();
+                setOpponentsIP(listenerSocket.getInetAddress());
+                dis = new DataInputStream(listenerSocket.getInputStream());
+
+                //SYN
+                setFen(dis.readUTF());
+                //SYN ACK
+                senderSocket = new Socket(getOpponentsIP(), guestPort);
+                dos = new DataOutputStream(senderSocket.getOutputStream());
+                dos.writeUTF(fen);
+                dos.flush();
+                //ACK
+                setFen(dis.readUTF());
+
+                m.setOpponentIP();
+                m.addMouseListeners(true);
+
+                //now just listen for sockets
+                while (active) {
+                    setFen(dis.readUTF());
+                    switch (fen) {
+                        case "stalemate":
+                            setFen("end");
+                            send();
+                            return;
+                        case "draw":
+                            setFen("end");
+                            send();
+                            m.draw();
+                            return;
+                        case "Black player":
+                            setFen("end");
+                            send();
+                            setFen("Black player");
+                            m.surrender(fen);
+                            return;
+                        case "checkmate":
+                            setFen("end");
+                            send();
+                            return;
+                        case "end":
+                            return;
+                        default:
+                            break;
+                    }
+                    m.actualizeBoardFromFen(fen);
+                }
+//                dis.close();
+//                dos.close();
+//                senderSocket.close();
+//                listenerSocket.close();
+            } catch (IOException ex) {
+                System.err.println("Doplnit logger");
+                ex.printStackTrace();
+            }
+            /*
             while (!terminate) {
                 initializeHost();
             }
+             */
         }
 
-        public void cancel() {
-            terminate = true;
-        }
     };
     private final Runnable initGuest = new Runnable() {
-        private volatile boolean terminate = false;
 
         @Override
         public void run() {
+            if (opponentsIP == null) {
+                throw new RuntimeException("Guest IP je null");
+            }
+            try (ServerSocket ss = new ServerSocket(guestPort, 100, myIP);) {
+                //SYN
+                senderSocket = new Socket(opponentsIP, hostPort);
+                dos = new DataOutputStream(senderSocket.getOutputStream());
+                setFen("Init");
+                dos.writeUTF(fen);
+                dos.flush();
+
+                //SYN ACK
+                listenerSocket = ss.accept();
+                dis = new DataInputStream(listenerSocket.getInputStream());
+                dis.readUTF();
+
+                //ACK
+                dos.writeUTF(fen);
+                dos.flush();
+
+                m.setOpponentIP();
+                while (active) {
+                    setFen(dis.readUTF());
+                    switch (fen) {
+                         case "stalemate":
+                            setFen("end");
+                            send();
+                            return;
+                        case "draw":
+                            setFen("end");
+                            send();
+                            m.draw();
+                            return;
+                        case "White player":
+                            setFen("end");
+                            send();
+                            setFen("White player");
+                            m.surrender(fen);
+                            return;
+                        case "checkmate":
+                            setFen("end");
+                            send();
+                            return;
+                        case "end":
+                            return;
+                        default:
+                            break;
+                    }
+                    m.actualizeBoardFromFen(fen);
+                }
+//                dis.close();
+//                dos.close();
+//                senderSocket.close();
+//                listenerSocket.close();
+            } catch (IOException ex) {
+                System.err.println("Doplnit logger");
+                ex.printStackTrace();
+            }
+            /*
             while (!terminate) {
                 initializeGuest();
-            }
-        }
-
-        public void cancel() {
-            terminate = true;
+            }*/
         }
     };
     private final Runnable send = new Runnable() {
         @Override
         public void run() {
-            send();
+            try {
+                dos.writeUTF(getFen());
+                dos.flush();
+            } catch (IOException ex) {
+                System.err.println("Doplnit logger");
+                ex.printStackTrace();
+            }
+//            send();
         }
     };
 
@@ -116,16 +233,46 @@ public class SocketUser {
         new Thread(send).start();
     }
 
-    public void closeListenerSocket() {
+    public void sendFenDraw() {
+        new Thread(send).start();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            System.err.println("doplnit logger");
+            ex.printStackTrace();
+        }
+        setFen("stalemate");
+        new Thread(send).start();
+    }
+    public void sendFenCheckmate() {
+        new Thread(send).start();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            System.err.println("doplnit logger");
+            ex.printStackTrace();
+        }
+        setFen("checkmate");
+        new Thread(send).start();
+    }
+
+    public void close() {
+        active = false;
         if (listenerSocket != null) {
             try {
-                listenerSocket.close();
+                dis.close();
+                dos.close();
+                senderSocket.close();
+//                listenerSocket.close();
+
+                dis = null;
+                dos = null;
+                senderSocket = null;
+//                listenerSocket = null;
             } catch (IOException ex) {
                 System.err.println("Doplnit logger");
                 ex.printStackTrace();
             }
-            listenerSocket = null;
-            active = false;
         }
     }
 
@@ -158,12 +305,25 @@ public class SocketUser {
             //now just listen for sockets
             while (active) {
                 setFen(dis.readUTF());
-                if (fen.equals("draw")) {
-                    m.draw();
-                    return;
-                } else if (fen.equals("Black player")) {
-                    m.surrender(fen);
-                    return;
+                switch (fen) {
+                    case "draw":
+                        setFen("end");
+                        send();
+                        return;
+                    case "Black player":
+                        setFen("end");
+                        send();
+                        setFen("Black player");
+                        m.surrender(fen);
+                        return;
+                    case "checkmate":
+                        setFen("end");
+                        send();
+                        return;
+                    case "end":
+                        return;
+                    default:
+                        break;
                 }
                 m.actualizeBoardFromFen(fen);
 //                m.addMouseListeners(true);
@@ -218,12 +378,25 @@ public class SocketUser {
             m.setOpponentIP();
             while (active) {
                 setFen(dis.readUTF());
-                if (fen.equals("draw")) {
-                    m.draw();
-                    return;
-                } else if (fen.equals("White player")) {
-                    m.surrender(fen);
-                    return;
+                switch (fen) {
+                    case "draw":
+                        setFen("end");
+                        send();
+                        return;
+                    case "White player":
+                        setFen("end");
+                        send();
+                        setFen("White player");
+                        m.surrender(fen);
+                        return;
+                    case "checkmate":
+                        setFen("end");
+                        send();
+                        return;
+                    case "end":
+                        return;
+                    default:
+                        break;
                 }
                 m.actualizeBoardFromFen(fen);
 //                m.addMouseListeners(false);
