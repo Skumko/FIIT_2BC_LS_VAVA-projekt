@@ -162,7 +162,7 @@ public class MainWindow extends javax.swing.JFrame {
         comboGameBoardColor = new javax.swing.JComboBox<>();
         lblGameBoardColor = new javax.swing.JLabel();
         panelGameOpponentInfo = new javax.swing.JPanel();
-        lblGameOpponentInfo = new javax.swing.JLabel();
+        lblGameOpponentIP = new javax.swing.JLabel();
         btnOfferDraw = new javax.swing.JButton();
         btnSurrender = new javax.swing.JButton();
         panelInit = new javax.swing.JPanel();
@@ -397,16 +397,17 @@ public class MainWindow extends javax.swing.JFrame {
         panelGame.add(panelGameDialog, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 100, 420, 600));
 
         panelGameOpponentInfo.setBackground(new java.awt.Color(200, 200, 200));
+        panelGameOpponentInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 0), 4));
         panelGameOpponentInfo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblGameOpponentInfo.setBackground(new java.awt.Color(0, 0, 0));
-        lblGameOpponentInfo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        lblGameOpponentInfo.setForeground(new java.awt.Color(50, 210, 50));
-        lblGameOpponentInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblGameOpponentInfo.setText("127.0.0.1");
-        panelGameOpponentInfo.add(lblGameOpponentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 270, 20));
+        lblGameOpponentIP.setBackground(new java.awt.Color(0, 0, 0));
+        lblGameOpponentIP.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblGameOpponentIP.setForeground(new java.awt.Color(50, 210, 50));
+        lblGameOpponentIP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblGameOpponentIP.setText("127.0.0.1");
+        panelGameOpponentInfo.add(lblGameOpponentIP, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 270, 30));
 
-        panelGame.add(panelGameOpponentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 30, 290, 40));
+        panelGame.add(panelGameOpponentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 20, 290, 50));
 
         btnOfferDraw.setBackground(new java.awt.Color(175, 175, 175));
         btnOfferDraw.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -414,6 +415,11 @@ public class MainWindow extends javax.swing.JFrame {
         btnOfferDraw.setText("Offer draw");
         btnOfferDraw.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 0), 4, true));
         btnOfferDraw.setPreferredSize(new java.awt.Dimension(250, 60));
+        btnOfferDraw.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnOfferDrawMouseReleased(evt);
+            }
+        });
         panelGame.add(btnOfferDraw, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 720, -1, -1));
 
         btnSurrender.setBackground(new java.awt.Color(175, 175, 175));
@@ -422,6 +428,11 @@ public class MainWindow extends javax.swing.JFrame {
         btnSurrender.setText("Surrender");
         btnSurrender.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 0), 4, true));
         btnSurrender.setPreferredSize(new java.awt.Dimension(250, 60));
+        btnSurrender.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnSurrenderMouseReleased(evt);
+            }
+        });
         panelGame.add(btnSurrender, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 790, -1, -1));
 
         jLayeredPane1.add(panelGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -671,6 +682,29 @@ public class MainWindow extends javax.swing.JFrame {
         initializeGame(false, true);
     }//GEN-LAST:event_btnInitPlayOfflineMouseReleased
 
+    private void btnSurrenderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSurrenderMouseReleased
+        // TODO add your handling code here:
+        String player;
+        if (isOnline) {
+            player = user.isHost() ? "White player" : "Black player";
+            user.setFen(player);
+            user.sendFen();
+            surrender(player);
+        } else {
+            player = board.getCurrentPlayer().getPlayerSide() == Side.WHITE ? "White player" : "Black player";
+            surrender(player);
+        }
+    }//GEN-LAST:event_btnSurrenderMouseReleased
+
+    private void btnOfferDrawMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOfferDrawMouseReleased
+        // TODO add your handling code here:
+        if (isOnline) {
+            user.setFen("draw");
+            user.sendFen();
+        }
+        draw();
+    }//GEN-LAST:event_btnOfferDrawMouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -741,7 +775,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblGameBoardColor;
     private javax.swing.JLabel lblGameColumns;
     private javax.swing.JLabel lblGameMoveHistory;
-    private javax.swing.JLabel lblGameOpponentInfo;
+    private javax.swing.JLabel lblGameOpponentIP;
     private javax.swing.JLabel lblGameRows;
     private javax.swing.JLabel lblInitEnterIP;
     private javax.swing.JLabel lblInitGameName;
@@ -855,23 +889,27 @@ public class MainWindow extends javax.swing.JFrame {
             } else {
                 uncheckKings();                                                 //set default images to both kings
             }
-            //Stalemate
+            //Draw
             if (board.getCurrentPlayer().isStalemate() || board.kingsOnly()) {
-                JOptionPane.showMessageDialog(null, "Draw!");
-                new MainWindow().setVisible(true);
-                this.dispose();
+                draw();
+//                JOptionPane.showMessageDialog(null, "Draw!");
+//                user = null;
+//                new MainWindow().setVisible(true);
+//                this.dispose();
             }
             //Checkmate
             if (board.getCurrentPlayer().isInCheckMate()) {
-                if (board.getCurrentPlayer().getPlayerSide() == Side.WHITE) {
-                    JOptionPane.showMessageDialog(null, "Checkmate!\nBlack player wins");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Checkmate!\nWhite player wins");
-                }
-
-                //start new game
-                new MainWindow().setVisible(true);
-                this.dispose();
+                checkmate();
+//                if (board.getCurrentPlayer().getPlayerSide() == Side.WHITE) {
+//                    JOptionPane.showMessageDialog(null, "Checkmate!\nBlack player wins");
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "Checkmate!\nWhite player wins");
+//                }
+//
+//                //start new game
+//                user = null;
+//                new MainWindow().setVisible(true);
+//                this.dispose();
             }
 
             System.out.println(board.toString());
@@ -944,7 +982,13 @@ public class MainWindow extends javax.swing.JFrame {
         nextPosWhiteElim[1] = 710;
     }
 
+    public void setOpponentIP() {
+        lblGameOpponentIP.setText(user.getOpponentsIP().getHostAddress());
+    }
+
+    @Deprecated
     private void resetFiguresPosition() {
+        user.setActive(false);
         new MainWindow().setVisible(true);
         this.dispose();
         List<JLabel> figures = List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
@@ -1051,7 +1095,7 @@ public class MainWindow extends javax.swing.JFrame {
                 user = new SocketUser(this, SocketUser.PlayerType.GUEST);
                 String ip = txtOpponentsIP.getText();
                 if (!checkInputIP(ip)) {    //if IP is valid, sets hostIP
-                    user = null;
+                    user.closeListenerSocket();
                     return;                 //if IP is invalid return
                 }
 //                addMouseListeners(false);
@@ -1500,7 +1544,7 @@ public class MainWindow extends javax.swing.JFrame {
         btnInitJoinGame.setText(bundle.getString("JOIN_GAME"));
         btnInitPlayOffline.setText(bundle.getString("PLAY_OFFLINE"));
         btnInitRules.setText(bundle.getString("RULES"));
-        btnOfferDraw.setText(bundle.getString("OFFER_PAT"));
+        btnOfferDraw.setText(bundle.getString("OFFER_DRAW"));
         btnSurrender.setText(bundle.getString("SURRENDER"));
 
         //combobox for board customization
@@ -1581,6 +1625,35 @@ public class MainWindow extends javax.swing.JFrame {
         performMove(destination, false);
         addMouseListeners(isWhite);
 
+    }
+
+    public void checkmate() {
+        if (board.getCurrentPlayer().getPlayerSide() == Side.WHITE) {
+            JOptionPane.showMessageDialog(null, "Checkmate!\nBlack player wins");
+        } else {
+            JOptionPane.showMessageDialog(null, "Checkmate!\nWhite player wins");
+        }
+
+        //start new game
+        user.closeListenerSocket();
+        new MainWindow().setVisible(true);
+        this.dispose();
+    }
+
+    public void surrender(String player) {
+        JOptionPane.showMessageDialog(null, player + " surrender");
+
+        //start new game
+        user.closeListenerSocket();
+        new MainWindow().setVisible(true);
+        this.dispose();
+    }
+
+    public void draw() {
+        JOptionPane.showMessageDialog(null, "Draw!");
+        user.closeListenerSocket();
+        new MainWindow().setVisible(true);
+        this.dispose();
     }
 
     //<ONLINE STUFF/>

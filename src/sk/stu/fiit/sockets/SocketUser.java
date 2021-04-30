@@ -56,15 +56,31 @@ public class SocketUser {
     }
 
     private final Runnable initHost = new Runnable() {
+        private volatile boolean terminate = false;
+
         @Override
         public void run() {
-            initializeHost();
+            while (!terminate) {
+                initializeHost();
+            }
+        }
+
+        public void cancel() {
+            terminate = true;
         }
     };
     private final Runnable initGuest = new Runnable() {
+        private volatile boolean terminate = false;
+
         @Override
         public void run() {
-            initializeGuest();
+            while (!terminate) {
+                initializeGuest();
+            }
+        }
+
+        public void cancel() {
+            terminate = true;
         }
     };
     private final Runnable send = new Runnable() {
@@ -100,6 +116,19 @@ public class SocketUser {
         new Thread(send).start();
     }
 
+    public void closeListenerSocket() {
+        if (listenerSocket != null) {
+            try {
+                listenerSocket.close();
+            } catch (IOException ex) {
+                System.err.println("Doplnit logger");
+                ex.printStackTrace();
+            }
+            listenerSocket = null;
+            active = false;
+        }
+    }
+
     /**
      * Initialization of host
      */
@@ -123,12 +152,19 @@ public class SocketUser {
             //ACK
             setFen(dis.readUTF());
 
+            m.setOpponentIP();
             m.addMouseListeners(true);
 
             //now just listen for sockets
             while (active) {
                 setFen(dis.readUTF());
-                System.out.println(fen);
+                if (fen.equals("draw")) {
+                    m.draw();
+                    return;
+                } else if (fen.equals("Black player")) {
+                    m.surrender(fen);
+                    return;
+                }
                 m.actualizeBoardFromFen(fen);
 //                m.addMouseListeners(true);
             }
@@ -151,6 +187,7 @@ public class SocketUser {
             listenerSocket.close();
         } catch (IOException ex) {
             System.err.println("Doplnit logger");
+            ex.printStackTrace();
         }
     }
 
@@ -178,9 +215,16 @@ public class SocketUser {
             dos.writeUTF(fen);
             dos.flush();
 
+            m.setOpponentIP();
             while (active) {
                 setFen(dis.readUTF());
-                System.out.println(fen);
+                if (fen.equals("draw")) {
+                    m.draw();
+                    return;
+                } else if (fen.equals("White player")) {
+                    m.surrender(fen);
+                    return;
+                }
                 m.actualizeBoardFromFen(fen);
 //                m.addMouseListeners(false);
             }
@@ -194,6 +238,7 @@ public class SocketUser {
 //            System.out.println("Odoslane:\n" + fen);
         } catch (IOException ex) {
             System.err.println("Doplnit logger");
+            ex.printStackTrace();
         }
     }
 
@@ -228,6 +273,7 @@ public class SocketUser {
 //            System.out.println("Odoslane:\n" + fen);
         } catch (IOException ex) {
             System.err.println("Doplnit logger");
+            ex.printStackTrace();
         }
         /*
         try {
@@ -264,6 +310,7 @@ public class SocketUser {
             }
         } catch (SocketException | UnknownHostException ex) {
             System.err.println("Doplnit logger");
+            ex.printStackTrace();
         }
     }
 
