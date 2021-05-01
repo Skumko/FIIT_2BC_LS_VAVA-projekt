@@ -19,6 +19,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import sk.stu.fiit.GUI.MainWindow;
 import sk.stu.fiit.GUI.MainWindow.TemporaryForTesting;
+import sk.stu.fiit.logging.Log;
+import sk.stu.fiit.logging.Logs;
 
 /**
  *
@@ -64,11 +66,17 @@ public class Host {
     }
 
     public static void main(String[] args) {
-        Host host = new Host(new MainWindow(), true);
-        System.out.println(host.hostIP);
-        host.m.setVisible(true);
-        host.listenerT.start();
-        host.senderT.start();
+//        Host host = new Host(new MainWindow(), true);
+//        System.out.println(host.hostIP);
+//        host.m.setVisible(true);
+//        host.listenerT.start();
+//        host.senderT.start();
+        int x = 5, y = 0;
+        try {
+            System.out.println(x / y);
+        } catch (Exception e) {
+            Logs.log(Log.LogLevel.SEVERE, "Delenie nulou", Host.class.getName());
+        }
     }
 
     /**
