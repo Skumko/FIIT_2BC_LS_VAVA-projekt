@@ -67,14 +67,6 @@ public class MainWindow extends javax.swing.JFrame {
         printMyIp(lblLocalIP);          //sets text of IPlabel  to local IP
         btnLanguageENMouseReleased(null);
         updateLocaleTexts();
-        
-        try{
-            System.out.println(15/0);
-        }
-        catch(Exception e){
-            Logs.log(Log.LogLevel.SEVERE, "delenie nulou", MainWindow.class.getName());
-        }
-        
     }
 
     public static Locale locale = Locale.ENGLISH;
