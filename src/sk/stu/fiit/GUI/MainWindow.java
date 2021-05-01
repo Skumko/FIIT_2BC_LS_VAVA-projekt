@@ -7,7 +7,6 @@ package sk.stu.fiit.GUI;
 
 import java.awt.Image;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,7 +15,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,8 +43,6 @@ import sk.stu.fiit.HraciaDoska.Move;
 import sk.stu.fiit.HraciaDoska.Move.CastlingMove;
 import sk.stu.fiit.HraciaDoska.Move.Promotion;
 import sk.stu.fiit.Side;
-import sk.stu.fiit.logging.Log;
-import sk.stu.fiit.logging.Logs;
 import sk.stu.fiit.sockets.SocketUser;
 
 /**
@@ -63,8 +59,8 @@ public class MainWindow extends javax.swing.JFrame {
         panelGame.setVisible(false);
         panelInit.setVisible(true);
 
-        panelGameBoard.setLayout(null); //setting layout to null to be able to move with figures
-        printMyIp(lblLocalIP);          //sets text of IPlabel  to local IP
+        panelGameBoard.setLayout(null);                                         //setting layout to null to be able to move with figures
+        printMyIp(lblLocalIP);                                                  //sets text of IPlabel  to local IP
         btnLanguageENMouseReleased(null);
         updateLocaleTexts();
     }
@@ -92,8 +88,6 @@ public class MainWindow extends javax.swing.JFrame {
     public boolean isWhite() {
         return isWhite;
     }
-//    private Guest guest = null;
-//    private Host host = null;
     private SocketUser user = null;
 
     private void printMyIp(JLabel lbl) {
@@ -529,70 +523,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void lblGameBoardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGameBoardMouseReleased
         // TODO add your handling code here:
-
         performMove(xyToOne(evt.getX() / 100, evt.getY() / 100), true);
-        /*
-        if (selectedFigure == null) {                                           //if none figure is selected return
-            return;
-        }
-        int sector = xyToOne(evt.getX() / 100, evt.getY() / 100);               //sector of tile where mouse clicked
-        //get Move object
-        Move move = Move.MoveFactory.createMove(board, xyToOne(selectedFigure.getX() / 100, selectedFigure.getY() / 100), sector);
-        PerformMove perfMove = board.getCurrentPlayer().makeMove(move);         //perform move
-
-        //if it is a valid move
-        if (perfMove.getMoveStatus() == PerformMove.MoveStatus.DONE) {
-
-            moveHistory.add(move);                                              //put move to history
-
-            if (move.isAttack()) {                                              //if it is a attack move, eliminate attacked figure
-                JLabel attackedFigure = getLabelBySector(sector);               //get JLabel of figure by sector
-                if (attackedFigure == null) {
-                    throw new RuntimeException("Mismatch between game logic attacked piece and GUI attacked piece");
-                }
-                eliminateFigure(attackedFigure, !isWhite);                      //eliminate figure
-            }
-
-            //get possible moves
-            List<Integer> posMoves = getPossibleMoves(board, xyToOne(selectedFigure.getX() / 100, selectedFigure.getY() / 100));
-
-            //move figure
-            moveFigure(selectedFigure, xyToOne(evt.getX() / 100, evt.getY() / 100), posMoves);
-
-            if (move.isCastlingMove()) {
-                int rookPosition = ((CastlingMove) move).getCastlingRook().getPosition();
-                int destRookPos = ((CastlingMove) move).getRookDestination();
-                JLabel movedRook = getCastlingRook(sector);
-                moveFigure(movedRook, destRookPos, List.of(destRookPos));
-            }
-
-            Board boardBeforeMove = board;
-            board = perfMove.getMakeMoveBoard();
-            printMove(move, boardBeforeMove);                                   //print Moves toString representation
-
-            if (board.getCurrentPlayer().isInCheck()) {                         //if i get opponents king in check
-                checkKing(!isWhite);                                            //show red King figure
-            } else {                                                            //opponents king is not in check
-                uncheckKings();                                                 //set default images to both kings
-            }
-            if (board.getCurrentPlayer().isStalemate()) {                       //stalemate
-                JOptionPane.showMessageDialog(null, "Stalemate!");
-                new MainWindow().setVisible(true);
-                this.dispose();
-            }
-            if (board.getCurrentPlayer().isInCheckMate()) {                     //checkmate
-                if (board.getCurrentPlayer().getPlayerSide() == Side.WHITE) {
-                    JOptionPane.showMessageDialog(null, "Checkmate!\nWhite player wins");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Checkmate!\nBlack player wins");
-                }
-//                showInit();
-                new MainWindow().setVisible(true);
-                this.dispose();
-            }
-            System.err.println("TODO: Add moves history");
-            switchSides();
-        }*/
     }//GEN-LAST:event_lblGameBoardMouseReleased
 
     private void comboGameBoardColorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboGameBoardColorItemStateChanged
@@ -639,8 +570,6 @@ public class MainWindow extends javax.swing.JFrame {
         locale = Locale.ENGLISH;
         bundle = ResourceBundle.getBundle("sk.stu.fiit.resources/resources", Locale.ROOT);
         updateLocaleTexts();
-//        panelGame.setVisible(false);
-//        panelInit.setVisible(true);
     }//GEN-LAST:event_btnLanguageENMouseReleased
 
     private void btnLanguageSKMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLanguageSKMouseReleased
@@ -648,8 +577,6 @@ public class MainWindow extends javax.swing.JFrame {
         locale = new Locale("sk", "SK");
         bundle = ResourceBundle.getBundle("sk.stu.fiit.resources/resources", locale);
         updateLocaleTexts();
-//        panelGame.setVisible(true);
-//        panelInit.setVisible(false);
     }//GEN-LAST:event_btnLanguageSKMouseReleased
 
     private void btnInitRulesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInitRulesMouseReleased
@@ -659,28 +586,11 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnIintCreateGameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIintCreateGameMouseReleased
         // TODO add your handling code here:
-////        board initialization
-//        board = Board.createStartBoard();
-//        isWhite = true;
-//
-//        host = new Host(this, false);
-//        lblLocalIP.setText(host.getLocalIp().toString().replace('/', ' '));
-//        showGame();
-//        host.setActive(true);
-//        host.startListener();
         initializeGame(true, true);
     }//GEN-LAST:event_btnIintCreateGameMouseReleased
 
     private void btnInitJoinGameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInitJoinGameMouseReleased
         // TODO add your handling code here:
-//        guest = new Guest(this);
-//        String ip = txtOpponentsIP.getText();
-//        if (!checkInputIP(ip)) {    //if IP is valid, sets hostIP
-//            return;                 //if IP is invalid return
-//        }
-//        guest.setFen("Initial greeting");
-//        guest.startSender();
-//        showGame();
         initializeGame(true, false);
     }//GEN-LAST:event_btnInitJoinGameMouseReleased
 
@@ -843,20 +753,26 @@ public class MainWindow extends javax.swing.JFrame {
         //if it is a valid move
         if (perfMove.getMoveStatus() == PerformMove.MoveStatus.DONE) {
 
-            moveHistory.add(move);                                              //add move to history
+            //add move to history
+            moveHistory.add(move);
 
             //get possible moves
             List<Integer> posMoves = getPossibleMoves(board, xyToOne(selectedFigure.getX() / 100, selectedFigure.getY() / 100));
 
             //Attack move
             if (move.isAttack()) {
-                JLabel attackedFigure = getLabelBySector(sector);               //get JLabel of figure by sector
+                //get JLabel of figure by sector
+                JLabel attackedFigure = getLabelBySector(sector);
+
+                //En Passant
                 if (move instanceof Move.EnPassantMove) {
                     attackedFigure = board.getCurrentPlayer().getPlayerSide() == Side.WHITE ? getLabelBySector(sector + 8) : getLabelBySector(sector - 8);
                 } else if (attackedFigure == null) {
                     throw new RuntimeException("Mismatch between game logic attacked piece and GUI attacked piece");
                 }
-                eliminateFigure(attackedFigure, board.getCurrentPlayer().getPlayerSide() == Side.WHITE);                      //eliminate figure
+
+                //eliminate figure
+                eliminateFigure(attackedFigure, board.getCurrentPlayer().getPlayerSide() == Side.WHITE);
             }
 
             //Castling move
@@ -865,7 +781,6 @@ public class MainWindow extends javax.swing.JFrame {
                 int destRookPos = ((CastlingMove) move).getRookDestination();
                 JLabel movedRook = getCastlingRook(sector);
                 JLabel tempSelected = selectedFigure;
-//                moveFigure(movedRook, destRookPos, List.of(destRookPos));
 
                 moveFigure(movedRook, destRookPos, new ArrayList<Integer>(Arrays.asList(destRookPos)));
                 selectedFigure = tempSelected;
@@ -880,7 +795,6 @@ public class MainWindow extends javax.swing.JFrame {
                     this.promotionPiece = getPromoted(sector, isWhite ? Side.WHITE : Side.BLACK);
                     promoteSelectedFigureIcon(selectedFigure, promotionPiece, isWhite);
                 } else {
-                    //promotionPiece is set in method actualizeBoardFromFen
                     promoteSelectedFigureIcon(selectedFigure, promotionPiece, !(board.getCurrentPlayer().getPlayerSide() == Side.WHITE));
                 }
                 board = board.createPromotionBoard(board, move.getDestinationCoordinate(), promotionPiece);
@@ -893,10 +807,11 @@ public class MainWindow extends javax.swing.JFrame {
 
             //Check
             if (board.getCurrentPlayer().isInCheck()) {
-                checkKing((board.getCurrentPlayer().getPlayerSide() == Side.WHITE));           //!isWhite                                 //show red King figure
+                checkKing((board.getCurrentPlayer().getPlayerSide() == Side.WHITE));
             } else {
-                uncheckKings();                                                 //set default images to both kings
+                uncheckKings();
             }
+
             //Draw
             if (board.getCurrentPlayer().isStalemate() || board.kingsOnly()) {
                 if (isOnline && isSending) {
@@ -904,11 +819,8 @@ public class MainWindow extends javax.swing.JFrame {
                 } else {
                     draw();
                 }
-//                JOptionPane.showMessageDialog(null, "Draw!");
-//                user = null;
-//                new MainWindow().setVisible(true);
-//                this.dispose();
             }
+
             //Checkmate
             if (board.getCurrentPlayer().isInCheckMate()) {
                 if (isOnline && isSending) {
@@ -916,18 +828,9 @@ public class MainWindow extends javax.swing.JFrame {
                 } else {
                     checkmate();
                 }
-//                if (board.getCurrentPlayer().getPlayerSide() == Side.WHITE) {
-//                    JOptionPane.showMessageDialog(null, "Checkmate!\nBlack player wins");
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "Checkmate!\nWhite player wins");
-//                }
-//
-//                //start new game
-//                user = null;
-//                new MainWindow().setVisible(true);
-//                this.dispose();
             }
 
+            //if it is a online game, send board with new move
             if (isOnline) {
                 if (isSending) {
                     removeMouseListeners(isWhite);
@@ -1009,91 +912,6 @@ public class MainWindow extends javax.swing.JFrame {
         lblGameOpponentIP.setText(user.getOpponentsIP().getHostAddress());
     }
 
-    @Deprecated
-    private void resetFiguresPosition() {
-        user.setActive(false);
-        new MainWindow().setVisible(true);
-        this.dispose();
-        List<JLabel> figures = Arrays.asList(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
-                whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing,
-                blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
-                blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
-//        List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
-//                whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing,
-//                blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
-//                blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
-        figures.stream()
-                .forEach(figure -> rescale((ImageIcon) figure.getIcon(), 100, 100));
-
-        blackPawnA.setBounds(0, 100, 100, 100);
-        blackPawnB.setBounds(100, 100, 100, 100);
-        blackPawnC.setBounds(200, 100, 100, 100);
-        blackPawnD.setBounds(300, 100, 100, 100);
-        blackPawnE.setBounds(400, 100, 100, 100);
-        blackPawnF.setBounds(500, 100, 100, 100);
-        blackPawnG.setBounds(600, 100, 100, 100);
-        blackPawnH.setBounds(700, 100, 100, 100);
-        blackRookL.setBounds(0, 0, 100, 100);
-        blackKnightL.setBounds(100, 0, 100, 100);
-        blackBishopL.setBounds(200, 0, 100, 100);
-        blackQueen.setBounds(300, 0, 100, 100);
-        blackKing.setBounds(400, 0, 100, 100);
-        blackBishopR.setBounds(500, 0, 100, 100);
-        blackKnightR.setBounds(600, 0, 100, 100);
-        blackRookR.setBounds(700, 0, 100, 100);
-
-        whitePawnA.setBounds(0, 600, 100, 100);
-        whitePawnB.setBounds(100, 600, 100, 100);
-        whitePawnC.setBounds(200, 600, 100, 100);
-        whitePawnD.setBounds(300, 600, 100, 100);
-        whitePawnE.setBounds(400, 600, 100, 100);
-        whitePawnF.setBounds(500, 600, 100, 100);
-        whitePawnG.setBounds(600, 600, 100, 100);
-        whitePawnH.setBounds(700, 600, 100, 100);
-        whiteRookL.setBounds(0, 700, 100, 100);
-        whiteKnightL.setBounds(100, 700, 100, 100);
-        whiteBishopL.setBounds(200, 700, 100, 100);
-        whiteQueen.setBounds(300, 700, 100, 100);
-        whiteKing.setBounds(400, 700, 100, 100);
-        whiteBishopR.setBounds(500, 700, 100, 100);
-        whiteKnightR.setBounds(600, 700, 100, 100);
-        whiteRookR.setBounds(700, 700, 100, 100);
-
-        blackPawnA.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
-        blackPawnB.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
-        blackPawnC.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
-        blackPawnD.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
-        blackPawnE.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
-        blackPawnF.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
-        blackPawnG.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
-        blackPawnH.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BP.png").toString()));
-        blackRookL.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BR.png").toString()));
-        blackKnightL.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BN.png").toString()));
-        blackBishopL.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BB.png").toString()));
-        blackQueen.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BQ.png").toString()));
-        blackKing.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BK.png").toString()));
-        blackBishopR.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BB.png").toString()));
-        blackKnightR.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BN.png").toString()));
-        blackRookR.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "BR.png").toString()));
-
-        whitePawnA.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
-        whitePawnB.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
-        whitePawnC.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
-        whitePawnD.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
-        whitePawnE.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
-        whitePawnF.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
-        whitePawnG.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
-        whitePawnH.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WP.png").toString()));
-        whiteRookL.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WR.png").toString()));
-        whiteKnightL.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WN.png").toString()));
-        whiteBishopL.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WB.png").toString()));
-        whiteQueen.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WQ.png").toString()));
-        whiteKing.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WK.png").toString()));
-        whiteBishopR.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WB.png").toString()));
-        whiteKnightR.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WN.png").toString()));
-        whiteRookR.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "WR.png").toString()));
-    }
-
     /**
      * Creates new start board. Sets this player color according to parameter
      * isWhite. Creates new Host/Guest, starts Listener/Sender thread. Checks IP
@@ -1103,42 +921,29 @@ public class MainWindow extends javax.swing.JFrame {
      * @param isWhite
      */
     private void initializeGame(boolean online, boolean isWhite) {
-        //        board initialization
+        //board initialization
         board = Board.createStartBoard();
         this.isWhite = isWhite;
         this.isOnline = online;
 
         if (online) {
-            if (isWhite) {                  //if isWhite is true, it means that we are host
-//                host = new Host(this, false);
+            //if isWhite is true, it means that we are host
+            if (isWhite) {
                 user = new SocketUser(this, SocketUser.PlayerType.HOST);
-//                addMouseListeners(true);
-//                host.setActive(true);
                 user.setActive(true);
-//                host.startListener();
                 user.host();
-            } else {                        //we are guest
-//                guest = new Guest(this);
+            } else {
                 user = new SocketUser(this, SocketUser.PlayerType.GUEST);
                 String ip = txtOpponentsIP.getText();
+
                 if (!checkInputIP(ip)) {    //if IP is valid, sets hostIP
                     user.close();
                     return;                 //if IP is invalid return
                 }
-//                addMouseListeners(false);
                 removeMouseListeners(false);
                 user.setActive(true);
                 user.setFen("Init");
-//                user.startSender();        //send initial message to start game
                 user.guest();
-//                try {
-//                    Thread.sleep(400);
-//                } catch (InterruptedException ex) {
-//                    System.err.println("Doplnit logger");
-//                    ex.printStackTrace();
-//                    return;
-//                }
-//                user.startListener();
             }
         } else {
             addMouseListeners(true);
@@ -1159,10 +964,6 @@ public class MainWindow extends javax.swing.JFrame {
                 whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing,
                 blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
                 blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
-//        List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
-//                whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing,
-//                blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
-//                blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
 
         for (JLabel figure : figures) {
             if (figure.getX() < 800 && figure.getY() < 800
@@ -1276,18 +1077,11 @@ public class MainWindow extends javax.swing.JFrame {
         }
 //        convert Move objects to int representation of sectors
         List<Integer> possibleSectors = getPossibleMoves(board, xyToOne(figure.getX() / 100, figure.getY() / 100));
-        possibleSectors.stream()
-                .forEach(i -> System.out.println(i));
-//        List<Integer> possibleSectors = board.getAllLegalMoves().stream()
-//                .filter(move -> move.getMovedPiece().getPosition() == xyToOne(figure.getX() / 100, figure.getY() / 100))
-//                .map(move -> move.getDestinationCoordinate())
-//                .collect(Collectors.toList());
 
 //        function to create new dot for every sector in list
         Function<Integer, JLabel> function = (sector) -> {
             JLabel label = new JLabel();
             panelGameBoard.add(label, 0);
-//            label.setIcon(new ImageIcon(Path.of("src", "figurky_png", "100x100", "dot.png").toString()));
             label.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "dot.png").toString()));
             int x = oneToxy(sector)[0];
             int y = oneToxy(sector)[1];
@@ -1359,9 +1153,6 @@ public class MainWindow extends javax.swing.JFrame {
         if (!possibleMoves.contains(sector)) {  //check for ability to move to selected sector
             return;
         }
-        /*
-        check for elimination of opponent's figure
-         */
         figure.setLocation(oneToxy(sector)[0] * 100, oneToxy(sector)[1] * 100);
         removePossibleMoves();
     }
@@ -1378,15 +1169,11 @@ public class MainWindow extends javax.swing.JFrame {
         if (isWhite) {
             figures = Arrays.asList(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
                     whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing);
-//            List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
-//                    whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing);
         } else {
             figures = Arrays.asList(blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
                     blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
-//            List.of(blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
-//                    blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
         }
-//        adds mouse listener to every figure
+        //add mouse listener to every figure
         figures.stream()
                 .forEach(figure -> {
                     figure.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1410,15 +1197,11 @@ public class MainWindow extends javax.swing.JFrame {
         if (isWhite) {
             figures = Arrays.asList(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
                     whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing);
-//            List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
-//                    whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing);
         } else {
             figures = Arrays.asList(blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
                     blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
-//            List.of(blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
-//                    blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
         }
-//        removes mouse listeners
+        //remove mouse listeners
         figures.stream()
                 .forEach(figure -> {
                     for (MouseListener listener : figure.getMouseListeners()) {
@@ -1466,7 +1249,6 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void printMove(Move move, Board boardBeforeMove) {
-        //nahradit println move history logikou
         //if its black's turn, then it's complete
         boolean completeRound = boardBeforeMove.getCurrentPlayer().getPlayerSide() == Side.BLACK;
 
@@ -1477,18 +1259,10 @@ public class MainWindow extends javax.swing.JFrame {
             text.append(move.toString());
         }
         if (board.getCurrentPlayer().isInCheckMate()) {
-            System.out.println(move.toString() + "#");
-//            text.append(move.toString() + "#" + "\n");
             text.append("#");
-            //some "end game" logic, windows etc.
         } else if (board.getCurrentPlayer().isInCheck()) {
-            System.out.println(move.toString() + "+");
-//            text.append(move.toString() + "+" + "\n");
             text.append("+");
         } else if (board.getCurrentPlayer().isStalemate()) {
-            System.out.println(move.toString());
-            System.out.println("1/2 - 1/2");
-//            text.append(move.toString() + "\n1/2 - 1/2\n");
             text.append("\n1/2 - 1/2\n");
         } else {
             if (move.getMovedPiece().isDuplicatePiece()) {
@@ -1499,23 +1273,15 @@ public class MainWindow extends javax.swing.JFrame {
                         for (Move possibleMove : secondPiece.getPossibleMoves(boardBeforeMove)) {
                             if (possibleMove.getDestinationCoordinate() == move.getDestinationCoordinate()) {
                                 if (board.getCurrentPlayer().isInCheckMate()) {
-                                    System.out.println(move.toStringD() + "#");
-//                                    text.append(move.toString() + "#" + "\n");
                                     text.append("#");
                                     //some "end game" logic, windows etc.
                                 } else if (board.getCurrentPlayer().isInCheck()) {
-                                    System.out.println(move.toStringD() + "+");
-//                                    text.append(move.toString() + "+" + "\n");
                                     text.append("+");
                                 } else if (board.getCurrentPlayer().isStalemate()) {
-                                    System.out.println(move.toStringD());
-                                    System.out.println("1/2 - 1/2");
-//                                    text.append(move.toString() + "\n1/2 - 1/2\n");
+//                                    text.append(move.toStringD());
                                     text.append("\n1/2 - 1/2\n");
                                 } else {
-                                    System.out.println(move.toStringD());
-//                                    text.append(move.toString() + "\n");
-//                                    text.append("\n");
+//                                    text.append(move.toStringD());
                                 }
                                 possibleDuplicate = true;
                                 break;
@@ -1524,14 +1290,8 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                 }
                 if (!possibleDuplicate) {
-                    System.out.println(move.toString());
-//                    text.append(move.toString() + "\n");
-//                    text.append("\n");
                 }
             } else {
-                System.out.println(move.toString());
-//                text.append(move.toString() + "\n");
-//                text.append("\n");
             }
         }
         text.append(completeRound ? "\n" : " ");
@@ -1610,37 +1370,29 @@ public class MainWindow extends javax.swing.JFrame {
         int destCastling;
 
         if (isWhite) {
-//            oldFigures = List.copyOf(board.getBlackPieces()).stream()
-            oldFigures = new ArrayList<Piece>(board.getBlackPieces()).stream()
+            oldFigures = new ArrayList<>(board.getBlackPieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-//            newFigures = List.copyOf(newBoard.getBlackPieces()).stream()
-            newFigures = new ArrayList<Piece>(newBoard.getBlackPieces()).stream()
+            newFigures = new ArrayList<>(newBoard.getBlackPieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-//            oldFiguresCastling = List.copyOf(board.getBlackPieces()).stream()
-            oldFiguresCastling = new ArrayList<Piece>(board.getBlackPieces()).stream()
+            oldFiguresCastling = new ArrayList<>(board.getBlackPieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-//            newFiguresCastling = List.copyOf(newBoard.getBlackPieces()).stream()
-            newFiguresCastling = new ArrayList<Piece>(newBoard.getBlackPieces()).stream()
+            newFiguresCastling = new ArrayList<>(newBoard.getBlackPieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
         } else {
-//            oldFigures = List.copyOf(board.getWhitePieces()).stream()
-            oldFigures = new ArrayList<Piece>(board.getWhitePieces()).stream()
+            oldFigures = new ArrayList<>(board.getWhitePieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-//            newFigures = List.copyOf(newBoard.getWhitePieces()).stream()
-            newFigures = new ArrayList<Piece>(newBoard.getWhitePieces()).stream()
+            newFigures = new ArrayList<>(newBoard.getWhitePieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-//            oldFiguresCastling = List.copyOf(board.getWhitePieces()).stream()
-            oldFiguresCastling = new ArrayList<Piece>(board.getWhitePieces()).stream()
+            oldFiguresCastling = new ArrayList<>(board.getWhitePieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-//            newFiguresCastling = List.copyOf(newBoard.getWhitePieces()).stream()
-            newFiguresCastling = new ArrayList<Piece>(newBoard.getWhitePieces()).stream()
+            newFiguresCastling = new ArrayList<>(newBoard.getWhitePieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
         }
@@ -1683,7 +1435,6 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
         //start new game
-//        user.close();
         new MainWindow().setVisible(true);
         this.dispose();
     }
@@ -1692,19 +1443,17 @@ public class MainWindow extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, player + " surrender");
 
         //start new game
-//        user.close();
         new MainWindow().setVisible(true);
         this.dispose();
     }
 
     public void draw() {
         JOptionPane.showMessageDialog(null, "Draw!");
-//        user.close();
         new MainWindow().setVisible(true);
         this.dispose();
     }
-
     //<ONLINE STUFF/>
+
     @Retention(RetentionPolicy.SOURCE)
     @Target(ElementType.METHOD)
     public static @interface TemporaryForTesting {

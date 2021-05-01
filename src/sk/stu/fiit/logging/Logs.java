@@ -6,11 +6,9 @@
 package sk.stu.fiit.logging;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -43,11 +41,8 @@ public class Logs {
     public static void log(Log.LogLevel level, String message, String classpath) {
         //parse logs.xml file to Logs object
         Logs logs = unmarshall();
-//        Logs logs = new Logs();
-//        logs.setLogs(new ArrayList<Log>());
         //create new Log
         Log newLog = new Log(level, classpath, message);
-
         //add new Log to existing logs
         logs.getLogs().add(newLog);
         //write logs to logs.xml file
@@ -63,9 +58,6 @@ public class Logs {
 
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-            //Marshal the employees list in console
-//            jaxbMarshaller.marshal(logsObj, System.out);
-//Marshal the employees list in file
             File file = new File(Paths.get("logs.xml").toString());
 
             jaxbMarshaller.marshal(logs, file);
@@ -79,23 +71,17 @@ public class Logs {
     private static Logs unmarshall() {
         Logs logs = new Logs();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Logs.class
-            );
+            JAXBContext jaxbContext = JAXBContext.newInstance(Logs.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
             File file = new File("logs.xml");
             if (!file.exists()) {
-                logs.setLogs(new ArrayList<Log>());
+                logs.setLogs(new ArrayList<>());
                 return logs;
             }
 
             logs = (Logs) jaxbUnmarshaller.unmarshal(file);
 
-//            for (Log log : logs.getLogs()) {
-//                System.out.println(log.getDate());
-//                System.out.println(log.getMessage());
-//                System.out.println(log.getClass());
-//            }
         } catch (JAXBException ex) {
             Logger.getLogger(Logs.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
