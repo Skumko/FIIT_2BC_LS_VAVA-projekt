@@ -866,7 +866,8 @@ public class MainWindow extends javax.swing.JFrame {
                 JLabel movedRook = getCastlingRook(sector);
                 JLabel tempSelected = selectedFigure;
 //                moveFigure(movedRook, destRookPos, List.of(destRookPos));
-                moveFigure(movedRook, destRookPos, new ArrayList<Integer>(destRookPos));
+
+                moveFigure(movedRook, destRookPos, new ArrayList<Integer>(Arrays.asList(destRookPos)));
                 selectedFigure = tempSelected;
             }
 
