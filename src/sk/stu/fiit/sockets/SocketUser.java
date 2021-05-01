@@ -15,6 +15,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import sk.stu.fiit.GUI.MainWindow;
+import sk.stu.fiit.logging.Log;
+import static sk.stu.fiit.logging.Logs.log;
 import static sk.stu.fiit.sockets.SocketUser.PlayerType.HOST;
 
 /**
@@ -106,8 +108,7 @@ public class SocketUser {
                     m.actualizeBoardFromFen(fen);
                 }
             } catch (IOException ex) {
-                System.err.println("Doplnit logger");
-                ex.printStackTrace();
+                log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
             }
         }
     };
@@ -139,7 +140,7 @@ public class SocketUser {
                 while (active) {
                     setFen(dis.readUTF());
                     switch (fen) {
-                         case "stalemate":
+                        case "stalemate":
                             setFen("end");
                             send();
                             return;
@@ -166,8 +167,7 @@ public class SocketUser {
                     m.actualizeBoardFromFen(fen);
                 }
             } catch (IOException ex) {
-                System.err.println("Doplnit logger");
-                ex.printStackTrace();
+                log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
             }
         }
     };
@@ -178,8 +178,7 @@ public class SocketUser {
                 dos.writeUTF(getFen());
                 dos.flush();
             } catch (IOException ex) {
-                System.err.println("Doplnit logger");
-                ex.printStackTrace();
+                log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
             }
         }
     };
@@ -207,19 +206,18 @@ public class SocketUser {
         try {
             Thread.sleep(100);
         } catch (InterruptedException ex) {
-            System.err.println("doplnit logger");
-            ex.printStackTrace();
+            log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
         }
         setFen("stalemate");
         new Thread(send).start();
     }
+
     public void sendFenCheckmate() {
         new Thread(send).start();
         try {
             Thread.sleep(100);
         } catch (InterruptedException ex) {
-            System.err.println("doplnit logger");
-            ex.printStackTrace();
+            log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
         }
         setFen("checkmate");
         new Thread(send).start();
@@ -239,8 +237,7 @@ public class SocketUser {
                 senderSocket = null;
 //                listenerSocket = null;
             } catch (IOException ex) {
-                System.err.println("Doplnit logger");
-                ex.printStackTrace();
+                log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
             }
         }
     }
@@ -295,8 +292,7 @@ public class SocketUser {
             }
             listenerSocket.close();
         } catch (IOException ex) {
-            System.err.println("Doplnit logger");
-            ex.printStackTrace();
+            log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
         }
     }
 
@@ -350,11 +346,9 @@ public class SocketUser {
                 m.actualizeBoardFromFen(fen);
             }
         } catch (IOException ex) {
-            System.err.println("Doplnit logger");
-            ex.printStackTrace();
+            log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
         }
     }
-
 
     /**
      * Method to send string representation of board via socket. Field
@@ -368,12 +362,9 @@ public class SocketUser {
             dos.writeUTF(getFen());
             dos.flush();
         } catch (IOException ex) {
-            System.err.println("Doplnit logger");
-            ex.printStackTrace();
+            log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
         }
     }
-
- 
 
     public final void setMyIP(boolean localhost) {
         try (final DatagramSocket socket = new DatagramSocket()) {
@@ -384,8 +375,7 @@ public class SocketUser {
                 myIP = socket.getLocalAddress();
             }
         } catch (SocketException | UnknownHostException ex) {
-            System.err.println("Doplnit logger");
-            ex.printStackTrace();
+            log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
         }
     }
 

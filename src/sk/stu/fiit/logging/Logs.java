@@ -38,7 +38,7 @@ public class Logs {
         this.logs = logs;
     }
 
-    public static void log(Log.LogLevel level, String message, String classpath) {
+    public static void log(Log.LogLevel level, String classpath, String message) {
         //parse logs.xml file to Logs object
         Logs logs = unmarshall();
         //create new Log
@@ -52,8 +52,7 @@ public class Logs {
     private static void marshall(Logs logs) {
 
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Logs.class
-            );
+            JAXBContext jaxbContext = JAXBContext.newInstance(Logs.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);

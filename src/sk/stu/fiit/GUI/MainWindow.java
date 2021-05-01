@@ -43,7 +43,9 @@ import sk.stu.fiit.HraciaDoska.Move;
 import sk.stu.fiit.HraciaDoska.Move.CastlingMove;
 import sk.stu.fiit.HraciaDoska.Move.Promotion;
 import sk.stu.fiit.Side;
+import sk.stu.fiit.logging.Log;
 import sk.stu.fiit.sockets.SocketUser;
+import static sk.stu.fiit.logging.Logs.log;
 
 /**
  *
@@ -95,9 +97,9 @@ public class MainWindow extends javax.swing.JFrame {
             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
             lbl.setText(socket.getLocalAddress().getHostAddress());
         } catch (SocketException ex) {
-            System.err.println("Doplnit logger");
+            log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
         } catch (UnknownHostException ex) {
-            System.err.println("Doplnit logger");
+            log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
         }
     }
 
@@ -1135,8 +1137,7 @@ public class MainWindow extends javax.swing.JFrame {
         try {
             user.setOpponentsIP(ip);
         } catch (UnknownHostException ex) {
-            System.err.println("Doplnit logger");
-            ex.printStackTrace();
+            log(Log.LogLevel.SEVERE, MainWindow.class.getName(), ex.getMessage());
             return false;
         }
         return true;

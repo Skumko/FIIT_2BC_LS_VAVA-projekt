@@ -22,6 +22,7 @@ public class Log {
     private LogLevel level;
 
     private String classpath;
+    private String method;
     private String message;
 
     public enum LogLevel {
