@@ -6,8 +6,11 @@
 package sk.stu.fiit.logging;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -40,6 +43,8 @@ public class Logs {
     public static void log(Log.LogLevel level, String message, String classpath) {
         //parse logs.xml file to Logs object
         Logs logs = unmarshall();
+//        Logs logs = new Logs();
+//        logs.setLogs(new ArrayList<Log>());
         //create new Log
         Log newLog = new Log(level, classpath, message);
 
@@ -52,7 +57,8 @@ public class Logs {
     private static void marshall(Logs logs) {
 
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Logs.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(Logs.class
+            );
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -60,9 +66,12 @@ public class Logs {
             //Marshal the employees list in console
 //            jaxbMarshaller.marshal(logsObj, System.out);
 //Marshal the employees list in file
-            jaxbMarshaller.marshal(logs, new File(Paths.get("logs.xml").toString()));
+            File file = new File(Paths.get("logs.xml").toString());
+
+            jaxbMarshaller.marshal(logs, file);
         } catch (JAXBException ex) {
-            Logger.getLogger(Logs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(Logs.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
     }
@@ -70,10 +79,17 @@ public class Logs {
     private static Logs unmarshall() {
         Logs logs = new Logs();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Logs.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(Logs.class
+            );
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
-            logs = (Logs) jaxbUnmarshaller.unmarshal(new File(Paths.get("logs.xml").toString()));
+            File file = new File("logs.xml");
+            if (!file.exists()) {
+                logs.setLogs(new ArrayList<Log>());
+                return logs;
+            }
+
+            logs = (Logs) jaxbUnmarshaller.unmarshal(file);
 
 //            for (Log log : logs.getLogs()) {
 //                System.out.println(log.getDate());
@@ -81,7 +97,8 @@ public class Logs {
 //                System.out.println(log.getClass());
 //            }
         } catch (JAXBException ex) {
-            Logger.getLogger(Logs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(Logs.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         return logs;
     }

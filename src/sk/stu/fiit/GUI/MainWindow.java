@@ -7,6 +7,7 @@ package sk.stu.fiit.GUI;
 
 import java.awt.Image;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -18,6 +19,7 @@ import java.net.UnknownHostException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -43,6 +45,8 @@ import sk.stu.fiit.HraciaDoska.Move;
 import sk.stu.fiit.HraciaDoska.Move.CastlingMove;
 import sk.stu.fiit.HraciaDoska.Move.Promotion;
 import sk.stu.fiit.Side;
+import sk.stu.fiit.logging.Log;
+import sk.stu.fiit.logging.Logs;
 import sk.stu.fiit.sockets.SocketUser;
 
 /**
@@ -63,6 +67,14 @@ public class MainWindow extends javax.swing.JFrame {
         printMyIp(lblLocalIP);          //sets text of IPlabel  to local IP
         btnLanguageENMouseReleased(null);
         updateLocaleTexts();
+        
+        try{
+            System.out.println(15/0);
+        }
+        catch(Exception e){
+            Logs.log(Log.LogLevel.SEVERE, "delenie nulou", MainWindow.class.getName());
+        }
+        
     }
 
     public static Locale locale = Locale.ENGLISH;
@@ -861,7 +873,8 @@ public class MainWindow extends javax.swing.JFrame {
                 int destRookPos = ((CastlingMove) move).getRookDestination();
                 JLabel movedRook = getCastlingRook(sector);
                 JLabel tempSelected = selectedFigure;
-                moveFigure(movedRook, destRookPos, List.of(destRookPos));
+//                moveFigure(movedRook, destRookPos, List.of(destRookPos));
+                moveFigure(movedRook, destRookPos, new ArrayList<Integer>(destRookPos));
                 selectedFigure = tempSelected;
             }
 
@@ -1008,10 +1021,14 @@ public class MainWindow extends javax.swing.JFrame {
         user.setActive(false);
         new MainWindow().setVisible(true);
         this.dispose();
-        List<JLabel> figures = List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
+        List<JLabel> figures = Arrays.asList(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
                 whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing,
                 blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
                 blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
+//        List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
+//                whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing,
+//                blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
+//                blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
         figures.stream()
                 .forEach(figure -> rescale((ImageIcon) figure.getIcon(), 100, 100));
 
@@ -1145,10 +1162,14 @@ public class MainWindow extends javax.swing.JFrame {
     private JLabel getLabelBySector(int sector) {
         List<JLabel> figures;
 
-        figures = List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
+        figures = Arrays.asList(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
                 whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing,
                 blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
                 blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
+//        List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
+//                whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing,
+//                blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
+//                blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
 
         for (JLabel figure : figures) {
             if (figure.getX() < 800 && figure.getY() < 800
@@ -1273,7 +1294,8 @@ public class MainWindow extends javax.swing.JFrame {
         Function<Integer, JLabel> function = (sector) -> {
             JLabel label = new JLabel();
             panelGameBoard.add(label, 0);
-            label.setIcon(new ImageIcon(Path.of("src", "figurky_png", "100x100", "dot.png").toString()));
+//            label.setIcon(new ImageIcon(Path.of("src", "figurky_png", "100x100", "dot.png").toString()));
+            label.setIcon(new ImageIcon(Paths.get("src", "figurky_png", "100x100", "dot.png").toString()));
             int x = oneToxy(sector)[0];
             int y = oneToxy(sector)[1];
             label.setBounds(x * 100, y * 100, 100, 100);
@@ -1361,11 +1383,15 @@ public class MainWindow extends javax.swing.JFrame {
 
         List<JLabel> figures;
         if (isWhite) {
-            figures = List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
+            figures = Arrays.asList(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
                     whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing);
+//            List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
+//                    whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing);
         } else {
-            figures = List.of(blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
+            figures = Arrays.asList(blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
                     blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
+//            List.of(blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
+//                    blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
         }
 //        adds mouse listener to every figure
         figures.stream()
@@ -1389,11 +1415,15 @@ public class MainWindow extends javax.swing.JFrame {
     private void removeMouseListeners(Boolean isWhite) {
         List<JLabel> figures;
         if (isWhite) {
-            figures = List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
+            figures = Arrays.asList(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
                     whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing);
+//            List.of(whitePawnA, whitePawnB, whitePawnC, whitePawnD, whitePawnE, whitePawnF, whitePawnG, whitePawnH,
+//                    whiteRookL, whiteRookR, whiteKnightL, whiteKnightR, whiteBishopL, whiteBishopR, whiteQueen, whiteKing);
         } else {
-            figures = List.of(blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
+            figures = Arrays.asList(blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
                     blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
+//            List.of(blackPawnA, blackPawnB, blackPawnC, blackPawnD, blackPawnE, blackPawnF, blackPawnG, blackPawnH,
+//                    blackRookL, blackRookR, blackKnightL, blackKnightR, blackBishopL, blackBishopR, blackQueen, blackKing);
         }
 //        removes mouse listeners
         figures.stream()
@@ -1587,29 +1617,37 @@ public class MainWindow extends javax.swing.JFrame {
         int destCastling;
 
         if (isWhite) {
-            oldFigures = List.copyOf(board.getBlackPieces()).stream()
+//            oldFigures = List.copyOf(board.getBlackPieces()).stream()
+            oldFigures = new ArrayList<Piece>(board.getBlackPieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-            newFigures = List.copyOf(newBoard.getBlackPieces()).stream()
+//            newFigures = List.copyOf(newBoard.getBlackPieces()).stream()
+            newFigures = new ArrayList<Piece>(newBoard.getBlackPieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-            oldFiguresCastling = List.copyOf(board.getBlackPieces()).stream()
+//            oldFiguresCastling = List.copyOf(board.getBlackPieces()).stream()
+            oldFiguresCastling = new ArrayList<Piece>(board.getBlackPieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-            newFiguresCastling = List.copyOf(newBoard.getBlackPieces()).stream()
+//            newFiguresCastling = List.copyOf(newBoard.getBlackPieces()).stream()
+            newFiguresCastling = new ArrayList<Piece>(newBoard.getBlackPieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
         } else {
-            oldFigures = List.copyOf(board.getWhitePieces()).stream()
+//            oldFigures = List.copyOf(board.getWhitePieces()).stream()
+            oldFigures = new ArrayList<Piece>(board.getWhitePieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-            newFigures = List.copyOf(newBoard.getWhitePieces()).stream()
+//            newFigures = List.copyOf(newBoard.getWhitePieces()).stream()
+            newFigures = new ArrayList<Piece>(newBoard.getWhitePieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-            oldFiguresCastling = List.copyOf(board.getWhitePieces()).stream()
+//            oldFiguresCastling = List.copyOf(board.getWhitePieces()).stream()
+            oldFiguresCastling = new ArrayList<Piece>(board.getWhitePieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
-            newFiguresCastling = List.copyOf(newBoard.getWhitePieces()).stream()
+//            newFiguresCastling = List.copyOf(newBoard.getWhitePieces()).stream()
+            newFiguresCastling = new ArrayList<Piece>(newBoard.getWhitePieces()).stream()
                     .map(piece -> piece.getPosition())
                     .collect(Collectors.toSet());
         }

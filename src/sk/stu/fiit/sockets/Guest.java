@@ -113,11 +113,6 @@ public class Guest {
         }
     }
 
-    @TemporaryForTesting
-    private List parseMsg(String msg) {
-        int x = Integer.parseInt(msg) % 62;
-        return List.of((int) (Math.random() * 63), (int) (Math.random() * 63), (int) (Math.random() * 63), (int) (Math.random() * 63));
-    }
 
     public final void setLocalIP(boolean localhost) {
         try (final DatagramSocket socket = new DatagramSocket()) {
